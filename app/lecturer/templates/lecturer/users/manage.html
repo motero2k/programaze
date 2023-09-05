@@ -1,0 +1,39 @@
+{% extends "lecturer/users/root.html" %}
+
+{% import 'macros.html' as macros %}
+
+{% block title %}lecturer{% endblock %}
+
+{% block content %}
+
+    {% set columns = ["Email", "Apellidos", "Nombre"] %}
+
+    {% set buttons = [{
+        'name': 'Importar alumnos',
+        'icon': 'ki-duotone ki-update-file',
+        'form_action': 'lecturer.upload_excel',
+        'form_class': 'kt_modal_form',
+        'form_id': 'kt_modal_add_customer_form',
+        'is_multipart': True,
+        'header_title': 'Importar alumnos al sistema',
+        'form_body': '''
+            <div class="fv-row mb-7">
+                <label class="required fs-6 fw-semibold mb-2">Seleccionar archivo Excel</label>
+                <input type="file" class="form-control form-control-solid" name="file" accept=".xlsx, .xls"/>
+            </div>
+        '''
+    },
+    ] %}
+
+    {% set menu_actions = [
+        {"name": "Ver", "route": 'student.view'},
+        {"name": "Editar", "route": "student.edit"},
+        {"name": "Eliminar", "route": "student.delete", "special": True, "delete": True},
+        {"name": "Eliminar seleccionados", "route": "student.delete_bulk", "special": True, "delete_bulk": True},
+    ] %}
+
+    {{ macros.render_table(columns, data_collection, buttons, menu_actions) }}
+
+
+{% endblock %}
+

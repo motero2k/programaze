@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--begin::Head-->
+<head>
+    <base href=""/>
+    <title>Home | evidentia.io</title>
+    <meta charset="utf-8"/>
+    <meta name="description"
+          content="The most advanced Bootstrap Admin Theme on Bootstrap Market trusted by over 4,000 beginners and professionals. Multi-demo, Dark Mode, RTL support. Grab your copy now and get life-time updates for free."/>
+    <meta name="keywords"
+          content="keen, bootstrap, bootstrap 5, bootstrap 4, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Keen - Multi-demo Bootstrap 5 HTML Admin Dashboard Theme"/>
+    <meta property="og:url" content="https://keenthemes.com/keen"/>
+    <meta property="og:site_name" content="Keenthemes | Keen"/>
+    <link rel="canonical" href="https://preview.keenthemes.com/keen"/>
+
+    <link rel="shortcut icon" href="{{ url_for("static", filename="media/logos/favicon.ico") }}">
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+    <!--end::Fonts-->
+    <!--begin::Vendor Stylesheets(used for this page only)-->
+    <!--end::Vendor Stylesheets-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="plugins/global/plugins.bundle.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/style.bundle.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/own.css") }}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for("static", filename="plugins/custom/datatables/datatables.bundle.css") }}">
+    <!--end::Global Stylesheets Bundle-->
+    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" data-kt-app-header-stacked="true" data-kt-app-header-primary-enabled="true"
+      data-kt-app-header-secondary-enabled="true" class="app-default">
+<!--begin::Theme mode setup on page load-->
+<script>let defaultThemeMode = "light";
+let themeMode;
+if (document.documentElement) {
+    if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+        themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+    } else {
+        if (localStorage.getItem("data-bs-theme") !== null) {
+            themeMode = localStorage.getItem("data-bs-theme");
+        } else {
+            themeMode = defaultThemeMode;
+        }
+    }
+    if (themeMode === "system") {
+        themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-bs-theme", themeMode);
+}</script>
+<!--end::Theme mode setup on page load-->
+<!--begin::App-->
+<div class="d-flex flex-column flex-root app-root" id="kt_app_root">
+    <!--begin::Page-->
+    <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+
+        {% include 'header.html' %}
+
+
+        <!--begin::Wrapper-->
+        <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+            <!--begin::Wrapper container-->
+            <div class="app-container container-xxl d-flex flex-row flex-column-fluid">
+                <!--begin::Main-->
+                <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+                    <!--begin::Content wrapper-->
+                    <div class="d-flex flex-column flex-column-fluid">
+
+                        <div id="kt_app_content" class="app-content flex-column-fluid">
+                            {% block horizontal_menu %}{% endblock %}
+
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                                {% if messages %}
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            {% for category, message in messages %}
+                                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} fade-out hover-stop"
+                                                     role="alert" id="message_alert">
+                                                    <div class="alert-message">
+                                                        <h4 class="alert-heading">
+                                                            {% if category == 'success' %}
+                                                                <i class="align-middle" data-feather="check-circle"></i>
+                                                                Operación exitosa
+                                                            {% elif category == 'error' %}
+                                                                <i class="align-middle"
+                                                                   data-feather="alert-triangle"></i> Se ha producido un
+                                                                error
+                                                            {% endif %}
+                                                        </h4>
+                                                        <p class="p-0 m-0">{{ message }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% endwith %}
+
+                            {% block content %}{% endblock %}
+                        </div>
+
+                        <style>
+                            /* Por defecto, el div no tendrá padding */
+                            #kt_app_content {
+                                padding: 0;
+                            }
+
+                            /* Cuando la pantalla tenga un ancho máximo de 768px (es decir, en dispositivos móviles),
+                               puedes agregar el padding que desees */
+                            @media (max-width: 768px) {
+                                #kt_app_content {
+                                    padding-top: 10px; /* Cambia esto según el padding que quieras para móviles */
+                                }
+                            }
+                        </style>
+
+
+                    </div>
+                    <!--end::Content wrapper-->
+
+                    {% include 'footer.html' %}
+
+                </div>
+                <!--end:::Main-->
+            </div>
+            <!--end::Wrapper container-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<!--end::App-->
+<!--begin::Scrolltop-->
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+    <i class="ki-duotone ki-arrow-up">
+        <span class="path1"></span>
+        <span class="path2"></span>
+    </i>
+</div>
+
+<script src="{{ url_for("static", filename="plugins/global/plugins.bundle.js") }}"></script>
+<script src="{{ url_for("static", filename="js/scripts.bundle.js") }}"></script>
+
+{% block scripts %}{% endblock %}
+
+{% block scripts_datatables %}{% endblock %}
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var alert = document.getElementById('message_alert');
+        if (alert) {
+            alert.addEventListener("mouseenter", function () {
+                // Pausar la animación cuando el ratón entra en la alerta
+                alert.classList.remove('fade-out');
+            });
+
+            alert.addEventListener("mouseleave", function () {
+                // Continuar la animación cuando el ratón sale de la alerta
+                alert.classList.add('fade-out');
+            });
+
+            setTimeout(function () {
+                alert.classList.add('fade-out');
+            }, 5000); // Cambia 5000 a la duración de la animación en milisegundos
+        }
+    });
+
+
+</script>
+
+
+</body>
+
+</html>

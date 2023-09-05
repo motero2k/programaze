@@ -1,0 +1,17 @@
+{% extends "base_template.html" %}
+
+{% block title %}lecturer{% endblock %}
+
+{% block horizontal_menu %}
+
+    {% from "macros.html" import horizontal_menu %}
+
+    {% set usuarios_items = [
+                {'name': 'Gestionar', 'endpoint': 'lecturer.users_manage'},
+                {'name': 'Roles', 'endpoint': 'lecturer.users_roles'}
+            ] %}
+
+    {{ horizontal_menu(usuarios_items) }}
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+.fade-out {
+    animation: fadeOut 5s ease-in-out forwards; /* Cambia 5s a la duración que desees */
+}
+
+.hover-stop:hover .fade-out {
+    animation-play-state: paused; /* Pausar la animación cuando el ratón está sobre la alerta */
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none; /* Esto asegura que la alerta se oculte después de la animación */
+    }
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--begin::Head-->
+<head>
+    <title>Login | evidentia.io</title>
+    <meta charset="utf-8"/>
+    <meta name="description"
+          content="The most advanced Bootstrap Admin Theme on Bootstrap Market trusted by over 4,000 beginners and professionals. Multi-demo, Dark Mode, RTL support. Grab your copy now and get life-time updates for free."/>
+    <meta name="keywords"
+          content="keen, bootstrap, bootstrap 5, bootstrap 4, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Keen - Multi-demo Bootstrap 5 HTML Admin Dashboard Theme"/>
+    <meta property="og:url" content="https://keenthemes.com/keen"/>
+    <meta property="og:site_name" content="Keenthemes | Keen"/>
+    <link rel="canonical" href="https://preview.keenthemes.com/keen"/>
+    <link rel="shortcut icon" href="assets/media/logos/favicon.ico"/>
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link href="{{ url_for("static", filename="plugins/global/plugins.bundle.css") }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ url_for("static", filename="css/style.bundle.css") }}" rel="stylesheet" type="text/css"/>
+    <!--end::Global Stylesheets Bundle-->
+    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
+<!--begin::Theme mode setup on page load-->
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var defaultThemeMode = "light";
+        var themeMode;
+
+        if (document.documentElement) {
+            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+            } else {
+                if (localStorage.getItem("data-bs-theme") !== null) {
+                    themeMode = localStorage.getItem("data-bs-theme");
+                } else {
+                    themeMode = defaultThemeMode;
+                }
+            }
+
+            if (themeMode === "system") {
+                themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+
+            document.documentElement.setAttribute("data-bs-theme", themeMode);
+
+            // Cambiar el logo basado en el tema
+            var logoImage = document.getElementById("logoImage");
+            if (themeMode === "dark") {
+                logoImage.src = "{{ url_for('static', filename='media/logos/default.svg') }}";
+            } else {
+                logoImage.src = "{{ url_for('static', filename='media/logos/default-light.svg') }}";
+            }
+        }
+    });
+
+
+</script>
+<!--end::Theme mode setup on page load-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root" id="kt_app_root">
+    <!--begin::Page bg image-->
+    <style>body {
+        background-image: url('{{ url_for("static", filename="media/auth/bg4.jpg") }}');
+    }
+
+    [data-bs-theme="dark"] body {
+        background-image: url('{{ url_for("static", filename="media/auth/bg4.jpg") }}');
+    }</style>
+    <!--end::Page bg image-->
+    <!--begin::Authentication - Signup Welcome Message -->
+
+
+    <div class="d-flex flex-column flex-center flex-column-fluid">
+        <!--begin::Content-->
+        <div class="d-flex flex-column flex-center text-center p-10">
+            <!--begin::Wrapper-->
+            <div class="card card-flush w-md-650px py-5">
+                <div class="card-body py-15 py-lg-20">
+                    <!--begin::Logo-->
+                    <div class="mb-7">
+                        <a href="{{ url_for('dashboard.index') }}">
+                            <img id="logoImage" alt="Logo" style="max-height: 50px"
+                                 src="{{ url_for("static", filename="media/logos/default-light.svg") }}"/>
+                        </a>
+                    </div>
+                    <!--end::Logo-->
+                    <!--begin::Title-->
+
+
+                    <form class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate"
+                          id="kt_sign_in_form" method="post">
+                        <style>
+                            @media (min-width: 768px) {
+                                #kt_sign_in_form {
+                                    padding-left: 100px;
+                                    padding-right: 100px;
+                                }
+                            }
+                        </style>
+
+                        {{ form.hidden_tag() }}
+
+                        <!--begin::Heading-->
+                        <div class="text-center mb-11">
+                            <!--begin::Title-->
+                            <h1 class="text-dark fw-bolder mb-3">Log in</h1>
+                            <!--end::Title-->
+                            <!--begin::Subtitle-->
+                            <div class="text-gray-500 fw-semibold fs-6">¡Evidencia ahora todo tu trabajo!</div>
+                            <!--end::Subtitle=-->
+                        </div>
+                        <!--begin::Heading-->
+                        <!--begin::Input group=-->
+
+
+                        {% if error %}
+                            <div class="d-flex fw-semibold text-primary fs-base mb-2">
+                                <span style="color: red;">{{ error }}</span>
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="fv-row mb-8 fv-plugins-icon-container">
+
+                            {{ form.email(class="form-control bg-transparent",placeholder="Email o UVUS") }}
+
+                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--end::Input group=-->
+                        <div class="fv-row mb-3 fv-plugins-icon-container">
+
+                            {{ form.password(class="form-control bg-transparent",placeholder="Contraseña") }}
+
+                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% for error in form.password.errors %}
+                                <span style="color: red;">{{ error }}</span>
+                            {% endfor %}
+
+                        </div>
+                        <!--end::Input group=-->
+
+                        <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
+                            <div></div>
+                            <!--begin::Link-->
+                            <a href="../../demo9/dist/authentication/layouts/corporate/reset-password.html"
+                               class="link-primary">¿Olvidaste tu contraseña?</a>
+                            <!--end::Link-->
+                        </div>
+
+                        <!--begin::Submit button-->
+                        <div class="d-grid mb-10">
+
+                            {{ form.submit(class="btn btn-primary") }}
+
+                        </div>
+
+
+                        <div class="d-flex flex-center flex-wrap px-5">
+                            <!--begin::Links-->
+                            <div class="d-flex fw-semibold text-primary fs-base">
+                                <a href="https://..." class="px-5" target="_blank">Admin</a>
+                                <a href="https://devs.keenthemes.com" class="px-5" target="_blank">Código fuente</a>
+                            </div>
+                            <!--end::Links-->
+                        </div>
+                        <!--end::Submit button-->
+                        <!--begin::Sign up-->
+
+                        <!--end::Sign up-->
+                    </form>
+
+                </div>
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Content-->
+    </div>
+
+    <!--end::Authentication - Signup Welcome Message-->
+</div>
+<!--end::Root-->
+<!--begin::Javascript-->
+
+<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+<script src="{{ url_for("static", filename="plugins/global/plugins.bundle.js") }}"></script>
+<script src="{{ url_for("static", filename="js/scripts.bundle.js") }}"></script>
+<!--end::Global Javascript Bundle-->
+<!--end::Javascript-->
+</body>
+<!--end::Body-->
+</html>
+
+
+

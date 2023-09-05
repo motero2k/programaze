@@ -1,0 +1,30 @@
+{% extends "lecturer/users/root.html" %}
+
+{% block title %}lecturer{% endblock %}
+
+{% block content %}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-9">
+
+        {% for role, user_count in roles_with_user_count.items() %}
+            <div class="col-md-4">
+                <div class="card card-flush h-md-100">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>{{ role.name_in_spanish }}</h2>
+                        </div>
+                    </div>
+                    <div class="card-body pt-1">
+                        <div class="fw-bold text-gray-600 mb-5">Total de usuarios con este rol: {{ user_count }}</div>
+                    </div>
+                    <div class="card-footer flex-wrap pt-0">
+                        <a href="{{ url_for('lecturer.edit_role_users', role_id=role.id) }}"
+                           class="btn btn-light btn-active-primary my-1 me-2">Editar usuarios</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

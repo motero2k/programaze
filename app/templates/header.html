@@ -1,0 +1,43 @@
+<!--begin::Header-->
+<div id="kt_app_header" class="app-header">
+    <!--begin::Header primary-->
+    <div class="app-header-primary" data-kt-sticky="true" data-kt-sticky-name="app-header-primary-sticky"
+         data-kt-sticky-offset="{default: 'false', lg: '300px'}">
+        <!--begin::Header primary container-->
+        <div class="app-container container-xxl d-flex align-items-stretch justify-content-between">
+            <!--begin::Logo and search-->
+            <div class="d-flex flex-grow-1 flex-lg-grow-0">
+                <!--begin::Logo wrapper-->
+                <div class="d-flex align-items-center me-7" id="kt_app_header_logo_wrapper">
+                    <!--begin::Header toggle-->
+                    <button class="d-lg-none btn btn-icon btn-color-white btn-active-color-primary w-35px h-35px ms-n2 me-2"
+                            id="kt_app_header_menu_toggle">
+                        <i class="ki-duotone ki-abstract-14 fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </button>
+                    <!--end::Header toggle-->
+
+                    {% include 'logo.html' %}
+
+                </div>
+                <!--end::Logo wrapper-->
+
+                {% include 'menu.html' %}
+
+            </div>
+            <!--end::Logo and search-->
+
+            {% include 'navbar.html' %}
+
+
+
+        </div>
+        <!--end::Header primary container-->
+    </div>
+    <!--end::Header primary-->
+    <div class="app-header-secondary" style="height: 0px; background-color: transparent;">
+    </div>
+</div>
+<!--end::Header-->
