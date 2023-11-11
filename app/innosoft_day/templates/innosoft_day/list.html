@@ -1,7 +1,13 @@
 {% extends "base_template.html" %}
 
+{% import 'macros.html' as macros %}
+
 {% block title %}innosoft_day{% endblock %}
 
 {% block content %}
+{% set columns = ["description","subject","year"] %}
 
+
+
+    {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
 {% endblock %}
