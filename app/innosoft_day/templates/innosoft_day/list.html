@@ -6,8 +6,11 @@
 
 {% block content %}
 {% set columns = ["description","subject","year"] %}
+ 
 
-
+{% set menu_actions = [
+    {"name": "proposal", "route": 'proposal.all'},
+] %}
 
     {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
 {% endblock %}

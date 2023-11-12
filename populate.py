@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.auth.models import Role, User, Lecturer, user_roles, Student
 from app.innosoft_day.models import Innosoft_day
+from app.proposal.models import Proposal,ProposalType,State
 from app.profile.models import UserProfile
 from datetime import datetime
 
@@ -15,7 +16,7 @@ DATABASE_URI = (
 engine = create_engine(DATABASE_URI, echo=True)
 Session = sessionmaker(bind=engine)
 
-def add_roles_and_lecturers_and_students_and_innosoft_days():
+def add_roles_and_lecturers_and_students():
     session = Session()
 
     # Borrar las tablas en el orden correcto para evitar conflictos de clave externa
@@ -25,6 +26,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days():
     session.query(UserProfile).delete()
     session.query(User).delete()
     session.query(Role).delete()
+    
     session.commit()
 
     # Crear roles
@@ -77,12 +79,6 @@ def add_roles_and_lecturers_and_students_and_innosoft_days():
     program_coordinator2.profile = profile_program_coordinator2
     program_coordinator2.roles.append(program_coordinator_role)
 
-    # Crear jornadas
-
-    innosoft_day1 = Innosoft_day(description="Jornada 2020/2021", subject="CiberSeguridad ", year=2020)
-    innosoft_day2 = Innosoft_day(description="Jornada 2023/2024", subject="Inteligencia Artificial", year=2023)
-
-
     # Agregar usuarios y perfiles a la sesión
     session.add(user1)
     session.add(user2)
@@ -91,13 +87,40 @@ def add_roles_and_lecturers_and_students_and_innosoft_days():
     session.add(alumno2)
     session.add(program_coordinator1)
     session.add(program_coordinator2)
-    session.add(innosoft_day1)
-    session.add(innosoft_day2)
+   
 
     # Commit para insertar los registros en la base de datos
     session.commit()
 
     session.close()
 
+def add_proposals_and_innosoft_days():
+    session = Session()
+    
+    session.query(Proposal).delete()
+    session.query(Innosoft_day).delete()
+    
+    session.commit()
+
+    innosoft_day1 = Innosoft_day(description="Jornada 2020/2021", subject="CiberSeguridad ", year=2020)
+    innosoft_day2 = Innosoft_day(description="Jornada 2023/2024", subject="Inteligencia Artificial", year=2023)
+    session.add(innosoft_day1)
+    session.add(innosoft_day2)
+    session.commit()
+    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id)
+    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id)
+    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id)
+    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=State.CONFIRMATED, innosoft_day_id=innosoft_day2.id)
+
+    session.add(proposal1)
+    session.add(proposal2)
+    session.add(proposal3)
+    session.add(proposal4)
+    
+    session.commit()
+
+    session.close()
+
 if __name__ == "__main__":
-    add_roles_and_lecturers_and_students_and_innosoft_days()
+    add_roles_and_lecturers_and_students()
+    add_proposals_and_innosoft_days()

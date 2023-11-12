@@ -1,0 +1,27 @@
+{% extends "base_template.html" %}
+
+{% import 'macros.html' as macros %}
+
+{% block title %}proposal{% endblock %}
+
+{% block content %}
+{% set columns = ["description","subject","proposal_type","state","innosoft_day_id"] %}
+
+
+{% set menu_actions = [
+    {"name": "proposal", "route": 'proposal.all'},
+] %}
+
+
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ADMISION') }}" class="btn btn-info">PENDIENTE DE ADMISIÓN</a>
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ACEPTATION') }}" class="btn btn-info">PENDIENTE DE ACEPTACIÓN</a>
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='ON_PREPARATION') }}" class="btn btn-info">EN PREPARACIÓN</a>
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id,state='CONFIRMATED') }}" class="btn btn-info">CONFIRMADO</a>
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='REJECTED') }}" class="btn btn-info">RECHAZADO</a>
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">CERRADO</a>
+
+    
+
+
+    {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
+{% endblock %}
