@@ -49,6 +49,9 @@ def create_app(config_name=None):
     from .student import student_bp
     from .evidence import evidence_bp
     from .role import role_bp
+    from .innosoft_day import innosoft_day_bp
+    from .innosoft_day import innosoft_day_bp
+    from .proposal import proposal_bp
 
     # Register blueprints (please do not delete this comment)
     app.register_blueprint(test_routes)
@@ -60,6 +63,9 @@ def create_app(config_name=None):
     app.register_blueprint(student_bp)
     app.register_blueprint(evidence_bp)
     app.register_blueprint(role_bp)
+    app.register_blueprint(innosoft_day_bp)
+    app.register_blueprint(proposal_bp)
+ 
 
     from flask_login import LoginManager
     login_manager = LoginManager()
@@ -95,6 +101,7 @@ def create_app(config_name=None):
         return {
             'is_student': 'STUDENT' in roles,
             'is_coordinator': 'COORDINATOR' in roles,
+            'is_program_coordinator': 'PROGRAM_COORDINATOR' in roles,
             'is_secretary': 'SECRETARY' in roles,
             'is_reviewer': 'REVIEWER' in roles,
             'is_event_manager': 'EVENT_MANAGER' in roles,
