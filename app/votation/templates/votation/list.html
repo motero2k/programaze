@@ -1,7 +1,15 @@
 {% extends "base_template.html" %}
 
+{% import 'macros.html' as macros %}
+
 {% block title %}votation{% endblock %}
 
 {% block content %}
+
+{% set columns = ["Tema","descripcion","tipo de propuesta","estado de la votacion"] %}
+ 
+
+
+    {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
 
 {% endblock %}
