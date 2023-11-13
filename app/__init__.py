@@ -52,8 +52,7 @@ def create_app(config_name=None):
     from .innosoft_day import innosoft_day_bp
     from .innosoft_day import innosoft_day_bp
     from .proposal import proposal_bp
-
-    # Register blueprints (please do not delete this comment)
+    from .token_request import token_request_bp
     app.register_blueprint(test_routes)
     app.register_blueprint(auth_bp)
     app.register_blueprint(file_bp)
@@ -65,6 +64,7 @@ def create_app(config_name=None):
     app.register_blueprint(role_bp)
     app.register_blueprint(innosoft_day_bp)
     app.register_blueprint(proposal_bp)
+    app.register_blueprint(token_request_bp)
  
 
     from flask_login import LoginManager

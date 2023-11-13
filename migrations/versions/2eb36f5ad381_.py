@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 74dff3b6edcc
+Revision ID: 2eb36f5ad381
 Revises: 
-Create Date: 2023-09-11 17:24:52.025449
+Create Date: 2023-11-12 12:52:45.441917
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '74dff3b6edcc'
+revision = '2eb36f5ad381'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,11 +32,27 @@ def upgrade():
     sa.ForeignKeyConstraint(['parent_folder_id'], ['file_folder.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('innosoft_day',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('description', sa.String(length=300), nullable=False),
+    sa.Column('subject', sa.String(length=100), nullable=False),
+    sa.Column('year', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('role',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
+    )
+    op.create_table('token_request',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('solicitant', sa.Integer(), nullable=False),
+    sa.Column('description', sa.String(length=300), nullable=False),
+    sa.Column('token_state', sa.Enum('ACCEPTED', 'PENDING_OF_ACEPTATION', 'REJECTED', name='tokenstate'), nullable=False),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -44,6 +60,7 @@ def upgrade():
     sa.Column('email', sa.String(length=256), nullable=False),
     sa.Column('password', sa.String(length=128), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('token', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -78,6 +95,16 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('proposal',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('description', sa.String(length=300), nullable=False),
+    sa.Column('subject', sa.String(length=100), nullable=False),
+    sa.Column('proposal_type', sa.Enum('TALK', 'ACTIVITY', 'STAND', name='proposaltype'), nullable=False),
+    sa.Column('state', sa.Enum('PENDING_OF_ADMISION', 'PENDING_OF_ACEPTATION', 'ON_PREPARATION', 'CONFIRMATED', 'REJECTED', 'CLOSED', name='state'), nullable=False),
+    sa.Column('innosoft_day_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['innosoft_day_id'], ['innosoft_day.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviewer',
@@ -138,13 +165,16 @@ def downgrade():
     op.drop_table('student')
     op.drop_table('secretary')
     op.drop_table('reviewer')
+    op.drop_table('proposal')
     op.drop_table('president')
     op.drop_table('lecturer')
     op.drop_table('file')
     op.drop_table('event_manager')
     op.drop_table('coordinator')
     op.drop_table('user')
+    op.drop_table('token_request')
     op.drop_table('role')
+    op.drop_table('innosoft_day')
     op.drop_table('file_folder')
     op.drop_table('evidence')
     # ### end Alembic commands ###
