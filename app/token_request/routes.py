@@ -1,8 +1,11 @@
 import logging
-from flask import render_template, request, jsonify
+from app import get_authenticated_user_profile
+from app.token_request.forms import Token_Request_Form
+from flask import render_template, request, jsonify, redirect, flash
 from flask_login import login_required
 from . import token_request_bp
-from .models import Token_request
+from .models import Token_request, TokenState
+
 from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
 
@@ -31,6 +34,31 @@ def view(id):
 def edit(id):
     token_request = Token_request.query.get_or_404(id)
     return render_template("token_request/edit.html", token_request=token_request)
+
+@token_request_bp.route("/token_request/create", methods=["GET","POST"])
+def create():
+    form = Token_Request_Form()
+    if request.method == 'POST' and form.validate_on_submit():
+        
+        num_token = form.num_token.data
+        description = form.description.data.strip()
+        profile = get_authenticated_user_profile()
+        user_id = profile.user.id
+
+        data_collection = Token_request.query.filter_by(user_id=user_id,token_state= TokenState.PENDING_OF_ACEPTATION).all()
+        if(len(data_collection)>0 ):
+            flash('No se pueden pedir más de una solicitud', 'danger')
+           
+        if (num_token > 3):
+            flash("No se pueden pedir más de 3 tokens","danger")
+            return redirect("/token_request/create")
+        token_request = Token_request(num_token=num_token,description=description,user_id=user_id,token_state=TokenState.PENDING_OF_ACEPTATION)
+
+        token_request.save()
+        return redirect("/")
+    else:
+        return render_template("token_request/create.html",form=form)
+
 
 
 @token_request_bp.route("/token_request/delete", methods=["POST"])

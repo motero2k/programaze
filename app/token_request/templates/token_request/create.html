@@ -1,0 +1,99 @@
+{% extends "base_template.html" %}
+
+{% block title %}View dataset{% endblock %}
+
+{% block content %}
+
+    <h1 class="h3 mb-3">Pedir tokens</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="alert alert-success" role="alert">
+                        <div class="alert-message">
+
+                            <h4 class="alert-heading"><i class="align-middle" data-feather="pocket"></i>
+                                The operation was successfully completed
+                            </h4>
+                            <p class="p-0 m-0">
+                                {% for message in messages %}
+                                    {{ message }}
+                                    <br>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        {% endif %}
+    {% endwith %}
+
+    <div class="row">
+
+        <div class="col-12 col-lg-6">
+
+            <form method="POST" action="{{ url_for('token_request.create') }}" class="needs-validation" novalidate>
+                {{ form.hidden_tag() }}
+                
+                
+                <div class="row form-group">
+                    <div class="col-6">
+                        {{ form.num_token.label(class="form-label") }}
+                        {% set num_token_value = form.num_token.data if form.num_token.data else current_user.profile.num_token %}
+                        {{ form.num_token(class="form-control", placeholder="Enter your num_token",
+                        required=true, value=num_token_value) }}
+                        {% for error in form.num_token.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                            <br>
+                        {% endfor %}
+                    </div>
+                    <div class="col-6">
+                        {{ form.description.label(class="form-label") }}
+                        {% set description_value = form.description.data if form.description.data else current_user.profile.description %}
+                        {{ form.description(class="form-control", placeholder="Enter your description", required=true, value=description_value) }}
+                        {% for error in form.description.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                            <br>
+                        {% endfor %}
+                    </div>
+
+                   
+
+                </div>
+
+                <div class="row form-group">
+
+                    <div class="col-12 mt-3">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+
+
+                </div>
+            </form>
+
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-6 col-12">
+
+                {% if error %}
+
+                    <div class="mt-3">
+                        <p style="color: red;"><strong>Error:</strong> {{ error }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
