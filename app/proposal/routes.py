@@ -23,10 +23,10 @@ def all(id):
     data_collection = Proposal.query.filter_by(innosoft_day_id=id).all()
     prepared_data = [{
         'id' : proposal.id,
-        'description': proposal.description,
-        'subject': proposal.subject,
-        'proposal_type': proposal.proposal_type.value,  # Usar el valor en cadena
-        'state': proposal.state.value,  # Usar el valor en cadena
+        'descripcion': proposal.description,
+        'tema': proposal.subject,
+        'tipo de propuesta': proposal.proposal_type.value,  # Usar el valor en cadena
+        'estado': proposal.state.value,  # Usar el valor en cadena
         'innosoft_day_id': proposal.innosoft_day_id
         
         
@@ -43,10 +43,10 @@ def proposal_filter_by_state(id,state):
     data_collection = Proposal.query.filter_by(innosoft_day_id=id,state= state).all()
     prepared_data = [{
         'id' : proposal.id,
-        'description': proposal.description,
-        'subject': proposal.subject,
-        'proposal_type': proposal.proposal_type.value,  # Usar el valor en cadena
-        'state': proposal.state.value  # Usar el valor en cadena
+        'tema': proposal.subject,
+        'tipo de propuesta': proposal.proposal_type.value,  # Usar el valor en cadena
+        'estado': proposal.state.value,  # Usar el valor en cadena
+        'innosoft_day_id': proposal.innosoft_day_id
     } for proposal in data_collection]
 
 
@@ -66,6 +66,14 @@ def reject(id):
     
     
     return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/REJECTED")
+
+@proposal_bp.route("/proposal/view/<int:id>/confirm")
+def confirm(id):
+    proposal = Proposal.query.get_or_404(id)
+    proposal.state = State.CONFIRMATED
+    proposal.save()
+    flash('La propuesta se ha confirmado', 'success')  
+    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/CONFIRMATED")
 
 @proposal_bp.route("/proposal/view/<int:id>/accept")
 def accept(id):

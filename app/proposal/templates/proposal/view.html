@@ -25,6 +25,10 @@
         <a href="{{ url_for('proposal.accept',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">ACEPTAR</a>
         <a href="{{ url_for('proposal.reject',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">RECHAZAR</a>
         {% endif %}
+        {% if proposal.state.name=='ON_PREPARATION' %}
+        
+        <a href="{{ url_for('proposal.confirm',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">CONFIRMAR</a>
+        {% endif %}
     </div>
 </body>
 </html>
