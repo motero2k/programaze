@@ -2,7 +2,7 @@ import os
 import secrets
 import logging
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, redirect
 from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
@@ -155,6 +155,15 @@ def get_authenticated_user_profile():
     if current_user.is_authenticated:
         return current_user.profile
     return None
+def get_authenticated_user():
+    if current_user.is_authenticated:
+        return current_user
+    return None
+def get_roles_from_authenticated():
+    user = get_authenticated_user()
+    roles = user.roles
+    print(roles)
+    return roles
 
 
 app = create_app()

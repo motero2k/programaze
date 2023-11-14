@@ -2,7 +2,34 @@
 
 {% block title %}token_request{% endblock %}
 
+
 {% block content %}
 
+<head>
+    <title>Detalles de la solicitud de Tokens</title>
+</head>
+
+<body>
+    <h1>Detalles de la solicitud de Tokens</h1>
+    <div>
+
+        <p><strong>Número de tokens:</strong> {{ token_request.num_token }}</p>
+        <p><strong>Descripción:</strong> <div>{{ token_request.description}}</div></p>
+        <p><strong>Estado:</strong> {{ token_request.state}}</p>
+        <p><strong>Usuario:</strong> {{ token_request.username }}</p>
+
+
+    </div>
+    <div>
+        <h2>Acciones disponibles</h2>
+        {% if token_request.state.name== PENDING_OF_ACEPTATION %}
+        <a href="{{ url_for('token_request.accept',id = token_request.id) }}" class="btn btn-success">ACEPTAR</a>
+        <a href="{{ url_for('token_request.reject',id = token_request.id) }}" class="btn btn-danger">RECHAZAR</a>
+        {% endif %}
+
+    </div>
+</body>
+
+</html>
+
 {% endblock %}
-Hola mundo

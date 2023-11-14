@@ -21,7 +21,7 @@ def users_manage():
     users = get_all_students()
 
     data_collection = [{
-        'id': user.id,
+        'id': user.id, 
         'Email': user.email,
         'Apellidos': user.surname(),
         'Nombre': user.name()

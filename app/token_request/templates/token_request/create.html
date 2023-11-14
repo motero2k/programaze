@@ -1,8 +1,20 @@
 {% extends "base_template.html" %}
 
 {% block title %}View dataset{% endblock %}
-
 {% block content %}
+<style>
+        .textarea {
+      width: 200%;
+    }
+    #num_token{
+        width: 70%;
+    }
+
+    /* * {
+        border: 0.2px solid red;
+    } */
+
+</style>
 
     <h1 class="h3 mb-3">Pedir tokens</h1>
 
@@ -40,7 +52,7 @@
                 {{ form.hidden_tag() }}
                 
                 
-                <div class="row form-group">
+
                     <div class="col-6">
                         {{ form.num_token.label(class="form-label") }}
                         {% set num_token_value = form.num_token.data if form.num_token.data else current_user.profile.num_token %}
@@ -51,7 +63,7 @@
                             <br>
                         {% endfor %}
                     </div>
-                    <div class="col-6">
+                    <div class="col-20 textarea">
                         {{ form.description.label(class="form-label") }}
                         {% set description_value = form.description.data if form.description.data else current_user.profile.description %}
                         {{ form.description(class="form-control", placeholder="Enter your description", required=true, value=description_value) }}
@@ -63,7 +75,7 @@
 
                    
 
-                </div>
+                
 
                 <div class="row form-group">
 

@@ -1,5 +1,7 @@
 import logging
 from app import get_authenticated_user_profile
+from app.auth.models import User
+from app.config.role_access_manager import Role_access
 from app.token_request.forms import Token_Request_Form
 from flask import render_template, request, jsonify, redirect, flash
 from flask_login import login_required
@@ -19,15 +21,51 @@ def index():
 
 
 @token_request_bp.route("/token_request/all")
+@login_required
 def all():
-    all_items = Token_request.query.all()
-    return render_template("token_request/list.html", all_items=all_items)
+    all_items = Token_request.query.filter_by(token_state = TokenState.PENDING_OF_ACEPTATION).all()
+    data_collection = [{
+        'id': token_request.id,
+        'user_id': token_request.user_id,
+        'Usuario': User.get_by_id(token_request.user_id).name(),
+        'Descripción': token_request.description,
+        'nº token': token_request.num_token,
+        'Estado' : token_request.token_state.value
+        
+    } for token_request in all_items]
+    return render_template("token_request/list.html", all_items=data_collection)
 
 
 @token_request_bp.route("/token_request/view/<int:id>")
+@login_required
 def view(id):
     token_request = Token_request.query.get_or_404(id)
-    return render_template("token_request/view.html", token_request=token_request)
+
+    token_request_data = {
+        'id': token_request.id,
+        'user_id': token_request.user_id,
+        'username': User.get_by_id(token_request.user_id).name(),
+        'description': token_request.description,
+        'num_token': token_request.num_token,
+        'state' : token_request.token_state.value
+        
+    } 
+    return render_template("token_request/view.html", token_request=token_request_data)
+
+@token_request_bp.route("/token_request/view/<int:id>/accept")
+@login_required
+def accept(id):
+    if Role_access.user_not_allowed("token_request","accept"):
+        return Role_access.not_allowed_get_previous_page("token_request","accept")
+
+    flash("aceptado","success")
+    return Role_access.get_previous_page()
+
+
+@token_request_bp.route("/token_request/view/<int:id>/reject")
+@login_required
+def reject(id):
+    pass
 
 
 @token_request_bp.route("/token_request/edit/<int:id>")

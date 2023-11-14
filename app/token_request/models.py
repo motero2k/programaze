@@ -9,7 +9,7 @@ class TokenState(Enum):
     REJECTED = 'RECHAZADO'
 
 
-class Token_request(db.Model):
+class Token_request(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=False)
     num_token = db.Column(db.Integer,nullable=False)

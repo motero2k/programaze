@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 @proposal_bp.route("/proposal")
-@login_required
+@login_required 
 def index():
     logger.info('Access proposal index')
 
