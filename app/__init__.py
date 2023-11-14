@@ -52,6 +52,7 @@ def create_app(config_name=None):
     from .innosoft_day import innosoft_day_bp
     from .innosoft_day import innosoft_day_bp
     from .proposal import proposal_bp
+    from .votation import votation_bp
     from .token_request import token_request_bp
     app.register_blueprint(test_routes)
     app.register_blueprint(auth_bp)
@@ -64,6 +65,7 @@ def create_app(config_name=None):
     app.register_blueprint(role_bp)
     app.register_blueprint(innosoft_day_bp)
     app.register_blueprint(proposal_bp)
+    app.register_blueprint(votation_bp)
     app.register_blueprint(token_request_bp)
  
 

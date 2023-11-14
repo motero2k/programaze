@@ -1,8 +1,10 @@
 import logging
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify,flash,redirect,url_for
 from flask_login import login_required
 from . import proposal_bp
-from .models import Proposal
+from .models import Proposal,State
+from ..votation.models import Votation,StateVotation
+
 from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
 
@@ -54,6 +56,28 @@ def proposal_filter_by_state(id,state):
 def view(id):
     proposal = Proposal.query.get_or_404(id)
     return render_template("proposal/view.html", proposal=proposal)
+
+@proposal_bp.route("/proposal/view/<int:id>/reject")
+def reject(id):
+    proposal = Proposal.query.get_or_404(id)
+    proposal.state = State.REJECTED
+    proposal.save()
+    flash('La propuesta se ha cancelado', 'danger')
+    
+    
+    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/REJECTED")
+
+@proposal_bp.route("/proposal/view/<int:id>/accept")
+def accept(id):
+    proposal = Proposal.query.get_or_404(id)
+    proposal.state=State.PENDING_OF_ADMISION
+    proposal.save()
+    flash('La propuesta se ha aceptado con éxito', 'success')
+    votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=proposal.id)
+    votation.save()
+   
+
+    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/PENDING_OF_ADMISION")
 
 
 @proposal_bp.route("/proposal/edit/<int:id>")

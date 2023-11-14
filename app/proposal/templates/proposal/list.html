@@ -5,11 +5,11 @@
 {% block title %}proposal{% endblock %}
 
 {% block content %}
-{% set columns = ["description","subject","proposal_type","state","innosoft_day_id"] %}
+{% set columns = ["subject","proposal_type","state","innosoft_day_id"] %}
 
 
 {% set menu_actions = [
-    {"name": "proposal", "route": 'proposal.all'},
+    {"name": "Visualizar propuesta", "route": 'proposal.view'},
 ] %}
 
 
