@@ -2,7 +2,7 @@ import os
 import secrets
 import logging
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, redirect
 from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
@@ -53,8 +53,7 @@ def create_app(config_name=None):
     from .innosoft_day import innosoft_day_bp
     from .proposal import proposal_bp
     from .votation import votation_bp
-
-    # Register blueprints (please do not delete this comment)
+    from .token_request import token_request_bp
     app.register_blueprint(test_routes)
     app.register_blueprint(auth_bp)
     app.register_blueprint(file_bp)
@@ -67,6 +66,7 @@ def create_app(config_name=None):
     app.register_blueprint(innosoft_day_bp)
     app.register_blueprint(proposal_bp)
     app.register_blueprint(votation_bp)
+    app.register_blueprint(token_request_bp)
  
 
     from flask_login import LoginManager
@@ -157,6 +157,15 @@ def get_authenticated_user_profile():
     if current_user.is_authenticated:
         return current_user.profile
     return None
+def get_authenticated_user():
+    if current_user.is_authenticated:
+        return current_user
+    return None
+def get_roles_from_authenticated():
+    user = get_authenticated_user()
+    roles = user.roles
+    print(roles)
+    return roles
 
 
 app = create_app()

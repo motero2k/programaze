@@ -19,7 +19,8 @@
 <a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id,state='CONFIRMATED') }}" class="btn btn-info">CONFIRMADO</a>
 <a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='REJECTED') }}" class="btn btn-info">RECHAZADO</a>
 <a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">CERRADO</a>
-
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">TOKENS: {{current_user.token}}</a>
+<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">SOLICITAR TOKEN</a>
     
 
 
