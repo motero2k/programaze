@@ -5,22 +5,24 @@
 {% block title %}proposal{% endblock %}
 
 {% block content %}
-{% set columns = ["tema","tipo de propuesta","estado"] %}
+{% set columns = ["descripcion","tema","tipo de propuesta","estado","innosoft_day_id"] %}
 
 
 {% set menu_actions = [
-    {"name": "Visualizar propuesta", "route": 'proposal.view'},
+    {"name": "proposal", "route": 'proposal.all'},
 ] %}
 
+<select >
 
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ADMISION') }}" class="btn btn-info">PENDIENTE DE ADMISIÓN</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ACEPTATION') }}" class="btn btn-info">PENDIENTE DE ACEPTACIÓN</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='ON_PREPARATION') }}" class="btn btn-info">EN PREPARACIÓN</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id,state='CONFIRMATED') }}" class="btn btn-info">CONFIRMADO</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='REJECTED') }}" class="btn btn-info">RECHAZADO</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">CERRADO</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">TOKENS: {{current_user.token}}</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">SOLICITAR TOKEN</a>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ADMISION') }}" >PENDIENTE DE ADMISIÓN</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ACEPTATION') }}" >PENDIENTE DE ACEPTACIÓN</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='ON_PREPARATION') }}" >EN PREPARACIÓN</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id,state='CONFIRMATED') }}" >CONFIRMADO</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='REJECTED') }}" >RECHAZADO</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" >CERRADO</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" >TOKENS: {{current_user.token}}</option>
+    <option href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" >SOLICITAR TOKEN</option>
+</select>
     
 
 

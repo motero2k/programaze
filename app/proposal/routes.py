@@ -1,15 +1,13 @@
 import logging
-from flask import render_template, request, jsonify,flash,redirect,url_for
+from flask import render_template, request, jsonify
 from flask_login import login_required
 from . import proposal_bp
-from .models import Proposal,State
-from ..votation.models import Votation,StateVotation
-
+from .models import Proposal
 from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
 
 
-@proposal_bp.route("/proposal")
+@proposal_bp.route("/innosoft_day/<int:id>/proposal")
 @login_required 
 def index():
     logger.info('Access proposal index')
@@ -17,9 +15,9 @@ def index():
     return render_template("proposal/index.html")
 
 
-@proposal_bp.route("/proposal/all/<int:id>")
+@proposal_bp.route("/innosoft_days/<int:id>/proposals")
 def all(id): 
-    #proposals = Proposal.query.all()
+    
     data_collection = Proposal.query.filter_by(innosoft_day_id=id).all()
     prepared_data = [{
         'id' : proposal.id,
@@ -37,7 +35,7 @@ def all(id):
     return render_template("proposal/list.html", all_items=prepared_data,innosoft_day_id=id)
 
 # Ruta para filtrar por estado
-@proposal_bp.route('/proposal/all/<int:id>/filter_by_state/<state>')
+@proposal_bp.route('/innosoft_days/<int:id>/proposals?state=<state>')
 def proposal_filter_by_state(id,state):
     # Lógica para mostrar propuestas filtradas por estado
     data_collection = Proposal.query.filter_by(innosoft_day_id=id,state= state).all()
@@ -56,36 +54,6 @@ def proposal_filter_by_state(id,state):
 def view(id):
     proposal = Proposal.query.get_or_404(id)
     return render_template("proposal/view.html", proposal=proposal)
-
-@proposal_bp.route("/proposal/view/<int:id>/reject")
-def reject(id):
-    proposal = Proposal.query.get_or_404(id)
-    proposal.state = State.REJECTED
-    proposal.save()
-    flash('La propuesta se ha cancelado', 'danger')
-    
-    
-    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/REJECTED")
-
-@proposal_bp.route("/proposal/view/<int:id>/confirm")
-def confirm(id):
-    proposal = Proposal.query.get_or_404(id)
-    proposal.state = State.CONFIRMATED
-    proposal.save()
-    flash('La propuesta se ha confirmado', 'success')  
-    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/CONFIRMATED")
-
-@proposal_bp.route("/proposal/view/<int:id>/accept")
-def accept(id):
-    proposal = Proposal.query.get_or_404(id)
-    proposal.state=State.PENDING_OF_ADMISION
-    proposal.save()
-    flash('La propuesta se ha aceptado con éxito', 'success')
-    votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=proposal.id)
-    votation.save()
-   
-
-    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/PENDING_OF_ADMISION")
 
 
 @proposal_bp.route("/proposal/edit/<int:id>")
