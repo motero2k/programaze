@@ -3,6 +3,7 @@ from flask import render_template, request, jsonify
 from flask_login import login_required
 from . import votation_bp
 from .models import Votation
+from ..proposal.models import Proposal,State
 from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
 
@@ -15,10 +16,17 @@ def index():
     return render_template("votation/index.html")
 
 
-@votation_bp.route("/votation/all")
-def all():
-    all_items = Votation.query.all()
-    return render_template("votation/list.html", all_items=all_items)
+@votation_bp.route("/votation/all/<int:id>")
+def all(id):    
+    data_collection = Votation.query.join(Proposal).filter(Proposal.innosoft_day_id == id).all()
+
+    prepared_data = [
+        {'Tema': Proposal.query.get_or_404(votation.proposal_id).subject,
+        'descripcion': Proposal.query.get_or_404(votation.proposal_id).description,
+        'tipo de propuesta':Proposal.query.get_or_404(votation.proposal_id).proposal_type.value,
+        'estado de la votacion':votation.state_votation.value
+    } for votation in data_collection]
+    return render_template("votation/list.html", all_items=prepared_data)
 
 
 @votation_bp.route("/votation/view/<int:id>")
