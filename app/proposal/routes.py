@@ -48,7 +48,12 @@ def proposal_filter_by_state(id,state):
     } for proposal in data_collection]
 
 
-    return render_template("proposal/list.html", all_items=prepared_data,innosoft_day_id=id)
+    return render_template("proposal/list.html", all_items=prepared_data,innosoft_day_id=id,state=state)
+
+@proposal_bp.route("/innosoft_days/<int:innosoft_day_id>/proposal/create/")
+def create(innosoft_day_id):
+    proposal = Proposal(innosoft_day_id=innosoft_day_id)
+    return render_template("proposal/create.html", proposal=proposal)
 
 @proposal_bp.route("/proposal/view/<int:id>")
 def view(id):
