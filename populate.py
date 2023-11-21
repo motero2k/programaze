@@ -5,6 +5,7 @@ from app.auth.models import Role, User, Lecturer, user_roles, Student
 from app.innosoft_day.models import Innosoft_day
 from app.proposal.models import Proposal,ProposalType,State
 from app.profile.models import UserProfile
+from app.votation.models import Votation,StateVotation
 from app.token_request.models import Token_request,TokenState
 from datetime import datetime
 
@@ -17,19 +18,20 @@ DATABASE_URI = (
 engine = create_engine(DATABASE_URI, echo=True)
 Session = sessionmaker(bind=engine)
 
-def add_roles_and_lecturers_and_students():
+def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session = Session()
 
     # Borrar las tablas en el orden correcto para evitar conflictos de clave externa
-    session.query(Lecturer).delete()
-    session.query(Student).delete()
+    session.query(Token_request).delete()
+    session.query(Votation).delete()
+    session.query(Proposal).delete()
+    session.query(Innosoft_day).delete()
     session.query(user_roles).delete()
     session.query(UserProfile).delete()
-    session.query(Token_request).delete()
+    session.query(Lecturer).delete()
+    session.query(Student).delete()
     session.query(User).delete()
     session.query(Role).delete()
-    
-    
     
     session.commit()
 
@@ -83,8 +85,6 @@ def add_roles_and_lecturers_and_students():
     program_coordinator2.profile = profile_program_coordinator2
     program_coordinator2.roles.append(program_coordinator_role)
 
-
-
     # Agregar usuarios y perfiles a la sesión
     session.add(user1)
     session.add(user2)
@@ -102,31 +102,22 @@ def add_roles_and_lecturers_and_students():
 
     session.add(token_request1)
     session.add(token_request2)
-
-    session.commit()
-
-    session.close()
-
-def add_proposals_and_innosoft_days():
-    session = Session()
     
-    session.query(Proposal).delete()
-    session.query(Innosoft_day).delete()
-    
-    session.commit()
-
     innosoft_day1 = Innosoft_day(description="Jornada 2020/2021", subject="CiberSeguridad ", year=2020)
     innosoft_day2 = Innosoft_day(description="Jornada 2023/2024", subject="Inteligencia Artificial", year=2023)
+
     session.add(innosoft_day1)
     session.add(innosoft_day2)
+
     session.commit()
-    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id)
-    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id)
-    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id)
-    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=State.CONFIRMATED, innosoft_day_id=innosoft_day2.id)
-    proposal5 = Proposal(description="esta es la propuesta 5", subject="Charla de Emprendedores", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id)
-    proposal6 = Proposal(description="esta es la propuesta 6", subject="Kahoot IA", proposal_type=ProposalType.ACTIVITY, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id)
-    proposal7 = Proposal(description="esta es la propuesta 7", subject="Stand de Igualdad", proposal_type=ProposalType.STAND, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id)
+
+    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=State.CONFIRMATED, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal5 = Proposal(description="esta es la propuesta 5", subject="Charla de Emprendedores", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal6 = Proposal(description="esta es la propuesta 6", subject="Kahoot IA", proposal_type=ProposalType.ACTIVITY, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal7 = Proposal(description="esta es la propuesta 7", subject="Stand de Igualdad", proposal_type=ProposalType.STAND, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
 
     session.add(proposal1)
     session.add(proposal2)
@@ -135,12 +126,26 @@ def add_proposals_and_innosoft_days():
     session.add(proposal5)
     session.add(proposal6)
     session.add(proposal7)
-    
+
+    session.commit()
+
+    votation1 = Votation(state_votation=StateVotation.IN_PROGRESS, proposal_id=proposal2.id)
+    votation2 = Votation(state_votation=StateVotation.ACCEPTED, proposal_id=proposal3.id)
+    votation3 = Votation(state_votation=StateVotation.ACCEPTED, proposal_id=proposal4.id)
+    votation4 = Votation(state_votation=StateVotation.IN_PROGRESS, proposal_id=proposal5.id)
+    votation5 = Votation(state_votation=StateVotation.IN_PROGRESS, proposal_id=proposal6.id)
+
+    session.add(votation1)
+    session.add(votation2)
+    session.add(votation3)
+    session.add(votation4)
+    session.add(votation5)
+
     session.commit()
 
     session.close()
+
     
 if __name__ == "__main__":
-    add_roles_and_lecturers_and_students()
-    add_proposals_and_innosoft_days()
+    add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals()
     print("WELL DONE")

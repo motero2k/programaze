@@ -5,11 +5,11 @@
 {% block title %}proposal{% endblock %}
 
 {% block content %}
-{% set columns = ["descripcion","tema","tipo de propuesta","estado","innosoft_day_id"] %}
+{% set columns = ["tema","tipo de propuesta","estado","usuario"] %}
 
 
 {% set menu_actions = [
-    {"name": "proposal", "route": 'proposal.all'},
+    {"name": "ver", "route": 'proposal.view'},
 ] %}
 
 <a class="btn btn-success" href="{{ url_for('proposal.create',innosoft_day_id=innosoft_day_id) }}" >CREAR PROPUESTA</a>
