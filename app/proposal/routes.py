@@ -19,38 +19,29 @@ def index():
 
 
 @proposal_bp.route("/innosoft_days/<int:id>/proposals")
-def all(id): 
-    
-    data_collection = Proposal.query.filter_by(innosoft_day_id=id).all()
+def all(id):
+    # Obtener el valor del parámetro de consulta 'state'
+    state = request.args.get('state', None)
+
+    if state:
+        # Lógica para mostrar propuestas filtradas por estado
+        data_collection = Proposal.query.filter_by(innosoft_day_id=id, state=state).all()
+    else:
+        # Lógica para mostrar todas las propuestas sin filtrar por estado
+        data_collection = Proposal.query.filter_by(innosoft_day_id=id).all()
+
     prepared_data = [{
-        'id' : proposal.id,
+        'id': proposal.id,
         'descripcion': proposal.description,
         'tema': proposal.subject,
-        'tipo de propuesta': proposal.proposal_type.value,  # Usar el valor en cadena
-        'estado': proposal.state.value,  # Usar el valor en cadena
-        'innosoft_day_id': proposal.innosoft_day_id,
-        'usuario': User.query.get_or_404(proposal.user_id).username 
-
-    } for proposal in data_collection]
-
-    return render_template("proposal/list.html", all_items=prepared_data,innosoft_day_id=id)
-
-# Ruta para filtrar por estado
-@proposal_bp.route('/innosoft_days/<int:id>/proposals?state=<state>')
-def proposal_filter_by_state(id,state):
-    # Lógica para mostrar propuestas filtradas por estado
-    data_collection = Proposal.query.filter_by(innosoft_day_id=id,state= state).all()
-    prepared_data = [{
-        'id' : proposal.id,
-        'tema': proposal.subject,
-        'tipo de propuesta': proposal.proposal_type.value,  # Usar el valor en cadena
-        'estado': proposal.state.value,  # Usar el valor en cadena
+        'tipo de propuesta': proposal.proposal_type.value,
+        'estado': proposal.state.value,
         'innosoft_day_id': proposal.innosoft_day_id,
         'usuario': User.query.get_or_404(proposal.user_id).username
     } for proposal in data_collection]
 
+    return render_template("proposal/list.html", all_items=prepared_data, innosoft_day_id=id, state=state)
 
-    return render_template("proposal/list.html", all_items=prepared_data,innosoft_day_id=id,state=state)
 
 @proposal_bp.route("/innosoft_days/<int:innosoft_day_id>/proposal/create/")
 def create(innosoft_day_id):
@@ -71,7 +62,7 @@ def reject(id):
     flash('La propuesta se ha cancelado', 'danger')
     
     
-    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/REJECTED")
+    return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=REJECTED")
 
 @proposal_bp.route("/proposal/view/<int:id>/confirm")
 def confirm(id):
