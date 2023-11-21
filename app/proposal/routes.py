@@ -10,12 +10,7 @@ from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
 
 
-@proposal_bp.route("/innosoft_day/<int:id>/proposal")
-@login_required 
-def index():
-    logger.info('Access proposal index')
 
-    return render_template("proposal/index.html")
 
 
 @proposal_bp.route("/innosoft_days/<int:id>/proposals")
