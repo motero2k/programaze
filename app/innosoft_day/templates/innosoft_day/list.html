@@ -9,7 +9,9 @@
  
 
 {% set menu_actions = [
-    {"name": "proposal", "route": 'proposal.all'},
+    {"name": "Listar propuestas", "route": 'proposal.all'},{
+        "name":"Listar votaciones","route":"votation.all"
+    }
 ] %}
 
     {{ macros.render_table(columns, all_items, buttons, menu_actions) }}

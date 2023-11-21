@@ -15,6 +15,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    token = db.Column(db.Integer, nullable=True, default = 0)
+    
+
 
     profile = db.relationship('UserProfile', backref='user', lazy=True, uselist=False, cascade="all, delete-orphan")
 
@@ -26,12 +29,15 @@ class User(db.Model, UserMixin):
     event_manager = db.relationship('EventManager', backref='user', uselist=False, cascade="all, delete-orphan")
     reviewer = db.relationship('Reviewer', backref='user', uselist=False, cascade="all, delete-orphan")
     lecture = db.relationship('Lecturer', backref='user', uselist=False, cascade="all, delete-orphan")
+    proposals = db.relationship('Proposal', backref='user', lazy=True)
 
-    def __init__(self, username, email, password, **kwargs):
+    def __init__(self, username, email, password, token, **kwargs):
         super().__init__(**kwargs)
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
+        self.token = token
+
 
     def name(self):
         return self.profile.name if self.profile else None

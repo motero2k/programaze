@@ -24,6 +24,12 @@ class Proposal(db.Model):
     proposal_type = db.Column(db.Enum(ProposalType), nullable=False)
     state = db.Column(db.Enum(State), nullable=False)
     innosoft_day_id = db.Column(db.Integer, ForeignKey('innosoft_day.id'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
+
+    def save(self):
+        if not self.id:
+            db.session.add(self)
+        db.session.commit()
 
     
 

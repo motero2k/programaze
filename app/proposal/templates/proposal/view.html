@@ -1,7 +1,43 @@
 {% extends "base_template.html" %}
 
+{% import 'macros.html' as macros %}
+
 {% block title %}proposal{% endblock %}
 
 {% block content %}
+<head>
+    <title>Detalle de Propuesta</title>
+</head>
+<body>
+    <h1>Detalle de la Propuesta</h1>
+    <div>
+        <h2>Propuesta ID: {{ proposal.id }}</h2>
+        <p><strong>Tema:</strong> {{ proposal.subject }}</p>
+        <p><strong>Tipo:</strong> {{ proposal.proposal_type.value }}</p>
+        <p><strong>Estado:</strong> {{ proposal.state.value }}</p>
+        <p><strong>Descripción:</strong> {{ proposal.description }}</p>
+        <p><strong>Usuario:</strong> {{ username }}</p>
+       
+    </div>
+    <div>
+        <h2>Acciones disponibles</h2>
+        {% if proposal.state.name=='PENDING_OF_ADMISION' %}
+        
+        <a href="{{ url_for('proposal.accept',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">ACEPTAR</a>
+        <a href="{{ url_for('proposal.reject',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">RECHAZAR</a>
+        {% endif %}
+        {% if proposal.state.name=='ON_PREPARATION' %}
+        
+        <a href="{{ url_for('proposal.confirm',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">CONFIRMAR</a>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
+
+
+
 
 {% endblock %}

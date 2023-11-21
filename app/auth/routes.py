@@ -10,7 +10,7 @@ from ..profile.models import UserProfile
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard.index'))
+        return redirect(url_for('innosoft_day.all'))
     form = LoginForm()
     if form.validate_on_submit():
         # Intenta buscar al usuario por correo electrónico
@@ -22,7 +22,7 @@ def login():
 
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('dashboard.index'))
+            return redirect(url_for('innosoft_day.all'))
         else:
             error = f'Invalid credentials'
             return render_template("auth/login_form.html", form=form, error=error)
@@ -33,4 +33,4 @@ def login():
 @auth_bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('dashboard.index'))
+    return redirect(url_for('auth.login'))

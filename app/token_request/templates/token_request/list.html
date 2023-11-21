@@ -1,0 +1,19 @@
+{% extends "base_template.html" %}
+{% import 'macros.html' as macros %}
+
+{% block title %}token_request{% endblock %}
+
+{% block content %}
+
+{% set columns = ["Usuario","Estado","nº token"] %}
+
+
+
+{% set menu_actions = [
+    {"name": "Ver solicitud", "route": 'token_request.view'},
+] %}
+
+
+{{ macros.render_table(columns, all_items, buttons, menu_actions) }}
+{% endblock %} 
+
