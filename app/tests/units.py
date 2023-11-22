@@ -20,7 +20,7 @@ class FlaskAppTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    
+    #ACTUALIZAR CUANDO SE MERGEE LA RAMA
     def test_access_restricted_url_with_correct_role(self):
         self.client.post("/login",data={
             "username":"profesor1",
@@ -29,6 +29,7 @@ class FlaskAppTestCase(unittest.TestCase):
         response=self.client.get("/proposal/all/1")
         self.assertEqual(response.status_code, 200)
     
+    #ACTUALIZAR CUANDO SE MERGEE LA RAMA
     def test_access_restricted_url_with_incorrect_role(self):
         self.client.post("/login",data={
             "username":"alumno1",
