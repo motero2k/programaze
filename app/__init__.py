@@ -44,7 +44,6 @@ def create_app(config_name=None):
     from .auth import auth_bp
     from .file import file_bp
     from .profile import profile_bp
-    from .dashboard import dashboard_bp
     from .lecturer import lecturer_bp
     from .student import student_bp
     from .evidence import evidence_bp
@@ -58,7 +57,6 @@ def create_app(config_name=None):
     app.register_blueprint(auth_bp)
     app.register_blueprint(file_bp)
     app.register_blueprint(profile_bp)
-    app.register_blueprint(dashboard_bp)
     app.register_blueprint(lecturer_bp)
     app.register_blueprint(student_bp)
     app.register_blueprint(evidence_bp)

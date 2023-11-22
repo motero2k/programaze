@@ -17,7 +17,7 @@ def index():
     return render_template("votation/index.html")
 
 
-@votation_bp.route("/votation/all/<int:id>")
+@votation_bp.route("/innosoft_days/<int:id>/votations/")
 def all(id):    
     data_collection = Votation.query.join(Proposal).filter(Proposal.innosoft_day_id == id).all()
 

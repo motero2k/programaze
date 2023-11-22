@@ -9,19 +9,27 @@
 
 
 {% set menu_actions = [
-    {"name": "Visualizar propuesta", "route": 'proposal.view'},
+    {"name": "ver", "route": 'proposal.view'},
 ] %}
 
+<a class="btn btn-success" href="{{ url_for('proposal.create',innosoft_day_id=innosoft_day_id) }}" >CREAR PROPUESTA</a>
+<b>TOKENS: {{current_user.token}}</b>
+<a class="btn btn-success" href="{{ url_for('token_request.create') }}" >SOLICITAR MAS TOKENS</a>
+<div class="row">
 
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ADMISION') }}" class="btn btn-info">PENDIENTE DE ADMISIÓN</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='PENDING_OF_ACEPTATION') }}" class="btn btn-info">PENDIENTE DE ACEPTACIÓN</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='ON_PREPARATION') }}" class="btn btn-info">EN PREPARACIÓN</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id,state='CONFIRMATED') }}" class="btn btn-info">CONFIRMADO</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='REJECTED') }}" class="btn btn-info">RECHAZADO</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">CERRADO</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">TOKENS: {{current_user.token}}</a>
-<a href="{{ url_for('proposal.proposal_filter_by_state', id=innosoft_day_id, state='CLOSED') }}" class="btn btn-info">SOLICITAR TOKEN</a>
+    <b>Filtrado: </b>
+    <select class="form-select" style="width: 30%;" onchange="window.location.href=this.value" >
+        
+        <option value="{{ url_for('proposal.all', id=innosoft_day_id) }}" {% if state == None %}selected{% endif %}>Todas</option>
+        <option value="{{ url_for('proposal.all', id=innosoft_day_id, state='PENDING_OF_ADMISION') }}" {% if state == 'PENDING_OF_ADMISION' %}selected{% endif %}>Pendiente de admisión</option>
+        <option value="{{ url_for('proposal.all', id=innosoft_day_id, state='PENDING_OF_ACEPTATION') }}" {% if state == 'PENDING_OF_ACEPTATION' %}selected{% endif %}>Pendiente de aceptación</option>
+        <option value="{{ url_for('proposal.all', id=innosoft_day_id, state='ON_PREPARATION') }}" {% if state == 'ON_PREPARATION' %}selected{% endif %}>En preparación</option>
+    <option value="{{ url_for('proposal.all', id=innosoft_day_id,state='CONFIRMATED') }}" {% if state == 'CONFIRMATED' %}selected{% endif %}>Confirmada</option>
+    <option value="{{ url_for('proposal.all', id=innosoft_day_id, state='REJECTED') }}" {% if state == 'REJECTED' %}selected{% endif %}>Rechazada</option>
+    <option value="{{ url_for('proposal.all', id=innosoft_day_id, state='CLOSED') }}" {% if state == 'CLOSED' %}selected{% endif %}>Cerrada</option>
     
+</select>
+</div>
 
 
     {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
