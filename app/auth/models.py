@@ -122,7 +122,7 @@ class Role(db.Model):
     created_at = db.Column(DateTime, default=datetime.utcnow)
     updated_at = db.Column(DateTime, default=datetime.utcnow)
 
-    VALID_ROLES = ['STUDENT', 'COORDINATOR', 'SECRETARY', 'REVIEWER', 'EVENT_MANAGER', 'LECTURER', 'DEVELOPER',
+    VALID_ROLES = ['STUDENT', 'COORDINATOR', 'SECRETARY', 'REVIEWER', 'EVENT_MANAGER', 'LECTURER', 'DEVELOPER','PROGRAM_COORDINATOR',
                    'PRESIDENT']
 
     ROLES_MAPPING = {
@@ -133,7 +133,8 @@ class Role(db.Model):
         'EVENT_MANAGER': 'Manager de Eventos',
         'LECTURER': 'Profesor',
         'DEVELOPER': 'Desarrollador',
-        'PRESIDENT': 'Presidente'
+        'PRESIDENT': 'Presidente',
+        'PROGRAM_COORDINATOR': 'Coordinador de Programa'
     }
 
     def __init__(self, name):
