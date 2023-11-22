@@ -18,31 +18,7 @@
 
     <h1 class="h3 mb-3">Pedir tokens</h1>
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
 
-            <div class="row">
-                <div class="col-12 mb-3">
-                    <div class="alert alert-success" role="alert">
-                        <div class="alert-message">
-
-                            <h4 class="alert-heading"><i class="align-middle" data-feather="pocket"></i>
-                                The operation was successfully completed
-                            </h4>
-                            <p class="p-0 m-0">
-                                {% for message in messages %}
-                                    {{ message }}
-                                    <br>
-                                {% endfor %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        {% endif %}
-    {% endwith %}
 
     <div class="row">
 

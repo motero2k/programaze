@@ -3,7 +3,7 @@ from sqlalchemy import DateTime
 from enum import Enum
 from app import db
 
-class TokenState(Enum):
+class Token_state(Enum):
     ACCEPTED = 'ACEPTADO'
     PENDING_OF_ACEPTATION = 'PENDIENTE DE ACEPTACIÓN'
     REJECTED = 'RECHAZADO'
@@ -15,7 +15,7 @@ class Token_request(db.Model):
     num_token = db.Column(db.Integer,nullable=False)
 
     description = db.Column(db.String(300), nullable=False)
-    token_state = db.Column(db.Enum(TokenState), nullable=False)
+    token_state = db.Column(db.Enum(Token_state), nullable=False)
 
     def save(self):
         if not self.id:

@@ -54,7 +54,7 @@ def reject(id):
     proposal = Proposal.query.get_or_404(id)
     proposal.state = State.REJECTED
     proposal.save()
-    flash('La propuesta se ha cancelado', 'danger')
+    flash('La propuesta se ha cancelado', 'success')
     
     
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=REJECTED")

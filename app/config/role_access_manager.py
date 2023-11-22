@@ -3,8 +3,8 @@ from flask import Flask, redirect, flash, request, url_for
 
 
 class Role_access:
-    #Roles at app/auth/models.py  VALID_ROLES = ['STUDENT', 'COORDINATOR', 'SECRETARY', 'REVIEWER', 'EVENT_MANAGER', 'LECTURER', 'DEVELOPER','PRESIDENT']
-    token_request = {"public": ["ANY_ROLE"],"accept":['COORDINATOR']}
+    #Roles at app/auth/models.py  VALID_ROLES = ['STUDENT', 'COORDINATOR','PROGRAM_COORDINATOR', 'SECRETARY', 'REVIEWER', 'EVENT_MANAGER', 'LECTURER', 'DEVELOPER','PRESIDENT']
+    token_request = {"public": ["ANY_ROLE"],"accept":['PROGRAM_COORDINATOR'],"reject":["PROGRAM_COORDINATOR"]}
     proposal = {"public": ["ANY_ROLE"], "accept": ["ddd"]}
     votation = {"public": ["ANY_ROLE"], "accept": ["ddd"]}
        
@@ -19,7 +19,7 @@ class Role_access:
         user_not_allowed = True
         allowed_roles_in_action = Role_access.get_allowed_roles_in(module_name,access_level)
         if "ANY_ROLE" in allowed_roles_in_action:
-            return True
+            return False
         for role in user_roles:
             if role.name in allowed_roles_in_action:
                 user_not_allowed = False
