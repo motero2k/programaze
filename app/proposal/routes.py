@@ -65,7 +65,7 @@ def confirm(id):
     proposal.state = State.CONFIRMATED
     proposal.save()
     flash('La propuesta se ha confirmado', 'success')  
-    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/CONFIRMATED")
+    return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=CONFIRMED")
 
 @proposal_bp.route("/proposal/view/<int:id>/accept")
 def accept(id):

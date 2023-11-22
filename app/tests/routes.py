@@ -1,9 +1,10 @@
 import os
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from app import db
 from app.proposal.models import Proposal,ProposalType
+from app.auth.models import User
 
 test_routes = Blueprint('test_routes', __name__)
 
@@ -29,27 +30,26 @@ def test_db():
 
 #-------------RUTAS DE TEST DE PROPOSAL-----------------------------------
 
-@test_routes.route('/proposal/all/<int:id>')
+@test_routes.route("/test/innosoft_days/<int:id>/proposals")
 def test_get_proposals_from_innosoft_day(id):
-    data_collection = Proposal.query.filter_by(innosoft_day_id=id).all()
+    state = request.args.get('state', None)
+
+    if state:
+        # Lógica para mostrar propuestas filtradas por estado
+        data_collection = Proposal.query.filter_by(innosoft_day_id=id, state=state).all()
+    else:
+        # Lógica para mostrar todas las propuestas sin filtrar por estado
+        data_collection = Proposal.query.filter_by(innosoft_day_id=id).all()
+
     prepared_data = [{
-        'id' : proposal.id,
+        'id': proposal.id,
         'descripcion': proposal.description,
         'tema': proposal.subject,
-        'tipo de propuesta': proposal.proposal_type.value,  # Usar el valor en cadena
-        'estado': proposal.state.value,  # Usar el valor en cadena
-        'innosoft_day_id': proposal.innosoft_day_id
+        'tipo de propuesta': proposal.proposal_type.value,
+        'estado': proposal.state.value,
+        'innosoft_day_id': proposal.innosoft_day_id,
+        'usuario': User.query.get_or_404(proposal.user_id).username
     } for proposal in data_collection]
     return jsonify(prepared_data)
 
-@test_routes.route('/proposal/all/<int:id>/filter_by_state/<state>')
-def test_get_proposals_of_innosoft_day_and_filtered_by_state(id,state):
-    data_collection = Proposal.query.filter_by(innosoft_day_id=id,state= state).all()
-    prepared_data = [{
-        'id' : proposal.id,
-        'tema': proposal.subject,
-        'tipo de propuesta': proposal.proposal_type.value,  # Usar el valor en cadena
-        'estado': proposal.state.value,  # Usar el valor en cadena
-        'innosoft_day_id': proposal.innosoft_day_id
-    } for proposal in data_collection]
-    return jsonify(prepared_data)
+
