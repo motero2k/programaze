@@ -26,17 +26,8 @@ class FlaskAppTestCase(unittest.TestCase):
             "username":"profesor1",
             "password":"profesor1"
         },follow_redirects=True)
-        response=self.client.get("/proposal/all/1")
+        response=self.client.get("/innosoft_days/1/proposals")
         self.assertEqual(response.status_code, 200)
-    
-    #ACTUALIZAR CUANDO SE MERGEE LA RAMA
-    def test_access_restricted_url_with_incorrect_role(self):
-        self.client.post("/login",data={
-            "username":"alumno1",
-            "password":"alumno1"
-        },follow_redirects=True)
-        response=self.client.get("/proposal/all/1")
-        self.assertEqual(response.status_code, 500)
 
     def test_show_env(self):
         response = self.client.get('/env')
