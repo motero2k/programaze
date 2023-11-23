@@ -3,5 +3,78 @@
 {% block title %}votation{% endblock %}
 
 {% block content %}
+<head>
+    <title>Detalles de la votación</title>
+</head>
 
+<body>
+    <h1>Detalles de la votación</h1>
+    <div>
+        
+        <p><strong>Tema:</strong> {{ votation.theme }}</p>
+        <p><strong>Descripción:</strong> <div>{{ votation.description}}</div></p>
+        <p><strong>Tipo de propuesta:</strong> {{ votation.type}}</p>
+        <p><strong>Creador de propuesta:</strong> {{ votation.user }}</p>
+        <p><strong>Estado de la votacion:</strong> {{ votation.state}}</p>
+        
+
+
+
+    </div>
+    <div>
+        
+        {% if votation.state == 'EN CURSO'  %}
+        <h2>Acciones disponibles</h2>
+            {% if can_vote   %}
+
+            <a href="{{ url_for('vote.create',id = votation.id) }}" class="btn btn-success">Votar</a>
+
+            {% else %}
+        
+            <b style="color: brown;">Ya has votado</b>
+            {% endif %}
+
+        {% else %}
+
+        <b>La votación está cerrada, no se puede votar</b>
+       
+        {% endif %}
+        
+        
+    </div>
+
+    </br>
+    <h1>Votos</h1>
+    </br>
+    <table class="table" >
+        <thead class="thead-dark">
+            <tr>
+               
+                <th><b>Usuario</b></th>
+                <th><b>Decisión</b></th>
+                <th><b>Descripción</b></th>
+               
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for vote in votation.votes %}
+                <tr>
+                   
+                    <td>{{ vote.username }}</td>
+                    <td>{{ 'A favor' if vote.decision else 'En contra' }}</td>
+                    <td>{{ vote.description }}</td>
+                  
+                   
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No hay votos disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
 {% endblock %}

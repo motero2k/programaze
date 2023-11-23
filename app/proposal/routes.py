@@ -54,7 +54,7 @@ def reject(id):
     proposal = Proposal.query.get_or_404(id)
     proposal.state = State.REJECTED
     proposal.save()
-    flash('La propuesta se ha cancelado', 'danger')
+    flash('La propuesta se ha cancelado', 'success')
     
     
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=REJECTED")
@@ -65,7 +65,7 @@ def confirm(id):
     proposal.state = State.CONFIRMATED
     proposal.save()
     flash('La propuesta se ha confirmado', 'success')  
-    return redirect("/proposal/all/"+str(proposal.innosoft_day_id)+"/filter_by_state/CONFIRMATED")
+    return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=CONFIRMED")
 
 @proposal_bp.route("/proposal/view/<int:id>/accept")
 def accept(id):

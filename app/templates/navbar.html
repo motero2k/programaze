@@ -5,7 +5,7 @@
         <!--begin:Info-->
         <div class="text-end d-none d-sm-flex flex-column justify-content-center me-3">
             <a href="../../demo9/dist/pages/user-profile/overview.html"
-               class="text-white text-hover-primary fs-6 fw-bold">{{ current_user.profile.name }}</a>
+               class="text-white text-hover-primary fs-6 fw-bold">{{ current_user.username }}</a>
             <span class="text-gray-600 fs-7 fw-semibold d-block">{{ current_user.email }}</span>
         </div>
         <!--end:Info-->
@@ -28,7 +28,7 @@
                     <!--end::Avatar-->
                     <!--begin::Username-->
                     <div class="d-flex flex-column">
-                        <div class="fw-bold d-flex align-items-center fs-5">{{ current_user.profile.name }} {{ current_user.profile.surname }}
+                        <div class="fw-bold d-flex align-items-center fs-5">{{ current_user.username }}
                             {% for role in current_user.current_roles %}
                                 <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
                                     {{ role }}

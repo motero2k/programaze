@@ -14,6 +14,7 @@ class Votation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     state_votation = db.Column(db.Enum(StateVotation), nullable=False)
     proposal_id = db.Column(db.Integer, ForeignKey('proposal.id'), nullable=False)
+    
 
     #falta relación votos con votacion
 

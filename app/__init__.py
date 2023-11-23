@@ -53,6 +53,7 @@ def create_app(config_name=None):
     from .proposal import proposal_bp
     from .votation import votation_bp
     from .token_request import token_request_bp
+    # Register blueprints (please do not delete this comment)
     app.register_blueprint(test_routes)
     app.register_blueprint(auth_bp)
     app.register_blueprint(file_bp)
@@ -65,6 +66,8 @@ def create_app(config_name=None):
     app.register_blueprint(proposal_bp)
     app.register_blueprint(votation_bp)
     app.register_blueprint(token_request_bp)
+    from .vote import vote_bp
+    app.register_blueprint(vote_bp)
  
 
     from flask_login import LoginManager
@@ -160,10 +163,12 @@ def get_authenticated_user():
         return current_user
     return None
 def get_roles_from_authenticated():
-    user = get_authenticated_user()
-    roles = user.roles
-    print(roles)
-    return roles
+    try:
+        user = get_authenticated_user()
+        roles = user.roles
+        return roles
+    except:
+        return []
 
 
 app = create_app()
