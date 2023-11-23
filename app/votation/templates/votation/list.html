@@ -5,10 +5,24 @@
 {% block title %}votation{% endblock %}
 
 {% block content %}
-
 {% set columns = ["Tema","descripcion","tipo de propuesta","estado de la votacion","usuario"] %}
+{% set menu_actions = [
+    {"name": "ver", "route": 'votation.view'},
+] %}
  
+<div class="row">
 
+    <b>Filtrado: </b>
+    <select class="form-select" style="width: 30%;" onchange="window.location.href=this.value" >
+        
+        <option value="{{ url_for('votation.all',id=innosoft_day_id) }}" {% if state == None %}selected{% endif %}>Todas</option>
+        <option value="{{ url_for('votation.all',id=innosoft_day_id, state='IN_PROGRESS') }}" {% if state == 'IN_PROGRESS' %}selected{% endif %}>En curso</option>
+        <option value="{{ url_for('votation.all',id=innosoft_day_id, state='ACCEPTED') }}" {% if state == 'ACCEPTED' %}selected{% endif %}>Aceptadas</option>
+        <option value="{{ url_for('votation.all',id=innosoft_day_id, state='REJECTED') }}" {% if state == 'REJECTED' %}selected{% endif %}>Rechazadas</option>
+    
+       
+</select>
+</div>
 
     {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
 
