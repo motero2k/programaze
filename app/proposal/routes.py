@@ -55,9 +55,23 @@ def reject(id):
     proposal.state = State.REJECTED
     proposal.save()
     flash('La propuesta se ha cancelado', 'success')
-    
-    
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=REJECTED")
+
+@proposal_bp.route("/proposal/view/<int:id>/close")
+def close(id):
+    proposal = Proposal.query.get_or_404(id)
+
+    if proposal.state == State.PENDING_OF_ACEPTATION:
+        votation = Votation.query.filter_by(proposal_id=proposal.id).first()
+
+        if votation:
+            votation.state_votation = StateVotation.REJECTED
+            votation.save()
+
+    proposal.state = State.CLOSED
+    proposal.save()
+    flash('La propuesta se ha cerrado', 'success')
+    return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=CLOSED")
 
 @proposal_bp.route("/proposal/view/<int:id>/confirm")
 def confirm(id):
@@ -75,8 +89,6 @@ def accept(id):
     flash('La propuesta se ha aceptado con éxito', 'success')
     votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=proposal.id)
     votation.save()
-   
-
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=PENDING_OF_ACEPTATION")
 
 

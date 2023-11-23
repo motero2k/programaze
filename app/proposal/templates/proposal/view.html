@@ -20,15 +20,16 @@
        
     </div>
     <div>
-        <h2>Acciones disponibles</h2>
-        {% if proposal.state.name=='PENDING_OF_ADMISION' %}
-        
-        <a href="{{ url_for('proposal.accept',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">ACEPTAR</a>
-        <a href="{{ url_for('proposal.reject',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">RECHAZAR</a>
-        {% endif %}
-        {% if proposal.state.name=='ON_PREPARATION' %}
-        
-        <a href="{{ url_for('proposal.confirm',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">CONFIRMAR</a>
+        {% if proposal.state.name!='CLOSED' %}
+            <h2>Acciones disponibles</h2>
+            {% if proposal.state.name=='PENDING_OF_ADMISION' %}
+            <a href="{{ url_for('proposal.accept',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">ACEPTAR</a>
+            <a href="{{ url_for('proposal.reject',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">RECHAZAR</a>
+            {% endif %}
+            {% if proposal.state.name=='ON_PREPARATION' %}
+            <a href="{{ url_for('proposal.confirm',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">CONFIRMAR</a>
+            {% endif %}
+            <a href="{{ url_for('proposal.close',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">CERRAR</a>
         {% endif %}
     </div>
 </body>
