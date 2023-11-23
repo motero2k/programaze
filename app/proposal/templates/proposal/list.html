@@ -12,7 +12,7 @@
     {"name": "ver", "route": 'proposal.view'},
 ] %}
 
-<a class="btn btn-success" href="{{ url_for('proposal.create',innosoft_day_id=innosoft_day_id) }}" >CREAR PROPUESTA</a>
+<a class="btn btn-success" href="{{ url_for('proposal.create',id=innosoft_day_id) }}" >CREAR PROPUESTA</a>
 <b>TOKENS: {{current_user.token}}</b>
 <a class="btn btn-success" href="{{ url_for('token_request.create') }}" >SOLICITAR MAS TOKENS</a>
 <div class="row">

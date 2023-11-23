@@ -9,7 +9,7 @@ class ProposalType(Enum):
     ACTIVITY = 'ACTIVIDAD'
     STAND = 'STAND'
 
-class State(Enum):
+class Proposal_State(Enum):
     PENDING_OF_ADMISION = 'PENDIENTE DE ADMISIÓN'
     PENDING_OF_ACEPTATION = 'PENDIENTE DE ACEPTACIÓN'
     ON_PREPARATION = 'EN PREPARACIÓN'
@@ -22,7 +22,7 @@ class Proposal(db.Model):
     description = db.Column(db.String(300), nullable=False)
     subject = db.Column(db.String(100), nullable=False)
     proposal_type = db.Column(db.Enum(ProposalType), nullable=False)
-    state = db.Column(db.Enum(State), nullable=False)
+    state = db.Column(db.Enum(Proposal_State), nullable=False)
     innosoft_day_id = db.Column(db.Integer, ForeignKey('innosoft_day.id'), nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
 
