@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.auth.models import Role, User, Lecturer, user_roles, Student
 from app.innosoft_day.models import Innosoft_day
-from app.proposal.models import Proposal,ProposalType,State
+from app.proposal.models import Proposal,ProposalType,Proposal_State
 from app.profile.models import UserProfile
 from app.votation.models import Votation,StateVotation
 from app.token_request.models import Token_request,Token_state
@@ -114,13 +114,13 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
 
     session.commit()
 
-    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=State.CONFIRMATED, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal5 = Proposal(description="esta es la propuesta 5", subject="Charla de Emprendedores", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
-    proposal6 = Proposal(description="esta es la propuesta 6", subject="Kahoot IA", proposal_type=ProposalType.ACTIVITY, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
-    proposal7 = Proposal(description="esta es la propuesta 7", subject="Stand de Igualdad", proposal_type=ProposalType.STAND, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=Proposal_State.CONFIRMATED, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal5 = Proposal(description="esta es la propuesta 5", subject="Charla de Emprendedores", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal6 = Proposal(description="esta es la propuesta 6", subject="Kahoot IA", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal7 = Proposal(description="esta es la propuesta 7", subject="Stand de Igualdad", proposal_type=ProposalType.STAND, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
 
     session.add(proposal1)
     session.add(proposal2)

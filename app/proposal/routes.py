@@ -1,8 +1,12 @@
 import logging
 from flask import render_template, request, jsonify, flash, redirect
 from flask_login import login_required
+from app import get_authenticated_user_profile
+
+from app.config.role_access_manager import Role_access
+from app.proposal.forms import Proposal_Form
 from . import proposal_bp
-from .models import Proposal,State
+from .models import Proposal,Proposal_State
 from ..auth.models import User
 from ..votation.models import Votation,StateVotation
 
@@ -38,10 +42,51 @@ def all(id):
     return render_template("proposal/list.html", all_items=prepared_data, innosoft_day_id=id, state=state)
 
 
-@proposal_bp.route("/innosoft_days/<int:innosoft_day_id>/proposal/create/")
-def create(innosoft_day_id):
-    proposal = Proposal(innosoft_day_id=innosoft_day_id)
-    return render_template("proposal/create.html", proposal=proposal)
+@proposal_bp.route("/innosoft_days/<int:id>/proposal/create/", methods=["GET","POST"])
+def create(id):
+    
+    if Role_access.user_not_allowed("proposal","public"):
+        return Role_access.not_allowed_get_previous_page("proposal","public")
+    form = Proposal_Form()
+  
+    if request.method == 'POST' and form.validate_on_submit():
+        #show operation not succeded in flash message
+
+        subject = form.subject.data.strip()
+        description = form.description.data.strip()
+        proposal_type = form.proposal_type.data
+
+       
+        profile = get_authenticated_user_profile()
+        user_id = profile.user.id
+        user = User.query.get_or_404(user_id)
+
+     
+        if user.token <= 0:
+            
+            flash('No se puede crear una solicitud de propuesta sin tokens', 'danger')
+            return render_template("proposal/create.html",form=form,innosoft_day_id=id)
+        
+        proposal = Proposal()
+        proposal.subject = subject
+        proposal.description = description
+        proposal.proposal_type = proposal_type
+        proposal.innosoft_day_id = id
+        proposal.state = Proposal_State.PENDING_OF_ADMISION
+        proposal.user_id = user_id
+
+        user.token -= 1
+        proposal.save()
+        user.save()
+
+        
+
+        proposal.save()
+        flash("Solicitud de propuesta creada","success")
+        return redirect("/innosoft_days/"+str(id)+"/proposals?state=PENDING_OF_ADMISION")
+    else:
+        
+        return render_template("proposal/create.html",form=form,innosoft_day_id = id)
 
 @proposal_bp.route("/proposal/view/<int:id>")
 def view(id):
@@ -52,7 +97,7 @@ def view(id):
 @proposal_bp.route("/proposal/view/<int:id>/reject")
 def reject(id):
     proposal = Proposal.query.get_or_404(id)
-    proposal.state = State.REJECTED
+    proposal.state = Proposal_State.REJECTED
     proposal.save()
     flash('La propuesta se ha cancelado', 'success')
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=REJECTED")
@@ -61,14 +106,14 @@ def reject(id):
 def close(id):
     proposal = Proposal.query.get_or_404(id)
 
-    if proposal.state == State.PENDING_OF_ACEPTATION:
+    if proposal.state == Proposal_State.PENDING_OF_ACEPTATION:
         votation = Votation.query.filter_by(proposal_id=proposal.id).first()
 
         if votation:
             votation.state_votation = StateVotation.REJECTED
             votation.save()
 
-    proposal.state = State.CLOSED
+    proposal.state = Proposal_State.CLOSED
     proposal.save()
     flash('La propuesta se ha cerrado', 'success')
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=CLOSED")
@@ -76,7 +121,7 @@ def close(id):
 @proposal_bp.route("/proposal/view/<int:id>/confirm")
 def confirm(id):
     proposal = Proposal.query.get_or_404(id)
-    proposal.state = State.CONFIRMATED
+    proposal.state = Proposal_State.CONFIRMATED
     proposal.save()
     flash('La propuesta se ha confirmado', 'success')  
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=CONFIRMED")
@@ -84,7 +129,7 @@ def confirm(id):
 @proposal_bp.route("/proposal/view/<int:id>/accept")
 def accept(id):
     proposal = Proposal.query.get_or_404(id)
-    proposal.state=State.PENDING_OF_ACEPTATION
+    proposal.state=Proposal_State.PENDING_OF_ACEPTATION
     proposal.save()
     flash('La propuesta se ha aceptado con éxito', 'success')
     votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=proposal.id)
