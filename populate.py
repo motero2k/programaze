@@ -1,4 +1,5 @@
 import os
+from app.vote.models import Vote
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.auth.models import Role, User, Lecturer, user_roles, Student
@@ -22,6 +23,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session = Session()
 
     # Borrar las tablas en el orden correcto para evitar conflictos de clave externa
+    session.query(Vote).delete()
     session.query(Token_request).delete()
     session.query(Votation).delete()
     session.query(Proposal).delete()
@@ -32,6 +34,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session.query(Student).delete()
     session.query(User).delete()
     session.query(Role).delete()
+    
     
     session.commit()
 

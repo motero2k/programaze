@@ -1,0 +1,81 @@
+{% extends "base_template.html" %}
+
+{% block title %}View dataset{% endblock %}
+{% block content %}
+<style>
+        .textarea {
+      width: 200%;
+    }
+   
+
+    /* * {
+        border: 0.2px solid red;
+    } */
+
+</style>
+
+    <h1 class="h3 mb-3">Votar</h1>
+
+
+
+    <div class="row">
+
+        <div class="col-12 col-lg-6">
+
+            <form method="POST" action="{{ url_for('vote.create',id = votation_id) }}" class="needs-validation" novalidate>
+                {{ form.hidden_tag() }}
+                
+                
+                    <div class="col-20 textarea">
+                        {{ form.description.label(class="form-label") }}
+                        {% set description_value = form.description.data if form.description.data else current_user.profile.description %}
+                        {{ form.description(class="form-control", placeholder="Enter your description", required=true, value=description_value) }}
+                        {% for error in form.description.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                            <br>
+                        {% endfor %}
+                    </div>
+                    
+                    <label for="decision">Selecciona una opción:</label>
+                    <select id="decision" name="decision">
+                        <option value="true">Aceptar</option>
+                        <option value="false">Denegar</option>
+                    </select>
+
+                   
+
+                
+
+                <div class="row form-group">
+
+                    <div class="col-12 mt-3">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+
+
+
+                </div>
+            </form>
+
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-6 col-12">
+
+                {% if error %}
+
+                    <div class="mt-3">
+                        <p style="color: red;"><strong>Error:</strong> {{ error }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
