@@ -49,7 +49,8 @@ def view(id):
     votes = [
         {'id': vote.id,
         'username': User.query.get_or_404(vote.user_id).username,
-        'description':vote.description
+        'description':vote.description,
+        'decision':vote.decision
        
     } for vote in votes_list]  
 

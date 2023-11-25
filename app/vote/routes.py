@@ -2,6 +2,7 @@ import logging
 from app import get_authenticated_user_profile
 from app.config.role_access_manager import Role_access
 from app.votation.models import StateVotation, Votation
+from app.proposal.models import Proposal,Proposal_State
 from app.vote.forms import Vote_Form
 from flask import render_template, request, jsonify,flash,redirect
 from flask_login import login_required
@@ -48,14 +49,18 @@ def create(id):
 
 def update_votation(vote):
     votes = Vote.query.filter_by(votation_id = vote.votation_id)
-    total = 9
+    total = 3
     number_of_true_votes = sum(v.decision for v in votes)
     number_of_false_votes = sum(1 for v in votes if  not v.decision)
     votation = Votation.query.get_or_404(vote.votation_id)
+    proposal = Proposal.query.get_or_404(votation.proposal_id)
     if number_of_true_votes/total > 0.5:
         votation.state_votation = StateVotation.ACCEPTED
+        proposal.state = Proposal_State.ON_PREPARATION
     elif number_of_false_votes/total > 0.5:
         votation.state_votation = StateVotation.REJECTED
+        proposal.state = Proposal_State.REJECTED
+    proposal.save()
     votation.save()
 
 

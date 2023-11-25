@@ -15,7 +15,6 @@ class Proposal_State(Enum):
     ON_PREPARATION = 'EN PREPARACIÓN'
     CONFIRMATED = 'CONFIRMADO'
     REJECTED = 'RECHAZADO'
-    CLOSED = 'CERRADO'
 
 class Proposal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
