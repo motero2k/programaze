@@ -32,7 +32,7 @@ openpyxl==3.1.2
 packaging==23.1
 pandas==1.2.0
 pluggy==1.2.0
-pycodestyle==2.11.0
+pycodestyle==2.10.0
 pycparser==2.21
 pyflakes==3.1.0
 PyMySQL==1.1.0
