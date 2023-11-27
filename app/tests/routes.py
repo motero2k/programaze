@@ -19,7 +19,7 @@ def show_env():
     env_vars = {key: value for key, value in os.environ.items()}
     return jsonify(env_vars)
 
-
+"""
 @test_routes.route('/test_db')
 def test_db():
     try:
@@ -27,9 +27,9 @@ def test_db():
         return jsonify({'message': 'Connection to the database successful'})
     except Exception as e:
         return jsonify({'error': str(e)})
-
+"""
 #-------------RUTAS DE TEST DE PROPOSAL-----------------------------------
-
+"""
 @test_routes.route("/test/innosoft_days/<int:id>/proposals")
 def test_get_proposals_from_innosoft_day(id):
     state = request.args.get('state', None)
@@ -51,5 +51,5 @@ def test_get_proposals_from_innosoft_day(id):
         'usuario': User.query.get_or_404(proposal.user_id).username
     } for proposal in data_collection]
     return jsonify(prepared_data)
-
+"""
 
