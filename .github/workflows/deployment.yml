@@ -77,7 +77,9 @@ jobs:
           node-version: '14'
 
       - name: Install semantic-release
-        run: npm install -g semantic-release@17
+        run: |
+          npm install -g semantic-release@17
+          npm install --save-dev @semantic-release/changelog
 
       - name: Semantic Release
         run: |
