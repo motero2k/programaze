@@ -81,6 +81,8 @@ jobs:
           npm install -g semantic-release@17
           npm install --save-dev @semantic-release/changelog
           npm install --save-dev @semantic-release/exec
+          npm install --save-dev @semantic-release/git
+
 
       - name: Semantic Release
         run: |
