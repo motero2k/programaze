@@ -119,8 +119,12 @@ jobs:
         id: get_latest_tag
         run: echo "::set-output name=TAG::$(git describe --tags $(git rev-list --tags --max-count=1))"
 
+      - name: Format Docker tag
+        id: format_docker_tag
+        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_tag.outputs.TAG }} | tr -d v)"
+
       - name: Build and push Docker image
         run: |
           docker buildx create --use
-          docker buildx build -t javifdez7/programaze:${{ steps.get_latest_tag.outputs.TAG }} -f Dockerfile .
-          docker push javifdez7/programaze:${{ steps.get_latest_tag.outputs.TAG }}
+          docker buildx build -t javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }} -f Dockerfile .
+          docker push javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }}
