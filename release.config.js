@@ -8,7 +8,6 @@ module.exports = {
       '@semantic-release/exec',
       {
         prepareCmd: 'python setup.py sdist bdist_wheel',
-        publishCmd: 'twine upload dist/*',
       },
     ],
     '@semantic-release/git',
