@@ -83,6 +83,7 @@ jobs:
           npm install --save-dev @semantic-release/exec
           npm install --save-dev @semantic-release/git
           pip install wheel
+          pip install twine
 
       - name: Semantic Release
         run: |
