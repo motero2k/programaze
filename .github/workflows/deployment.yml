@@ -73,9 +73,9 @@ jobs:
 
       - name: Semantic Release
         run: |
-          semantic-release version
-          semantic-release changelog
-          semantic-release upload
+          python -m semantic_release version
+          python -m semantic_release changelog
+          python -m semantic_release upload
 
   upload-to-docker-hub:
     runs-on: ubuntu-latest
