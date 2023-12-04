@@ -61,17 +61,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Use Node.js 20.6.1
-        uses: actions/setup-node@v4
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
-          node-version: '20.6.1'
+          python-version: 3.9
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Semantic Release
-        run: npx semantic-release
-
+        run: |
+          pip install semantic-release
+          semantic-release version
+          semantic-release changelog
+          semantic-release upload
 
   upload-to-docker-hub:
     runs-on: ubuntu-latest
