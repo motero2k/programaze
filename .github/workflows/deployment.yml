@@ -126,5 +126,5 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker buildx create --use
-          docker buildx build -t javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }} -f Dockerfile .
+          docker buildx build -t javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }} -f Dockerfile.prod .
           docker push javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }}
