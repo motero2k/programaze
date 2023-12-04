@@ -82,7 +82,7 @@ jobs:
           npm install --save-dev @semantic-release/changelog
           npm install --save-dev @semantic-release/exec
           npm install --save-dev @semantic-release/git
-
+          pip install wheel
 
       - name: Semantic Release
         run: |
