@@ -121,7 +121,7 @@ jobs:
 
       - name: Format Docker tag
         id: format_docker_tag
-        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_tag.outputs.TAG }} | tr -d v)"
+        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_tag.outputs.TAG }} | sed 's/v//')"
 
       - name: Build and push Docker image
         run: |
