@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/motero2k/programaze/compare/v1.0.3...v1.0.4) (2023-12-04)
+
+
+### Bug Fixes
+
+* wheel deleted ([53a7c21](https://github.com/motero2k/programaze/commit/53a7c21c4cea6aab0fac4dc0fa9a5c5f3369e2ea))
+
 ## [1.0.3](https://github.com/motero2k/programaze/compare/v1.0.2...v1.0.3) (2023-12-04)
 
 
