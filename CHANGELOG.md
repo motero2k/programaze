@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/motero2k/programaze/compare/v1.0.4...v1.0.5) (2023-12-04)
+
+
+### Bug Fixes
+
+* release ([a65a114](https://github.com/motero2k/programaze/commit/a65a114cfc7d8f415c3c68459560eeb41befa3ec))
+
 ## [1.0.4](https://github.com/motero2k/programaze/compare/v1.0.3...v1.0.4) (2023-12-04)
 
 
