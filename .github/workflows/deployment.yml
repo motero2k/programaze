@@ -121,10 +121,11 @@ jobs:
 
       - name: Format Docker tag
         id: format_docker_tag
-        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_tag.outputs.TAG }} | sed 's/v//')"
+        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_tag.outputs.TAG }} | cut -c 2-)"
 
       - name: Build and push Docker image
         run: |
           docker buildx create --use
-          docker buildx build -t javifdez7/Programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }} -f Dockerfile .
-          docker push javifdez7/Programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }}
+          docker buildx build -t javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }} -f Dockerfile .
+          docker push javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }}
+
