@@ -4,12 +4,6 @@ module.exports = {
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
     '@semantic-release/changelog',
-    [
-      '@semantic-release/exec',
-      {
-        prepareCmd: 'python setup.py sdist bdist_wheel',
-      },
-    ],
     '@semantic-release/git',
   ],
 };
