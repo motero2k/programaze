@@ -115,17 +115,16 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Get latest tag
-        id: get_latest_tag
-        run: echo "::set-output name=TAG::$(git describe --tags $(git rev-list --tags --max-count=1))"
+      - name: Get latest release tag
+        id: get_latest_release_tag
+        run: echo "::set-output name=TAG::$(curl -s https://api.github.com/repos/${{ github.repository }}/tags/latest | jq -r .name)"
 
       - name: Format Docker tag
         id: format_docker_tag
-        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_tag.outputs.TAG }} | cut -c 2-)"
+        run: echo "::set-output name=DOCKER_TAG::$(echo ${{ steps.get_latest_release_tag.outputs.TAG }} | cut -c 2-)"
 
       - name: Build and push Docker image
         run: |
           docker buildx create --use
           docker buildx build -t javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }} -f Dockerfile .
           docker push javifdez7/programaze:${{ steps.format_docker_tag.outputs.DOCKER_TAG }}
-
