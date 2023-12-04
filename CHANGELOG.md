@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/motero2k/programaze/compare/v1.0.5...v1.1.0) (2023-12-04)
+
+
+### Features
+
+* upload to docker hub ([0cce819](https://github.com/motero2k/programaze/commit/0cce81940fa66f4f7100425edf6d15d9d2c0dd7b))
+
 ## [1.0.5](https://github.com/motero2k/programaze/compare/v1.0.4...v1.0.5) (2023-12-04)
 
 
