@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/motero2k/programaze/compare/v1.0.1...v1.0.2) (2023-12-04)
+
+
+### Bug Fixes
+
+* env variables ([1cb2fba](https://github.com/motero2k/programaze/commit/1cb2fba68d7472082e8329aa522a54551d714ff7))
+
 ## [1.0.1](https://github.com/motero2k/programaze/compare/v1.0.0...v1.0.1) (2023-12-04)
 
 
