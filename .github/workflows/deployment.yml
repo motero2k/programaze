@@ -122,5 +122,5 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker buildx create --use
-          docker buildx build -t your-docker-hub-username/your-image-name:${{ steps.get_version.outputs.VERSION }} -f Dockerfile .
-          docker push your-docker-hub-username/your-image-name:${{ steps.get_version.outputs.VERSION }}
+          docker buildx build -t javifdez7/Programaze:${{ steps.get_version.outputs.VERSION }} -f Dockerfile .
+          docker push javifdez7/Programaze:${{ steps.get_version.outputs.VERSION }}
