@@ -73,7 +73,6 @@ jobs:
 
       - name: Semantic Release
         run: |
-          pip install -r requirements.txt
           semantic-release version
           semantic-release changelog
           semantic-release upload
