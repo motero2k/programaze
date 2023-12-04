@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/motero2k/programaze/compare/v1.0.0...v1.0.1) (2023-12-04)
+
+
+### Bug Fixes
+
+* pip install twine ([7455cb5](https://github.com/motero2k/programaze/commit/7455cb58270587f3036b89d0fa77994bd3bde7e3))
+
 # 1.0.0 (2023-12-04)
 
 
