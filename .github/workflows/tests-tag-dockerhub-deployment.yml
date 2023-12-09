@@ -130,21 +130,10 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
-      - name: Install Dependencies
-        run: |  
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Deploy to Render
+      - uses: actions/checkout@v3
+      - name: Deploy
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          render deploy --token ${{ secrets.RENDER_TOKEN }} --dir .
+          curl "$deploy_url"
