@@ -3,7 +3,7 @@ on:
   pull_request: 
     branches: [ main ]
   push:
-    branches: [ main ]
+    branches: [ main, github-actions-CI/CD ]
 
 jobs:
   test:
