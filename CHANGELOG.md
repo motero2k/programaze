@@ -1,3 +1,22 @@
+## [1.1.5](https://github.com/motero2k/programaze/compare/v1.1.4...v1.1.5) (2023-12-09)
+
+
+### Bug Fixes
+
+* debug ([a4d70eb](https://github.com/motero2k/programaze/commit/a4d70ebc1c1c1ff4274670c01b7e4f3795da7262))
+* debug ([bae1f0d](https://github.com/motero2k/programaze/commit/bae1f0d7ef30b517e1b5beec4dcc207fa021102b))
+* deleted release ([a1da944](https://github.com/motero2k/programaze/commit/a1da9446adc746ff49715882d394bc68d8000316))
+* docker hub ([2442ab4](https://github.com/motero2k/programaze/commit/2442ab485cb7ee20f066d0c60573fa0e60959bb9))
+* dockerhub ([b0c593a](https://github.com/motero2k/programaze/commit/b0c593a4ccea717ca714a362ad188fb77a619fbf))
+* env.VERSION ([385a86c](https://github.com/motero2k/programaze/commit/385a86caf162a3cda36991dd89b474a20b38d31f))
+* new version ([5841173](https://github.com/motero2k/programaze/commit/584117384e840666239048f183b29034da8794ac))
+* testing CI/CD ([c16a336](https://github.com/motero2k/programaze/commit/c16a3368d8aa3953ed978a3f81d5b801031ca0be))
+* variables ([2a8ff81](https://github.com/motero2k/programaze/commit/2a8ff81ad21543ea4645b2b8e8d46e5e6744f447))
+* version ([602a398](https://github.com/motero2k/programaze/commit/602a39845deed0809ccc90e7c0623f0225204245))
+* version ([13cb5a2](https://github.com/motero2k/programaze/commit/13cb5a26916f90bc82aea0dee43236b8c30bad46))
+* VERSION ([b499785](https://github.com/motero2k/programaze/commit/b49978598db8f6ba49069bdc60d182ea762c7e2c))
+* version docker ([68db04d](https://github.com/motero2k/programaze/commit/68db04d88a2d18512239230209a55b45613e3083))
+
 ## [1.1.4](https://github.com/motero2k/programaze/compare/v1.1.3...v1.1.4) (2023-12-09)
 
 
