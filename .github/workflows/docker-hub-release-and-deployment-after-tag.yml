@@ -11,9 +11,8 @@ name: run tests and generate a tag
 
 on:
   push: 
-    tags: 
-      - v*.*.*
-
+    tags:
+      - v1.1.2
 
 jobs:
   upload-to-docker-hub:
