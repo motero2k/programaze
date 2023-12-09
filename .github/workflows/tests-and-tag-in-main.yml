@@ -94,6 +94,7 @@ jobs:
         run: |
           version=$(npx semantic-release --output json | jq -r .version)
           echo "VERSION=${version}" >> $GITHUB_ENV
+          npx semantic-release --debug
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
   
