@@ -1,3 +1,20 @@
+# [1.2.0](https://github.com/motero2k/programaze/compare/v1.1.5...v1.2.0) (2023-12-09)
+
+
+### Bug Fixes
+
+* dependencies ([956756c](https://github.com/motero2k/programaze/commit/956756c4d28df587a9b4e58b8bd652ab71f69747))
+* dependencies ([da77bbc](https://github.com/motero2k/programaze/commit/da77bbc7467341cd6005573f0786c6e91e672916))
+* deployment ([e552b1a](https://github.com/motero2k/programaze/commit/e552b1ab314e0944ee6ad8f34ad8c3e3892e049d))
+
+
+### Features
+
+* complete workflow ([74312ac](https://github.com/motero2k/programaze/commit/74312aca9c524ba27c81f19cbb166fd39ec2b072))
+* render deployment ([de92b2d](https://github.com/motero2k/programaze/commit/de92b2d691935a10f23a4f3e405c036598f77fc2))
+* Render deployment ([e863cd0](https://github.com/motero2k/programaze/commit/e863cd049ed86483eb270fae7635be9d00511ed6))
+* testing CI/CD ([f507198](https://github.com/motero2k/programaze/commit/f50719841529bd20050d72d054902998fff8b545))
+
 ## [1.1.5](https://github.com/motero2k/programaze/compare/v1.1.4...v1.1.5) (2023-12-09)
 
 
