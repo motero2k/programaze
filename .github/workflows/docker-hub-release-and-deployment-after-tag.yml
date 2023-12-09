@@ -34,22 +34,12 @@ jobs:
         - name: Get variables
           id: get_variables
           run: |
-            export VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/v//')
-            if [ -z "$VERSION" ]; then
-              VERSION="0.1.0"
-            fi
-
-            if [[ $VERSION == *"dev"* ]]; then
-              export IS_PRERELEASE=true
-            else
-              export IS_PRERELEASE=false
-            fi
-
+            export VERSION="1.0.0"
             echo "VERSION=${VERSION}" >> $GITHUB_ENV
-            echo "IS_PRERELEASE=${IS_PRERELEASE}" >> $GITHUB_ENV
 
+            echo "javifdez7/programaze:${VERSION}"
             echo "javifdez7/programaze:${{ env.VERSION }}"
-          
+
         - name: Build and push Docker image
           run: |
             docker buildx create --use
