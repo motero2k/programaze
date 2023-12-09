@@ -47,6 +47,7 @@ jobs:
             token: ${{ secrets.GIT_TOKEN }}
             prerelease: ${{ steps.get_variables.outputs.IS_PRERELEASE }}
             tag_name: ${{ steps.get_variables.outputs.VERSION }}
+            body: New version
 
         - name: Build and push Docker image
           run: |
