@@ -1,3 +1,13 @@
+## [1.1.3](https://github.com/motero2k/programaze/compare/v1.1.2...v1.1.3) (2023-12-09)
+
+
+### Bug Fixes
+
+* debug mode ([7174139](https://github.com/motero2k/programaze/commit/71741390949da0d2602b3c8b5954adbbf6191431))
+* env.VERSION ([cd438ea](https://github.com/motero2k/programaze/commit/cd438eae6617a57853bcd42d8031bac178abf563))
+* npx semantic ([257c158](https://github.com/motero2k/programaze/commit/257c158f5f14a596ca6f505e6c82d1c2d3c0da5c))
+* output json ([a6de78f](https://github.com/motero2k/programaze/commit/a6de78f62bc38582989997339ad64a660393620d))
+
 ## [1.1.2](https://github.com/motero2k/programaze/compare/v1.1.1...v1.1.2) (2023-12-09)
 
 
