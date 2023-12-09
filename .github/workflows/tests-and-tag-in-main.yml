@@ -92,9 +92,9 @@ jobs:
 
       - name: Semantic Release
         run: |
-          version=$(npx semantic-release --output json | jq -r .version)
+          npx semantic-release --output json > release-output.json
+          version=$(cat release-output.json | jq -r .version)
           echo "VERSION=${version}" >> $GITHUB_ENV
-          npx semantic-release --debug
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
   
