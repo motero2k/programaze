@@ -1,3 +1,22 @@
+## [1.1.1](https://github.com/motero2k/programaze/compare/v1.1.0...v1.1.1) (2023-12-09)
+
+
+### Bug Fixes
+
+* body release ([291d8b7](https://github.com/motero2k/programaze/commit/291d8b71799334fb9c5c2cc8bea19493c1a481c5))
+* bug in needs ([cce0ecd](https://github.com/motero2k/programaze/commit/cce0ecd2babc2941367b0b18a28e27770dfc2461))
+* docker hub TAG ([13ff032](https://github.com/motero2k/programaze/commit/13ff032b8a7c7743d95710ef3b24cbc782275122))
+* docker hub TAG ([e543399](https://github.com/motero2k/programaze/commit/e5433992b5ca0121619dc93d1ca1e3ab01b4ea83))
+* docker hub TAG ([5075e01](https://github.com/motero2k/programaze/commit/5075e01bcb31d543f0abcc01eac1b3d40bfa1583))
+* Dockerfile.prod ([7b5da84](https://github.com/motero2k/programaze/commit/7b5da84d671752ea7a5f7ef8ef566b385e546c1c))
+* error in needs ([917760a](https://github.com/motero2k/programaze/commit/917760a9c20dc1955eb430a7bb07af8797fb8c46))
+* set-output changed ([b6dae02](https://github.com/motero2k/programaze/commit/b6dae02ed0bfadc445883f1a727039d7b14eb776))
+* tag docker ([a3d271c](https://github.com/motero2k/programaze/commit/a3d271c113598a193fc1e1fb8a15f7d8017685ab))
+* TAG docker hub ([f9ebda7](https://github.com/motero2k/programaze/commit/f9ebda70d113de87feab5d3968a8618ba1830c9e))
+* TAG in docker hub ([a68fab4](https://github.com/motero2k/programaze/commit/a68fab4dd3caef6d005a66abb1e4f93e868bcd96))
+* tag version ([527f989](https://github.com/motero2k/programaze/commit/527f989613ff2d43e2ed43d018320cdb24c336d9))
+* version docker hub ([f070032](https://github.com/motero2k/programaze/commit/f07003200fa35e59a603b21ba6e370e4f3ebe925))
+
 # [1.1.0](https://github.com/motero2k/programaze/compare/v1.0.5...v1.1.0) (2023-12-04)
 
 
