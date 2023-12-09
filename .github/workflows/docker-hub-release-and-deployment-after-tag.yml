@@ -38,19 +38,21 @@ jobs:
         - name: Get variables
           id: get_variables
           run: |
-            echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-            echo ::set-output name=IS_PRERELEASE::"${{contains(github.ref, 'dev')}}"
-
+            echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+            echo "IS_PRERELEASE=${{contains(github.ref, 'dev')}}" >> $GITHUB_ENV
+          shell: bash
+          
         - name: Publish release github
           uses: softprops/action-gh-release@v1
           with:
             token: ${{ secrets.GIT_TOKEN }}
-            prerelease: ${{ steps.get_variables.outputs.IS_PRERELEASE }}
-            tag_name: ${{ steps.get_variables.outputs.VERSION }}
+            prerelease: ${{ env.IS_PRERELEASE }}
+            tag_name: ${{ env.VERSION }}
             body: New version
 
         - name: Build and push Docker image
           run: |
             docker buildx create --use
-            docker buildx build -t javifdez7/programaze:${{ steps.get_variables.outputs.VERSION }} -f Dockerfile.prod .
-            docker push javifdez7/programaze:${{ steps.get_variables.outputs.VERSION }}
+            docker buildx build -t javifdez7/programaze:${{ env.VERSION }} -f Dockerfile.prod .
+            docker push javifdez7/programaze:${{ env.VERSION }}
+
