@@ -10,9 +10,8 @@
 name: run tests and generate a tag
 
 on:
-  push: 
-    branches:
-      - "github-actions-CI/CD"
+  release:
+    types: [published] 
 
 jobs:
   upload-to-docker-hub:
