@@ -39,8 +39,11 @@ jobs:
             echo "javifdez7/programaze:${VERSION}"
 
         - name: Build and push Docker image
-          run: |
-            docker buildx create --use
-            docker buildx build -t javifdez7/programaze:1.0.0 -f Dockerfile.prod .
-            docker push javifdez7/programaze:1.0.0
+          run: docker build -t javifdez7/programaze:1.0.0 -f Dockerfile.prod .
+          env:
+            DOCKER_CLI_EXPERIMENTAL: enabled
+
+        - name: Push Docker image to Docker Hub
+          run: docker push javifdez7/programaze:1.0.0
+
 
