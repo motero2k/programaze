@@ -12,7 +12,7 @@ name: run tests and generate a tag
 on:
   push: 
     tags:
-      - v1.1.2
+      - v*.*.*
 
 jobs:
   upload-to-docker-hub:

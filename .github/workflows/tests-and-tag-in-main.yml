@@ -92,6 +92,16 @@ jobs:
 
       - name: Semantic Release
         run: |
+          version=$(npx semantic-release --output json | jq -r .version)
+          echo "VERSION=${version}" >> $GITHUB_ENV
           npx semantic-release
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
+  
+  
+  print-version:
+    needs: tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "The generated version is ${{ env.VERSION }}"
