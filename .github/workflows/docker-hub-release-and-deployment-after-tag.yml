@@ -41,6 +41,6 @@ jobs:
         - name: Build and push Docker image
           run: |
             docker buildx create --use
-            docker buildx build -t javifdez7/programaze:${VERSION} -f Dockerfile.prod .
-            docker push javifdez7/programaze:${VERSION}
+            docker buildx build -t javifdez7/programaze:1.0.0 -f Dockerfile.prod .
+            docker push javifdez7/programaze:1.0.0
 
