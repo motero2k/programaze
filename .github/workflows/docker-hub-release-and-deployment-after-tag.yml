@@ -11,8 +11,8 @@ name: run tests and generate a tag
 
 on:
   push: 
-    tags:
-      - v*.*.*
+    branches:
+      - "github-actions-CI/CD"
 
 jobs:
   upload-to-docker-hub:
@@ -34,9 +34,15 @@ jobs:
         - name: Get variables
           id: get_variables
           run: |
-            echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-            echo "IS_PRERELEASE=${{contains(github.ref, 'dev')}}" >> $GITHUB_ENV
-          shell: bash
+            export VERSION=$(git describe --tags --abbrev=0 | sed 's/v//')
+            if [[ $VERSION == *"dev"* ]]; then
+              export IS_PRERELEASE=true
+            else
+              export IS_PRERELEASE=false
+            fi
+            
+            echo "VERSION=${VERSION}"
+            echo "IS_PRERELEASE=${IS_PRERELEASE}"
           
         - name: Publish release github
           uses: softprops/action-gh-release@v1

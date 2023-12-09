@@ -13,7 +13,7 @@ on:
   pull_request: 
     branches: [ main ]
   push:
-    branches: [ main, github-actions-CI/CD ]
+    branches: [ main ]
 
 jobs:
   test:
@@ -92,9 +92,7 @@ jobs:
 
       - name: Semantic Release
         run: |
-          npx semantic-release | tee release-output.json
-          version=$(jq -r .version release-output.json)
-          echo "VERSION=${version}" >> $GITHUB_ENV
+          npx semantic-release
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
   
