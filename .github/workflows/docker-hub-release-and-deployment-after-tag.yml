@@ -47,6 +47,8 @@ jobs:
 
             echo "VERSION=${VERSION}" >> $GITHUB_ENV
             echo "IS_PRERELEASE=${IS_PRERELEASE}" >> $GITHUB_ENV
+
+            echo "javifdez7/programaze:${{ env.VERSION }}"
           
         - name: Build and push Docker image
           run: |
