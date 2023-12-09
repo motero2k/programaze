@@ -34,13 +34,17 @@ jobs:
         - name: Get variables
           id: get_variables
           run: |
-            export VERSION=$(git describe --tags --abbrev=0 | sed 's/v//')
+            export VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/v//')
+            if [ -z "$VERSION" ]; then
+              VERSION="0.1.0"
+            fi
+
             if [[ $VERSION == *"dev"* ]]; then
               export IS_PRERELEASE=true
             else
               export IS_PRERELEASE=false
             fi
-            
+
             echo "VERSION=${VERSION}"
             echo "IS_PRERELEASE=${IS_PRERELEASE}"
           
