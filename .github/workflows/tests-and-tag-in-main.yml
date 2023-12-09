@@ -55,7 +55,7 @@ jobs:
 
   tag:
     runs-on: ubuntu-latest
-    needs: upload-to-docker-hub
+    needs: tests
 
     steps:
       - name: Checkout repository
