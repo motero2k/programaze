@@ -48,14 +48,6 @@ jobs:
             echo "VERSION=${VERSION}" >> $GITHUB_ENV
             echo "IS_PRERELEASE=${IS_PRERELEASE}" >> $GITHUB_ENV
           
-        - name: Publish release github
-          uses: softprops/action-gh-release@v1
-          with:
-            token: ${{ secrets.GIT_TOKEN }}
-            prerelease: ${{ env.IS_PRERELEASE }}
-            tag_name: ${{ env.VERSION }}
-            body: New version
-
         - name: Build and push Docker image
           run: |
             docker buildx create --use
