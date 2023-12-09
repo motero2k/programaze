@@ -35,14 +35,12 @@ jobs:
           id: get_variables
           run: |
             export VERSION="1.0.0"
-            echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
             echo "javifdez7/programaze:${VERSION}"
-            echo "javifdez7/programaze:${{ env.VERSION }}"
 
         - name: Build and push Docker image
           run: |
             docker buildx create --use
-            docker buildx build -t javifdez7/programaze:${{ env.VERSION }} -f Dockerfile.prod .
-            docker push javifdez7/programaze:${{ env.VERSION }}
+            docker buildx build -t javifdez7/programaze:${VERSION} -f Dockerfile.prod .
+            docker push javifdez7/programaze:${VERSION}
 
