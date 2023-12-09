@@ -45,8 +45,8 @@ jobs:
               export IS_PRERELEASE=false
             fi
 
-            echo "VERSION=${VERSION}"
-            echo "IS_PRERELEASE=${IS_PRERELEASE}"
+            echo "VERSION=${VERSION}" >> $GITHUB_ENV
+            echo "IS_PRERELEASE=${IS_PRERELEASE}" >> $GITHUB_ENV
           
         - name: Publish release github
           uses: softprops/action-gh-release@v1
