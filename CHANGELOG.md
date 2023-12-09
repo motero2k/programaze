@@ -1,3 +1,11 @@
+## [1.1.4](https://github.com/motero2k/programaze/compare/v1.1.3...v1.1.4) (2023-12-09)
+
+
+### Bug Fixes
+
+* semantic ([bb63e0d](https://github.com/motero2k/programaze/commit/bb63e0d9bd60df62e7872c6b8e77169096d5a12d))
+* semantic release ([dd9f675](https://github.com/motero2k/programaze/commit/dd9f67509c46cb36c581a7ace1e5d47a9e260157))
+
 ## [1.1.3](https://github.com/motero2k/programaze/compare/v1.1.2...v1.1.3) (2023-12-09)
 
 
