@@ -20,16 +20,21 @@
        
     </div>
     <div>
-        {% if proposal.state.name!='CLOSED' %}
+        {% if proposal.state.name!='REJECTED' %}
             <h2>Acciones disponibles</h2>
+            
             {% if proposal.state.name=='PENDING_OF_ADMISION' %}
             <a href="{{ url_for('proposal.accept',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">ACEPTAR</a>
-            <a href="{{ url_for('proposal.reject',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">RECHAZAR</a>
+            <p>Esta acción creará una votación para esta propuesta</p>
             {% endif %}
             {% if proposal.state.name=='ON_PREPARATION' %}
             <a href="{{ url_for('proposal.confirm',id=proposal.id, innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-success">CONFIRMAR</a>
+            <p>Esta acción confirmará la propuesta</p>
             {% endif %}
-            <a href="{{ url_for('proposal.close',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">CERRAR</a>
+            <a href="{{ url_for('proposal.reject',id=proposal.id,innosoft_day_id=proposal.innosoft_day_id) }}" class="btn btn-danger">RECHAZAR</a>
+            <p>Esta acción rechazará la propuesta</p>
+        {% else %}
+            <p>Esta propuesta ha sido rechazada</p>
         {% endif %}
     </div>
 </body>
