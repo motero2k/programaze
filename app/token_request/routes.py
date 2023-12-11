@@ -103,7 +103,10 @@ def accept(id):
         return Role_access.not_allowed_get_previous_page("token_request","accept")
     token_request = Token_request.query.get_or_404(id)
     token_request.token_state = Token_state.ACCEPTED
-
+    user = User.query.get_or_404(token_request.user_id)
+    user.token = user.token + token_request.num_token
+    user.save()
+    
     token_request.save()
     flash('La solicitud de token se ha aceptado', 'success')
     return redirect("/token_request/all")
