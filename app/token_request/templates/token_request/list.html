@@ -4,16 +4,30 @@
 {% block title %}token_request{% endblock %}
 
 {% block content %}
-
-{% set columns = ["Usuario","Estado","nº token"] %}
-
-
+{% set columns = ["Usuario","nº token","Estado"] %}
+ 
 
 {% set menu_actions = [
-    {"name": "Ver solicitud", "route": 'token_request.view'},
+    {"name": "ver", "route": 'token_request.view'},
 ] %}
 
 
-{{ macros.render_table(columns, all_items, buttons, menu_actions) }}
-{% endblock %} 
+<div class="row">
+
+    <b>Filtrado: </b>
+    <select class="form-select" style="width: 30%;" onchange="window.location.href=this.value" >
+        
+        <option value="{{ url_for('token_request.all') }}" {% if state == None %}selected{% endif %}>Todas</option>
+        <option value="{{ url_for('token_request.all', state='PENDING_OF_ACEPTATION') }}" {% if state == 'PENDING_OF_ACEPTATION' %}selected{% endif %}>Pendiente de aceptación</option>
+        <option value="{{ url_for('token_request.all', state='ACCEPTED') }}" {% if state == 'ACCEPTED' %}selected{% endif %}>Aceptados</option>
+        <option value="{{ url_for('token_request.all', state='REJECTED') }}" {% if state == 'REJECTED' %}selected{% endif %}>Rechazado</option>
+    
+       
+</select>
+</div>
+
+
+    {{ macros.render_table(columns, all_items, buttons, menu_actions) }}
+{% endblock %}
+
 

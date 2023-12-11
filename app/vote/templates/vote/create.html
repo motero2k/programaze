@@ -6,9 +6,7 @@
         .textarea {
       width: 200%;
     }
-    #num_token{
-        width: 70%;
-    }
+   
 
     /* * {
         border: 0.2px solid red;
@@ -16,7 +14,7 @@
 
 </style>
 
-    <h1 class="h3 mb-3">Pedir tokens</h1>
+    <h1 class="h3 mb-3">Votar</h1>
 
 
 
@@ -24,21 +22,10 @@
 
         <div class="col-12 col-lg-6">
 
-            <form method="POST" action="{{ url_for('token_request.create') }}" class="needs-validation" novalidate>
+            <form method="POST" action="{{ url_for('vote.create',id = votation_id) }}" class="needs-validation" novalidate>
                 {{ form.hidden_tag() }}
                 
                 
-
-                    <div class="col-6">
-                        {{ form.num_token.label(class="form-label") }}
-                        {% set num_token_value = form.num_token.data if form.num_token.data else current_user.profile.num_token %}
-                        {{ form.num_token(class="form-control", placeholder="Enter your num_token",
-                        required=true, value=num_token_value) }}
-                        {% for error in form.num_token.errors %}
-                            <span style="color: red;">{{ error }}</span>
-                            <br>
-                        {% endfor %}
-                    </div>
                     <div class="col-20 textarea">
                         {{ form.description.label(class="form-label") }}
                         {% set description_value = form.description.data if form.description.data else current_user.profile.description %}
@@ -48,6 +35,12 @@
                             <br>
                         {% endfor %}
                     </div>
+                    
+                    <label for="decision">Selecciona una opción:</label>
+                    <select id="decision" name="decision">
+                        <option value="true">Aceptar</option>
+                        <option value="false">Denegar</option>
+                    </select>
 
                    
 
@@ -58,6 +51,7 @@
                     <div class="col-12 mt-3">
                         {{ form.submit(class="btn btn-primary") }}
                     </div>
+
 
 
                 </div>

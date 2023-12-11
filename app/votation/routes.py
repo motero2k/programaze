@@ -1,9 +1,11 @@
 import logging
+from app import get_authenticated_user_profile
+from app.vote.models import Vote
 from flask import render_template, request, jsonify
 from flask_login import login_required
 from . import votation_bp
 from .models import Votation
-from ..proposal.models import Proposal,State
+from ..proposal.models import Proposal,Proposal_State
 from ..auth.models import User
 from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
@@ -20,21 +22,53 @@ def index():
 @votation_bp.route("/innosoft_days/<int:id>/votations/")
 def all(id):    
     data_collection = Votation.query.join(Proposal).filter(Proposal.innosoft_day_id == id).all()
-
+        # Obtener el valor del parámetro de consulta 'state'
+    state = request.args.get('state', None)
+    
+    if state:
+        # Lógica para mostrar propuestas filtradas por estado
+        data_collection = Votation.query.join(Proposal).filter(Proposal.innosoft_day_id == id,Votation.state_votation==state).all()
+    else:
+        # Lógica para mostrar todas las propuestas sin filtrar por estado
+        data_collection = Votation.query.join(Proposal).filter(Proposal.innosoft_day_id == id).all()
     prepared_data = [
-        {'Tema': Proposal.query.get_or_404(votation.proposal_id).subject,
+        {'id': votation.id,
+        'Tema': Proposal.query.get_or_404(votation.proposal_id).subject,
         'descripcion': Proposal.query.get_or_404(votation.proposal_id).description,
         'tipo de propuesta': Proposal.query.get_or_404(votation.proposal_id).proposal_type.value,
         'estado de la votacion': votation.state_votation.value,
         'usuario': User.query.get_or_404(Proposal.query.get_or_404(votation.proposal_id).user_id).username 
     } for votation in data_collection]
-    return render_template("votation/list.html", all_items=prepared_data)
+    return render_template("votation/list.html", all_items=prepared_data,innosoft_day_id= id,state=state)
 
 
 @votation_bp.route("/votation/view/<int:id>")
 def view(id):
     votation = Votation.query.get_or_404(id)
-    return render_template("votation/view.html", votation=votation)
+    votes_list = Vote.query.filter_by(votation_id = votation.id)
+    votes = [
+        {'id': vote.id,
+        'username': User.query.get_or_404(vote.user_id).username,
+        'description':vote.description,
+        'decision':vote.decision
+       
+    } for vote in votes_list]  
+
+        
+    votation = {
+        'id': votation.id,
+        'theme': Proposal.query.get_or_404(votation.proposal_id).subject,
+        'description': Proposal.query.get_or_404(votation.proposal_id).description,
+        'type': Proposal.query.get_or_404(votation.proposal_id).proposal_type.value,
+        'state': votation.state_votation.value,
+        'user': User.query.get_or_404(Proposal.query.get_or_404(votation.proposal_id).user_id).username,
+        "votes": votes
+    } 
+    profile = get_authenticated_user_profile()
+    user_id = profile.user.id
+    data_collection = Vote.query.filter_by(user_id=user_id,votation_id=id).all()
+    can_vote = len(data_collection)==0 
+    return render_template("votation/view.html", votation=votation,can_vote=can_vote)
 
 
 @votation_bp.route("/votation/edit/<int:id>")

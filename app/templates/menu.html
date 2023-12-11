@@ -11,22 +11,25 @@
          id="kt_app_header_menu" data-kt-menu="true">
 
 
-        {% if is_lecturer %}
+            {% if is_lecturer %}
 
             {% set usuarios_items = [
                 {'name': 'Gestionar', 'endpoint': 'lecturer.users_manage', 'icon': 'ki-duotone ki-user-edit'},
                 {'name': 'Roles', 'endpoint': 'lecturer.users_roles', 'icon': 'ki-duotone ki-user-square'}
             ] %}
-
+            {% endif %}
+           
             {% set programa_items = [
-                {'name': 'innosoft_day', 'endpoint': 'innosoft_day.all', 'icon': 'ki-duotone ki-user-edit'}
-                  
+                {'name': 'innosoft_day', 'endpoint': 'innosoft_day.all', 'icon': 'ki-duotone ki-user-edit'},
+                
+                {'name': 'solicitud tokens', 'endpoint': 'token_request.all', 'icon': 'ki-duotone ki-user-edit'}
+               
             ] %}
 
             {{ menu_item('Usuarios', usuarios_items) }}
             {{ menu_item('Programa', programa_items) }}
 
-        {% endif %}
+       
 
 
     </div>

@@ -1,12 +1,13 @@
 import os
+from app.vote.models import Vote
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.auth.models import Role, User, Lecturer, user_roles, Student
 from app.innosoft_day.models import Innosoft_day
-from app.proposal.models import Proposal,ProposalType,State
+from app.proposal.models import Proposal,ProposalType,Proposal_State
 from app.profile.models import UserProfile
 from app.votation.models import Votation,StateVotation
-from app.token_request.models import Token_request,TokenState
+from app.token_request.models import Token_request,Token_state
 from datetime import datetime
 
 DATABASE_URI = (
@@ -22,6 +23,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session = Session()
 
     # Borrar las tablas en el orden correcto para evitar conflictos de clave externa
+    session.query(Vote).delete()
     session.query(Token_request).delete()
     session.query(Votation).delete()
     session.query(Proposal).delete()
@@ -32,6 +34,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session.query(Student).delete()
     session.query(User).delete()
     session.query(Role).delete()
+    
     
     session.commit()
 
@@ -44,7 +47,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
 
     lecturer_role = session.query(Role).filter_by(name="LECTURER").first()
     student_role = session.query(Role).filter_by(name="STUDENT").first()
-    program_coordinator_role = session.query(Role).filter_by(name="STUDENT").first()
+    program_coordinator_role = session.query(Role).filter_by(name="PROGRAM_COORDINATOR").first()
 
     # Crear usuarios y perfiles de usuario
     user1 = User(username="profesor1", email="profesor1@profesor1.com", password="profesor1", token=0)
@@ -76,12 +79,12 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     alumno2.roles.append(student_role)
 
     program_coordinator1 = User(username="programcoordinator1", email="pc1@pc1.com", password="pc1", token=0)
-    profile_program_coordinator1 = UserProfile(user_id=program_coordinator1.id, name="ProgramCoordinator", surname="Uno", dni="11113333C")
+    profile_program_coordinator1 = UserProfile(user_id=program_coordinator1.id, name="ProgramCoordinator1", surname="Uno", dni="11113333C")
     program_coordinator1.profile = profile_program_coordinator1
     program_coordinator1.roles.append(program_coordinator_role)
 
     program_coordinator2 = User(username="programcoordinator2", email="pc2@pc2.com", password="pc2", token=0)
-    profile_program_coordinator2 = UserProfile(user_id=program_coordinator2.id, name="ProgramCoordinator", surname="Dos", dni="22223333F")
+    profile_program_coordinator2 = UserProfile(user_id=program_coordinator2.id, name="ProgramCoordinator2", surname="Dos", dni="22223333F")
     program_coordinator2.profile = profile_program_coordinator2
     program_coordinator2.roles.append(program_coordinator_role)
 
@@ -97,8 +100,8 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     # Commit para insertar los registros en la base de datos
     session.commit()
 
-    token_request1 = Token_request(num_token=1,user_id = user1.id,description="Quiero hacer algodon de azucar en el despacho de M.Toro", token_state=TokenState.ACCEPTED)
-    token_request2 = Token_request(num_token=1,user_id = user2.id, description="Torneo de ajedrez", token_state=TokenState.PENDING_OF_ACEPTATION)
+    token_request1 = Token_request(num_token=1,user_id = user1.id,description="Quiero hacer algodon de azucar en el despacho de M.Toro", token_state=Token_state.ACCEPTED)
+    token_request2 = Token_request(num_token=1,user_id = user2.id, description="Torneo de ajedrez", token_state=Token_state.PENDING_OF_ACEPTATION)
 
     session.add(token_request1)
     session.add(token_request2)
@@ -111,13 +114,13 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
 
     session.commit()
 
-    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=State.CONFIRMATED, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
-    proposal5 = Proposal(description="esta es la propuesta 5", subject="Charla de Emprendedores", proposal_type=ProposalType.TALK, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
-    proposal6 = Proposal(description="esta es la propuesta 6", subject="Kahoot IA", proposal_type=ProposalType.ACTIVITY, state=State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
-    proposal7 = Proposal(description="esta es la propuesta 7", subject="Stand de Igualdad", proposal_type=ProposalType.STAND, state=State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal2 = Proposal(description="esta es la propuesta 2", subject="Charla IA en la medicina", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal3 = Proposal(description="esta es la propuesta 3", subject="Concurso Imagenes Ia", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.ON_PREPARATION, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal4 = Proposal(description="esta es la propuesta 4", subject="Stand de Sostenibilidad", proposal_type=ProposalType.STAND, state=Proposal_State.CONFIRMATED, innosoft_day_id=innosoft_day2.id, user_id=alumno1.id)
+    proposal5 = Proposal(description="esta es la propuesta 5", subject="Charla de Emprendedores", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal6 = Proposal(description="esta es la propuesta 6", subject="Kahoot IA", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
+    proposal7 = Proposal(description="esta es la propuesta 7", subject="Stand de Igualdad", proposal_type=ProposalType.STAND, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day2.id, user_id=alumno2.id)
 
     session.add(proposal1)
     session.add(proposal2)

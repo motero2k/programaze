@@ -2,7 +2,7 @@ from app.auth.models import User
 import pytest
 from flask import Flask
 from app import create_app, db
-from app.token_request.models import Token_request, TokenState
+from app.token_request.models import Token_request, Token_state
 from app.token_request.routes import create
 
 @pytest.fixture

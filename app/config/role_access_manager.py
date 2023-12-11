@@ -3,10 +3,11 @@ from flask import Flask, redirect, flash, request, url_for
 
 
 class Role_access:
-    #Roles at app/auth/models.py  VALID_ROLES = ['STUDENT', 'COORDINATOR', 'SECRETARY', 'REVIEWER', 'EVENT_MANAGER', 'LECTURER', 'DEVELOPER','PRESIDENT']
-    token_request = {"public": ["ANY_ROLE"],"accept":['COORDINATOR']}
+    #Roles at app/auth/models.py  VALID_ROLES = ['STUDENT', 'COORDINATOR','PROGRAM_COORDINATOR', 'SECRETARY', 'REVIEWER', 'EVENT_MANAGER', 'LECTURER', 'DEVELOPER','PRESIDENT']
+    token_request = {"public": ["ANY_ROLE"],"accept":['PROGRAM_COORDINATOR'],"reject":["PROGRAM_COORDINATOR"]}
     proposal = {"public": ["ANY_ROLE"], "accept": ["ddd"]}
     votation = {"public": ["ANY_ROLE"], "accept": ["ddd"]}
+    vote = {"public": ["ANY_ROLE"], "vote": ["PROGRAM_COORDINATOR","COORDINATOR","LECTURER","PRESIDENT"]}
        
     @staticmethod
     def get_allowed_roles_in(module_name,access_level):
@@ -15,17 +16,19 @@ class Role_access:
     
     @staticmethod
     def user_not_allowed(module_name,access_level):
-        user_roles = get_roles_from_authenticated()  # Asegúrate de que get_roles_from_authenticated() devuelva el rol del usuario
-        user_not_allowed = True
-        allowed_roles_in_action = Role_access.get_allowed_roles_in(module_name,access_level)
-        if "ANY_ROLE" in allowed_roles_in_action:
-            return True
-        for role in user_roles:
-            if role.name in allowed_roles_in_action:
-                user_not_allowed = False
+        try:
+            user_roles = get_roles_from_authenticated()  # Asegúrate de que get_roles_from_authenticated() devuelva el rol del usuario
+            user_not_allowed = True
+            allowed_roles_in_action = Role_access.get_allowed_roles_in(module_name,access_level)
+            if "ANY_ROLE" in allowed_roles_in_action:
+                return False
+            for role in user_roles:
+                if role.name in allowed_roles_in_action:
+                    user_not_allowed = False
 
-        return user_not_allowed
-    
+            return user_not_allowed
+        except:
+            return True
 
     
     @staticmethod

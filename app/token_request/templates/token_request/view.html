@@ -21,8 +21,10 @@
 
     </div>
     <div>
+
+        {% if token_request.state == 'PENDIENTE DE ACEPTACIÓN' %}
         <h2>Acciones disponibles</h2>
-        {% if token_request.state.name== PENDING_OF_ACEPTATION %}
+    
         <a href="{{ url_for('token_request.accept',id = token_request.id) }}" class="btn btn-success">ACEPTAR</a>
         <a href="{{ url_for('token_request.reject',id = token_request.id) }}" class="btn btn-danger">RECHAZAR</a>
         {% endif %}
