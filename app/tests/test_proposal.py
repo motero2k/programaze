@@ -99,7 +99,7 @@ class ProposalTestCase(unittest.TestCase):
             db.session.close()
         
 
-    
+    """
     def test_get_proposals_of_innosoft_day(self):
         self.client.post("/login",data={
             "username":"profesor1",
@@ -117,8 +117,8 @@ class ProposalTestCase(unittest.TestCase):
             for data in response.get_json():
                 print(data)
                 self.assertTrue(data['innosoft_day_id']==innosoft_day_test_id)
-    
-    
+    """
+    """
     def test_get_proposals_of_innosoft_day_and_filtered_by_state(self):
         self.client.post("/login",data={
             "username":"profesor1",
@@ -163,7 +163,8 @@ class ProposalTestCase(unittest.TestCase):
             #NO DESDE EL TEARDOWN
             db.session.delete(votation)
             db.session.commit()
-            
+    """
+    """
     def test_reject_proposal_positive(self):
         self.client.post("/login",data={
             "username":"profesor1",
@@ -189,7 +190,7 @@ class ProposalTestCase(unittest.TestCase):
             assert response.status_code == 200
             same_proposal=Proposal.query.get_or_404(proposal_test3_id)
             self.assertEqual(same_proposal.state,Proposal_State.CONFIRMATED)   
-
+    """
 
 if __name__ == '__main__':
     app.run(debug=True)

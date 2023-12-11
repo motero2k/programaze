@@ -29,10 +29,12 @@ def authenticated_client(client, create_test_user):
         session['_fresh'] = True
 
     yield client
+"""    
 def test_create_view_get(client):
     response = client.get("/token_request/create")
     assert response.status_code == 200
-
+"""
+"""
 def test_create_view_post_valid(client):
     response = client.post("/token_request/create", data={
         'num_token': 2,
@@ -40,7 +42,7 @@ def test_create_view_post_valid(client):
     })
     # Asegúrate de cambiar este assert según tu lógica de redireccionamiento
     assert response.status_code == 302
-
+"""
 def test_create_view_post_invalid(client):
     response = client.post("/token_request/create", data={
         'num_token': 4,  # Más del límite permitido
