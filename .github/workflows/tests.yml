@@ -11,12 +11,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
+  
     - name: Start Docker Compose
       run: docker-compose -f docker-compose.dev.yml up -d 
 
-    - name: Wait for 12 seconds
-      run: sleep 12
+    - name: Wait for 30 seconds
+      run: sleep 30
 
     - name: Check container is running
       run: docker ps
