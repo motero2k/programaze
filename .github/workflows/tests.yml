@@ -23,7 +23,7 @@ jobs:
 
     - name: Run Tests
       run: docker exec web_container pytest app/tests/test_innosoft_day.py
-      run: echo "Run tests"
+
 
 
     - name: Stop Docker Compose
