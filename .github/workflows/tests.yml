@@ -34,6 +34,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Set up database
+      run: |
+        flask db init
+        flask db migrate
+        flask db upgrade
+        python populate.py
+
     - name: Run Tests
       run: |
         export MYSQL_HOSTNAME=127.0.0.1
