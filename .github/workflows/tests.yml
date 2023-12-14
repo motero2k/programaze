@@ -13,16 +13,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Start Docker Compose
-      run: docker compose -f docker-compose.dev.yml up -d 
+      run: docker-compose -f docker-compose.dev.yml up -d 
 
-    - name: Wait for container to be ready
-      run: |
-        echo "Waiting for web_container to be ready..."
-        while ! docker exec web_container pg_isready -h db -p 3306 > /dev/null 2>&1; do
-          sleep 1
-        done
-        echo "web_container is ready."
-        
+    - name: Wait for 12 seconds
+      run: sleep 12
+
     - name: Check container is running
       run: docker ps
 
@@ -31,4 +26,4 @@ jobs:
 
 
     - name: Stop Docker Compose
-      run: docker compose -f docker-compose.dev.yml down
+      run: docker-compose -f docker-compose.dev.yml down
