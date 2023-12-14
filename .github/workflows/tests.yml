@@ -13,10 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Start Docker Compose
-      run: docker-compose -f docker-compose.dev.yml up -d 
-
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: docker compose -f docker-compose.dev.yml up -d 
 
     - name: Check container is running
       run: docker ps
@@ -26,4 +23,4 @@ jobs:
 
 
     - name: Stop Docker Compose
-      run: docker-compose -f docker-compose.dev.yml down
+      run: docker compose -f docker-compose.dev.yml down
