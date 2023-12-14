@@ -19,7 +19,7 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: Run Tests
-      run: docker exec web_container pytest app/tests/*.py
+      run: docker exec -i web_container pytest app/tests/*.py
 
 
     - name: Stop Docker Compose
