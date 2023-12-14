@@ -15,15 +15,6 @@ jobs:
     - name: Start Docker Compose
       run: docker compose -f docker-compose.dev.yml up -d 
 
-    - name: Set up database
-      run: |
-        docker ps
-        docker exec -i web_container flask db migrate
-        docker exec -i web_container flask db upgrade
-
-    - name: Populate database
-      run:  docker exec -i web_container python populate.py
-
     - name: Run Tests
       run: |
         export MYSQL_HOSTNAME=db
