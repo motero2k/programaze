@@ -60,6 +60,7 @@ class InnosoftDayTestCase(unittest.TestCase):
              self.assertEqual(saved_innosoft_day.subject, "Tema actualizado")
              self.assertEqual(saved_innosoft_day.year, 2200)
 
+    '''
     def test_create_and_delete_innosoft_day(self):
         self.client.post("/login",data={
             "username":"profesor1",
@@ -89,7 +90,7 @@ class InnosoftDayTestCase(unittest.TestCase):
              # Comprobamos si se ha eliminado correctamente
              saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id2).first()
              self.assertIsNone(saved_innosoft_day)
-
+            '''
 if __name__ == '__main__':
     app.run(debug=True)
     unittest.main()

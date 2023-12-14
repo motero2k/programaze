@@ -19,13 +19,8 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: Run Tests
-      run: |
-        export MYSQL_HOSTNAME=db
-        export MYSQL_PORT=3306
-        export MYSQL_DATABASE=flask_base_db
-        export MYSQL_USER=flask_base_user
-        export MYSQL_PASSWORD=flask_base_pass
-        pytest app/tests/*.py
+      run: docker exec web_container pytest app/tests/*.py
+
 
     - name: Stop Docker Compose
       run: docker-compose -f docker-compose.dev.yml down
