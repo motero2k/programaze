@@ -4,6 +4,7 @@ services:
 
   web:
     container_name: web_container
+    mem_limit: 2g
     build:
       context: .
       dockerfile: Dockerfile.dev
