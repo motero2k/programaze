@@ -15,8 +15,8 @@ jobs:
     - name: Start Docker Compose
       run: docker-compose -f docker-compose.dev.yml up -d 
 
-    - name: Wait for 30 seconds
-      run: sleep 30
+    - name: Start container
+      run: docker start web_container db_container nginx_container
 
     - name: Check container is running
       run: docker ps
