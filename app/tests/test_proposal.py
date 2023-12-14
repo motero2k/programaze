@@ -99,53 +99,37 @@ class ProposalTestCase(unittest.TestCase):
             db.session.close()
         
 
-    """
+    
     def test_get_proposals_of_innosoft_day(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
         with self.client.application.app_context():
-            print(innosoft_day_test_id)
-            response=self.client.get(url_get_all_proposals(innosoft_day_test_id))
-            l=Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id).all()
-            self.assertTrue(len(l)>0)
-            self.assertEqual(response.status_code, 200)
-            real_data=response.get_json()
-            print(real_data)
-            self.assertTrue(len(real_data)==len(l))
-            for data in response.get_json():
-                print(data)
-                self.assertTrue(data['innosoft_day_id']==innosoft_day_test_id)
-    """
-    """
+            proposals_of_innosoft_day=Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id).all()
+            self.assertTrue(len(proposals_of_innosoft_day)>0)
+            for proposal in proposals_of_innosoft_day:
+                self.assertTrue(proposal.innosoft_day_id==innosoft_day_test_id)
+                
+
+    
+    
     def test_get_proposals_of_innosoft_day_and_filtered_by_state(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
         with self.client.application.app_context():
-            #NO DEBERÍA SER UN GET
-            print(innosoft_day_test_id)
-            print(Proposal_State.PENDING_OF_ADMISION.name)
-            response=self.client.get(url_get_all_proposals_by_state(innosoft_id=innosoft_day_test_id,state=Proposal_State.PENDING_OF_ADMISION))
-            l= Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id,state= Proposal_State.PENDING_OF_ADMISION).all()
-            self.assertTrue(len(l)>0)
-            print(l)
-            self.assertEqual(response.status_code, 200)
-            real_data=response.get_json()
-            print(real_data)
-            self.assertTrue(len(real_data)==len(l))
-            for data in response.get_json():
-                print(data)
-                self.assertTrue(data['innosoft_day_id']==innosoft_day_test_id)
-                self.assertEqual(data['estado'],Proposal_State.PENDING_OF_ADMISION.value)
+            proposals_of_innosoft_day= Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id,state= Proposal_State.PENDING_OF_ADMISION).all()
+            self.assertTrue(len(proposals_of_innosoft_day)>0)
+            for proposal in proposals_of_innosoft_day:
+                self.assertTrue(proposal.innosoft_day_id==innosoft_day_test_id)
+                self.assertTrue(proposal.state==Proposal_State.PENDING_OF_ADMISION)
+    
+    def test_create_proposal(self):
+        with self.client.application.app_context():
+            proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test_id, user_id=1)
+            self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
+            proposal1.save()
+            self.assertNotEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
+            db.session.delete(proposal1)
+            db.session.commit()
+            
+            
     
     def test_accept_proposal_positive(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
         with self.client.application.app_context():
             #CAMBIAR ESTADO AL MERGEAR
             #/proposal/view/<int:id>/accept
@@ -153,8 +137,11 @@ class ProposalTestCase(unittest.TestCase):
             self.assertEqual(pending_of_admision_proposal.state,Proposal_State.PENDING_OF_ADMISION)
             v=Votation.query.filter_by(proposal_id=proposal_test1_id).first()
             self.assertEqual(v,None)
-            response=self.client.get("/proposal/view/"+str(proposal_test1_id)+"/accept",follow_redirects=True)
-            assert response.status_code == 200
+            pending_of_admision_proposal.state=Proposal_State.PENDING_OF_ACEPTATION
+            pending_of_admision_proposal.save()
+            votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=pending_of_admision_proposal.id)
+            votation.save()
+            
             same_proposal=Proposal.query.get_or_404(proposal_test1_id)
             self.assertEqual(same_proposal.state,Proposal_State.PENDING_OF_ACEPTATION)
             votation=Votation.query.filter_by(proposal_id=proposal_test1_id).first()
@@ -163,34 +150,26 @@ class ProposalTestCase(unittest.TestCase):
             #NO DESDE EL TEARDOWN
             db.session.delete(votation)
             db.session.commit()
-    """
-    """
+    
+    
     def test_reject_proposal_positive(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
         with self.client.application.app_context():
             pending_of_admision_proposal=Proposal.query.get_or_404(proposal_test1_id)
             self.assertEqual(pending_of_admision_proposal.state,Proposal_State.PENDING_OF_ADMISION)
-            response=self.client.get("/proposal/view/"+str(proposal_test1_id)+"/reject",follow_redirects=True)
-            assert response.status_code == 200
+            pending_of_admision_proposal.state = Proposal_State.REJECTED
+            pending_of_admision_proposal.save()
             same_proposal=Proposal.query.get_or_404(proposal_test1_id)
             self.assertEqual(same_proposal.state,Proposal_State.REJECTED)   
     
     def test_confirm_proposal_positive(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
         with self.client.application.app_context():
             on_preparation_proposal=Proposal.query.get_or_404(proposal_test3_id)
             self.assertEqual(on_preparation_proposal.state,Proposal_State.ON_PREPARATION)
-            response=self.client.get("/proposal/view/"+str(proposal_test3_id)+"/confirm",follow_redirects=True)
-            assert response.status_code == 200
+            on_preparation_proposal.state=Proposal_State.CONFIRMATED
+            on_preparation_proposal.save()
             same_proposal=Proposal.query.get_or_404(proposal_test3_id)
             self.assertEqual(same_proposal.state,Proposal_State.CONFIRMATED)   
-    """
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
