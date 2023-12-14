@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir --upgrade pip
 EXPOSE 5000
 
 # Run the migrations, execute populate.py and then start the application
-CMD flask run --host=0.0.0.0 --port=5000 --reload --debug
-#flask db upgrade && python populate.py 
+CMD flask db migrate && flask db upgrade && python populate.py && flask run --host=0.0.0.0 --port=5000 --reload --debug
+
 #&& flask run --host=0.0.0.0 --port=5000 --reload --debug
 

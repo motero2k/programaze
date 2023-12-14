@@ -33,7 +33,7 @@ def all(id):
         'id': proposal.id,
         'descripcion': proposal.description,
         'tema': proposal.subject,
-        'tipo de propuesta': proposal.proposal_type.value,
+        'tipo de propuesta': proposal.proposal_type.value, 
         'estado': proposal.state.value,
         'innosoft_day_id': proposal.innosoft_day_id,
         'usuario': User.query.get_or_404(proposal.user_id).username
@@ -121,9 +121,9 @@ def accept(id):
     proposal = Proposal.query.get_or_404(id)
     proposal.state=Proposal_State.PENDING_OF_ACEPTATION
     proposal.save()
+    flash('La propuesta se ha aceptado con éxito', 'success')
     votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=proposal.id)
     votation.save()
-    flash('La propuesta se ha aceptado con éxito', 'success')
     return redirect("/innosoft_days/"+str(proposal.innosoft_day_id)+"/proposals?state=PENDING_OF_ACEPTATION")
 
 
