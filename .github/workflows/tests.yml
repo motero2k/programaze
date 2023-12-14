@@ -18,7 +18,7 @@ jobs:
           MYSQL_USER: flask_base_user
           MYSQL_PASSWORD: flask_base_pass
         ports:
-          - 3306:3306
+          - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -29,7 +29,7 @@ jobs:
       run: docker-compose -f docker-compose.dev.yml up -d
 
     - name: Wait for services to be ready
-      run: sleep 10s  # You may need to adjust the sleep duration based on your application's startup time
+      run: sleep 10s 
 
     - name: Set up database
       run: |
