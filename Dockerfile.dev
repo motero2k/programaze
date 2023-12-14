@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM ubuntu:latest
+FROM python:3.11-alpine
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -9,8 +9,7 @@ COPY app/ ./app
 
 # Copy requirements.txt at the /app working directory
 COPY requirements.txt .
-RUN apt upgrade
-RUN apt install python3-pip
+
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -21,7 +20,5 @@ RUN pip install --no-cache-dir --upgrade pip
 EXPOSE 5000
 
 # Run the migrations, execute populate.py and then start the application
-CMD flask db migrate && flask db upgrade && python populate.py && flask run --host=0.0.0.0 --port=5000 --reload --debug
-
-#&& flask run --host=0.0.0.0 --port=5000 --reload --debug
+CMD flask db upgrade && python populate.py && flask run --host=0.0.0.0 --port=5000 --reload --debug
 
