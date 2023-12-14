@@ -39,7 +39,7 @@ jobs:
     - name: Run Tests
       run: |
         export MYSQL_HOSTNAME=db
-        export MYSQL_PORT=3307
+        export MYSQL_PORT=3306
         export MYSQL_DATABASE=flask_base_db
         export MYSQL_USER=flask_base_user
         export MYSQL_PASSWORD=flask_base_pass
