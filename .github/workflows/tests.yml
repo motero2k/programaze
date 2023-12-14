@@ -33,11 +33,11 @@ jobs:
 
     - name: Set up database
       run: |
-        docker exec -T web_container flask db migrate
-        docker exec -T web_container flask db upgrade
+        docker exec -i web-container flask db migrate < /dev/null
+        docker exec -i web_container flask db upgrade < /dev/null
 
     - name: Populate database
-      run:  docker exec -T web_container python populate.py
+      run:  docker exec -i web_container python populate.py < /dev/null
 
     - name: Run Tests
       run: |
