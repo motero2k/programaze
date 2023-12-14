@@ -10,6 +10,7 @@ COPY app/ ./app
 # Copy requirements.txt at the /app working directory
 COPY requirements.txt .
 
+RUN sudo apt install python3-pip
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
