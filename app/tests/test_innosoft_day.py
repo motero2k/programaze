@@ -33,8 +33,10 @@ class InnosoftDayTestCase(unittest.TestCase):
         },follow_redirects=True)
 
         with self.client.application.app_context():
+            # Obtenemos la jornada
             saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id).first()
 
+            # Comprobamos si se ha obtenido correctamente
             self.assertIsNotNone(saved_innosoft_day)
             self.assertEqual(saved_innosoft_day.description, "Jornada 2199/2200")
             self.assertEqual(saved_innosoft_day.subject, "Inteligencia Artificial")
@@ -47,14 +49,46 @@ class InnosoftDayTestCase(unittest.TestCase):
         },follow_redirects=True)
         
         with self.client.application.app_context():
+             # Obtenemos la jornada y actualizamos su tema y descripción
              saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id).first()
              saved_innosoft_day.description = "Descripción actualizada"
              saved_innosoft_day.subject = "Tema actualizado"
-             saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id).first()
 
+             # Volvemos a hacer la consulta a la base de datos y comprobamos si la información se ha actualizado correctamente
+             saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id).first()
              self.assertEqual(saved_innosoft_day.description, "Descripción actualizada")
              self.assertEqual(saved_innosoft_day.subject, "Tema actualizado")
              self.assertEqual(saved_innosoft_day.year, 2200)
+
+    def test_create_and_delete_innosoft_day(self):
+        self.client.post("/login",data={
+            "username":"profesor1",
+            "password":"profesor1"
+        },follow_redirects=True)
+        
+        with self.client.application.app_context():
+             # Creamos la jornada y la añadimos a la base de datos
+             innosoft_day_test2=Innosoft_day(description="Jornada 2299/2300", subject="Ciberseguridad", year=2300)
+             db.session.add(innosoft_day_test2)
+             db.session.commit()
+             
+             # Obtenemos la jornada
+             innosoft_day_test_id2=innosoft_day_test2.id
+             saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id2).first()
+
+             # Comprobamos si se ha creado y almacenado correctamente
+             self.assertIsNotNone(saved_innosoft_day)
+             self.assertEqual(saved_innosoft_day.description, "Jornada 2299/2300")
+             self.assertEqual(saved_innosoft_day.subject, "Ciberseguridad")
+             self.assertEqual(saved_innosoft_day.year, 2300)
+
+             # Eliminamos la jornada de la base de datos
+             db.session.delete(db.session.get(Innosoft_day,innosoft_day_test_id2))
+             db.session.commit()
+
+             # Comprobamos si se ha eliminado correctamente
+             saved_innosoft_day = Innosoft_day.query.filter_by(id=innosoft_day_test_id2).first()
+             self.assertIsNone(saved_innosoft_day)
 
 if __name__ == '__main__':
     app.run(debug=True)
