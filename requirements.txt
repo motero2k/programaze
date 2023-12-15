@@ -51,3 +51,4 @@ urllib3==2.0.4
 Werkzeug==2.3.7
 WTForms==3.0.1
 semantic-release==0.1.0
+selenium==4.9.0
