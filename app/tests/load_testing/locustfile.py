@@ -81,6 +81,25 @@ class ProposalClass(HttpUser):
     @task
     def view_proposals_details(self):
         self.client.get("/proposal/view/1")
+    @task
+    def view_PENDING_OF_ADMISION_proposals(self):
+        self.client.get("/innosoft_days/2/proposals?state=PENDING_OF_ADMISION")
+    
+    @task
+    def view_PENDING_OF_ACEPTATION_proposals(self):
+        self.client.get("/innosoft_days/2/proposals?state=PENDING_OF_ACEPTATION")
+        
+    @task
+    def view_ON_PREPARATION_proposals(self):
+        self.client.get("/innosoft_days/2/proposals?state=ON_PREPARATION")
+        
+    @task
+    def view_CONFIRMATED_proposals(self):
+        self.client.get("/innosoft_days/2/proposals?state=CONFIRMATED")
+        
+    @task
+    def view_REJECTED_proposals(self):
+        self.client.get("/innosoft_days/2/proposals?state=REJECTED")
         
 class VotationClass(HttpUser):
     wait_time = between(1, 5)
