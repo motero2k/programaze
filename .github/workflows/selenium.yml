@@ -18,8 +18,6 @@ jobs:
       - name: Build and start infrastructure
         run: |
           docker-compose -f docker-compose.dev.yml up -d 
-          # Espera hasta que la infraestructura esté lista
-          ./wait_for_infrastructure.sh
 
       - name: Run selenium container
         run: |
