@@ -8,23 +8,37 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: flask_base_root_pass
+          MYSQL_DATABASE: flask_base_db
+          MYSQL_USER: flask_base_user
+          MYSQL_PASSWORD: flask_base_pass
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-  
-    - name: Start Docker Compose
-      run: docker compose -f docker-compose.dev.yml up -d 
+    - uses: actions/checkout@v2
 
-    - name: Start container
-      run: docker start web_container db_container nginx_container
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
 
-    - name: Check container is running
-      run: docker ps
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Run Tests
-      run: docker exec web_container pytest app/tests/test_innosoft_day.py
-
-
-
-    - name: Stop Docker Compose
-      run: docker compose -f docker-compose.dev.yml down
+      run: |
+        export MYSQL_HOSTNAME=127.0.0.1
+        export MYSQL_PORT=3306
+        export MYSQL_DATABASE=flask_base_db
+        export MYSQL_USER=flask_base_user
+        export MYSQL_PASSWORD=flask_base_pass
+        pytest app/tests/*.git.py
