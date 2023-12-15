@@ -5,7 +5,7 @@ fake_proposal = {
     "description": "charla sobre el futuro del mercado laboral con la IA",
     "subject": "IA",
     "proposal_type": "CHARLA",
-    "state": "ENDIENTE DE ADMISIÓN",
+    "state": "PENDIENTE DE ADMISIÓN",
     "innosoft_day_id":1,
     "user_id":1
 }
@@ -44,6 +44,22 @@ class TokenRequestClass(HttpUser):
     def create_token_request(self):
         self.client.post("/token_request/create",json=fake_token_request)
    
+    @task
+    def view_all_token_request(self):
+         self.client.get("/token_request/all")
+    
+    @task
+    def view_PENDING_OF_ACEPTATION_token(self):
+        self.client.get("/token_request/all?state=PENDING_OF_ACEPTATION")
+        
+    @task
+    def view_ACCEPTED_token(self):
+        self.client.get("/token_request/all?state=ACCEPTED")
+        
+    @task
+    def view_ACCEPTED_token(self):
+        self.client.get("/token_request/all?state=REJECTED")
+    
     
 class ProposalClass(HttpUser):
     wait_time = between(1, 5)
@@ -65,3 +81,28 @@ class ProposalClass(HttpUser):
     @task
     def view_proposals_details(self):
         self.client.get("/proposal/view/1")
+        
+class VotationClass(HttpUser):
+    wait_time = between(1, 5)
+
+    def on_start(self):
+        self.client.post("/login",data={
+            "username":"profesor1",
+            "password":"profesor1"
+        })
+        
+    @task
+    def view_all_votations(self):
+         self.client.get("/innosoft_days/2/votations")
+         
+    @task
+    def view_IN_PROGRESS_votations(self):
+         self.client.get("/innosoft_days/2/votations/?state=IN_PROGRESS")
+         
+    @task
+    def view_ACCEPTED_votations(self):
+         self.client.get("/innosoft_days/2/votations/?state=ACCEPTED")
+    
+    @task
+    def view_REJECTED_votations(self):
+         self.client.get("/innosoft_days/2/votations/?state=REJECTED")
