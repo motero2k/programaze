@@ -13,9 +13,7 @@ def save_page_html(driver):
       except Exception as e:
           print(f"Error al guardar el HTML: {e}")
 
-#--------------------------TESTS---------------------------------
-# use above a function:   @pytest.mark.skip(reason="no way of currently testing this") to skip a test
-# print(self.driver.current_url) to print the current url
+
 class Test_selenium():
     
     
@@ -32,6 +30,10 @@ class Test_selenium():
     def teardown_method(self, method):
       self.driver.quit()
 
+#--------------------------TESTS---------------------------------
+# use above a function:   @pytest.mark.skip(reason="no way of currently testing this") to skip a test
+# print(self.driver.current_url) to print the current url
+    
     def test_login(self):
       URL = "http://host.docker.internal/login"
       self.driver.get(url=URL)
@@ -43,7 +45,6 @@ class Test_selenium():
       #if login is successful, the user is redirected to the innsoft_days page
       assert self.driver.current_url == "http://host.docker.internal/innsoft_days"
       
-
     def test_failed_login(self):
       URL = "http://host.docker.internal/login"
       self.driver.get(url=URL)
@@ -54,7 +55,6 @@ class Test_selenium():
       #if login is unsuccessful, the user is redirected to the login page``
       assert self.driver.current_url == "http://host.docker.internal/login"
 
-    
     def test_create_proposal(self):
       self.test_login() #login first <-------------------------- REALLY IMPORTANT
       
@@ -73,6 +73,30 @@ class Test_selenium():
       tokens_count2 = int(tokens_web_element2.text)
       print("\nTokens before: " + str(tokens_count) + ". Tokens after proposal: " + str(tokens_count2))
       assert tokens_count2 == tokens_count - 1
-        
+  
+    def test_view_tokens(self):
+      self.test_login()
+      URL="http://host.docker.internal/token_request/all"
+      self.driver.get(url=URL)
+      assert self.driver.current_url == URL
+    
+    def test_view_token_request(self):
+      self.test_login()
+      URL="http://host.docker.internal/token_request/all"
+      self.driver.get(url=URL)
+      self.driver.find_element(By.LINK_TEXT, "Acciones").click()
+      self.driver.find_element(By.LINK_TEXT, "ver").click()
+      URL2 = "http://host.docker.internal/token_request/view/"
+      assert URL2 in self.driver.current_url
+      
+    def test_accept_token_request(self):
+      self.test_login()
+      URL="http://host.docker.internal/token_request/all"
+      self.driver.get(url=URL)
+      self.driver.find_element(By.LINK_TEXT, "Acciones").click()
+      self.driver.find_element(By.LINK_TEXT, "ver").click()
+      self.driver.find_element(By.LINK_TEXT, "ACEPTAR").click()
+      assert self.driver.current_url == "http://host.docker.internal/token_request/all"
+      
 
   
