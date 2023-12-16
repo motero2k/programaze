@@ -164,6 +164,115 @@ La aplicación programaze, con su enfoque en la gestión de propuestas y su impl
 ---
 ## Visión global del proceso de desarrollo
 
+El proceso de desarrollo del proyecto Innosoft ha seguido una metodología ágil y estructurada, aprovechando diversas herramientas de desarrollo, gestión y comunicación para maximizar la eficiencia y la calidad del producto final. A continuación, se presenta una visión global del proceso, integrando las herramientas utilizadas y ejemplificando cómo se aborda un cambio propuesto en el sistema hasta su despliegue en producción.
+
+### Propuesta de Cambio:
+Supongamos que se identifica la necesidad de agregar una nueva funcionalidad al sistema que permite a los usuarios filtrar las actividades de las jornadas por categorías. El proceso sería el siguiente:
+
+**Creación de Issue:**
+
+Un miembro del equipo o un stakeholder propone el cambio.
+Se crea una 'issue' en el sistema de seguimiento (GitHub Projects). Toda issue deberá indicar lo siguiente:
+
+- El identificador de la issue
+- La descripción de la tarea a realizar: Debe indicar de forma resumida lo que hay que hacer
+- El tipo de incidencia: Indica a qué apartado del proyecto afecta la incidencia.
+- La prioridad de la incidencia: Indica la prioridad, y debe estimarse según la importancia e impacto del mismo sobre el avance del proyecto.
+- Rol/es encargados de la incidencia: Indica quién o quiénes son las personas que se van a encargar de solventar la incidencia. Normalmente esas personas serán las mismas que originaron la incidencia.
+- El estado de la incidencia: Indica el estado actual de la incidencia. Todo, In Progress, In Review, Done.
+
+La clasificación de las issues pueden seguir los siguientes tipos:
+
+- Calidad: Cuando la incidencia afecta a un aspecto de calidad del proyecto. En general, si una incidencia es de calidad, la prioridad no debe llegar a ser Alta
+- Código: Cuando la incidencia afecta a una funcionalidad del proyecto.
+- Integración: Cuando la incidencia afecta a la integración continua de la aplicación.
+- Pruebas: Cuando la incidencia afecta a una o varias pruebas sobre la aplicación.
+- Despliegue: Cuando la incidencia afecta al comportamiento del despliegue de la aplicación.
+- Documentación: Cuando la incidencia ha aparecido en la documentación del proyecto.
+- Construcción: Cuando la incidencia afecta a los script de construcción de la aplicación.
+
+También se debe asignar a cada issue una prioridad que dependerá de dos factores: el impacto y la importancia. Teniendo en cuenta esto se asigna la prioridad a las issue de la siguiente forma:
+
+- Critical: incidencia que hay que abordar instantáneamente al ser encontrada
+- Very High: incidencia muy importante que afecta gravemente al proyecto
+- High: incidencia importante que afecta gravemente al proyecto
+- Medium: incidencia que se puede gestionar con mayor flexibilidad pero tiene importancia
+- Low: incidencia con poca importancia
+- Minimal: incidencia que prácticamente no tiene impacto en el desarrollo del proyecto
+
+
+Asignación de Tareas:
+
+Durante las reuniones de progreso el Scrum Master asigna a cada miembro del equipo una tarea por afinidad y se establecen plazos claros para su finalización.
+En caso de indiferencia se realiza asignación por parte del Scrum Master según habilidad o por asignación aleatoria.
+
+Cada tarea desarrollada se dará por completada cuando se realice una revisión de la misma por miembros que no hayan participado directamente en la tarea.
+Se realizan reuniones regulares de control para evaluar el progreso y ajustar la gestión de tareas según sea necesario.
+
+
+**Las políticas de la interacción interna del equipo durante el desarrollo del proyecto han sido las siguientes:**
+
+- Comunicación:
+
+Para las discusiones cotidianas y actualizaciones rápidas, la comunicación del equipo se llevará a cabo a través de los  grupos de whatsapp o discord pertinentes.
+Las reuniones de control de equipo se programan semanalmente para discutir el progreso del proyecto, los desafíos y la planificación.
+Se fomentará la comunicación abierta y la colaboración, y los miembros del equipo deberán responder a las solicitudes de comunicación en un plazo razonable (máx 1 semana).
+En caso de faltas de respeto o falta de implicación se aplicará la política P-CTRL-Sancionadora.
+
+- Reuniones:
+
+Se distinguen las reuniones semanales de control de las técnicas:
+
+En las reuniones semanales de control se procura ser lo más conciso posible, dando un estado actual del proyecto y la necesidad de reuniones técnicas. Se toman decisiones de alto nivel o rápidas de resolver. Para esto es imperante el uso de un orden del día preparado previamente. Las reuniones técnicas tienen una duración mayor y sirven para trabajar en grupo o discutir ciertas decisiones. Se fomentará la participación de todos los miembros del equipo de trabajo y al final de la reunión se debe guardar el diario de sesión.
+
+- Resolución de conflictos:
+
+Es deber de todos los miembros resolver los conflictos de forma pacífica, pudiéndose aplicar medidas sancionadoras en caso contrario. Para resolver un conflicto se hablará entre los interesados presentando argumentación que respalde su punto de vista, en caso de no llegar a una resolución el Scrum Master hará de mediador, quien podrá apoyarse de quien considere para resolver el conflicto.
+
+**Desarrollo:**
+
+El equipo asignado comienza a trabajar en la 'issue', cambiando su estado a 'In Progress'. Se utiliza Git Flow para manejar las ramas del repositorio. Se crea una rama de 'feature' específica para este cambio. Durante el desarrollo, se siguen las convenciones de Conventional Commits para los mensajes de commit, lo que facilita la trazabilidad y el seguimiento de cambios.
+
+Las políticas de desarrollo del equipo son:
+
+- Control de versiones: Se debe utilizar un sistema de control de versiones, en este caso Git, para gestionar el repositorio del proyecto. Se usará GitHub para almacenarlo en la nube. Todos los cambios en el código deben registrarse en el repositorio con comentarios significativos siguiendo la política de commits y la política de ramas.
+
+- Commits: Los commits se mantendrán atómicos, lo que significa que cada commit debe abordar un solo cambio o una única funcionalidad. Se seguirá el estándar de "Conventional Commits" en el proceso de commits, lo que significa que cada commit debe tener un mensaje que seguirá el formato "tipo: mensaje":
+
+  - tipo = "feat" para una nueva característica.
+  - tipo ="fix" para una corrección.
+  - tipo ="docs" para documentación, etc.).
+
+Los mensajes de commit deben ser claros y descriptivos para que cualquier miembro del equipo pueda entender el propósito del commit sin necesidad de revisar el código.
+
+- Ramas: Se emplea una aproximación a Git Flow. Debe existir una rama principal  “main” que refleje la versión estable y desplegable del software. Además, una rama “develop” que contenga los cambios de desarrollo. Cada característica, corrección de error o mejora importante debe tener su propia rama de desarrollo que nace de develop y se une a develop al finalizar. Para hacer merge de una rama se debe haber pasado una revisión por al menos un miembro del equipo. Este principio está sujeto a excepciones por máxima urgencia o por la minimalidad del cambio (Ejemplo: una errata en un texto).
+
+- Revisión de Código: Una vez que la funcionalidad está completa y todas las pruebas pasan localmente, el estado de la 'issue' cambia a 'In Review'. Se crea un Pull Request (PR) hacia la rama 'develop'. El equipo comunica al resto del grupo sobre la petición de revisión. Otros miembros del equipo revisan el PR, asegurándose de que cumple con los estándares de calidad y no introduce errores.
+
+**Las políticas del equipo del aseguramiento de la calidad y la revisión del código son las siguientes:**
+
+- Integración Continua: Se realizarán pruebas de integración continua como se especifica en la asignatura Evolución y Gestión de la Configuración. Cada vez que se hace un cambio en una de las ramas main o develop deben ejecutarse.
+- Buenas Prácticas: Se debe desarrollar usando las buenas prácticas en la ingeniería del Software. Para ello:
+  - Refactorizar habitualmente, todo código que esté creando deuda técnica debe tenerse en cuenta y decidir ignorar el problema (en casos pequeños) o fijar una fecha para arreglarlo.
+  - Dejar comentarios en las funciones que se creen, ser consistente en la estructura de directorios del sistema y pedir una segunda opinión del trabajo realizado (Política de revisión de código). 
+  - En general, sea código o no, pedir una segunda opinión para que revise el trabajo.
+- Revisión de código: Para que una petición de cambio se apruebe se debe realizar una Pull Request indicando claramente qué cambios se han realizado. La PR no puede dar conflictos, si los diera es el miembro que realizó la petición hacer un nuevo commit en la PR resolviendo los conflictos. Los test de integración continua deben pasar sin errores. El revisor debe proporcionar comentarios constructivos y, si es necesario, solicitar correcciones antes de aprobar la fusión. Una vez se haya cumplido todo el flujo descrito, se podrá mergear la pull request asegurando la calidad del código.
+
+**Flujo de la tarea propuesta (el sistema permite a los usuarios filtrar las actividades de las jornadas por categorías)**
+- Se crea la issue (o conjunto de issues) y se le asignan los estados correspondientes según lo descrito anteriormente.
+  - Clasificación: Código
+  - Prioridad: High
+  - Estado: Todo
+  - Encargado: @JaviFdez7 y @motero2k
+- Una vez la issue entra a 'In progress', se crea una rama desde develop para resolver dicha issue.
+- Se resuelve la issue en la rama creada siguiendo la política de commits de conventional Commits
+- Al finalizar la implementación, se ejecutan los tests comprobando que la calidad del producto siga igual que en develop
+- Se crea una pull request para pasar los cambios a develop
+- Si la integración continua se pasa, esperaremos a que un compañero que no ha participado en la issue apruebe los cambios. Si la integración continua no se pasa o el compañero revisor no aprueba la pull request, tendremos que realizar los cambios pertinentes para solucionar los problemas.
+- Una vez la pull request cumpla los requisitos de aceptación, se merge la rama y tendremos todos los cambios en develop.
+
+
+  
 
 ---
 ## Entorno de desarrollo
