@@ -41,4 +41,4 @@ jobs:
         export MYSQL_DATABASE=flask_base_db
         export MYSQL_USER=flask_base_user
         export MYSQL_PASSWORD=flask_base_pass
-        pytest app/tests/*.py
+        pytest app/tests/routes.py

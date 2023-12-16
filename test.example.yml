@@ -1,0 +1,30 @@
+name: run tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+  
+    - name: Start Docker Compose
+      run: docker compose -f docker-compose.dev.yml up -d 
+
+    - name: Start container
+      run: docker start web_container db_container nginx_container
+
+    - name: Check container is running
+      run: docker ps
+
+    - name: Run Tests
+      run: docker exec web_container pytest app/tests/test_innosoft_day.py
+
+
+
+    - name: Stop Docker Compose
+      run: docker compose -f docker-compose.dev.yml down
