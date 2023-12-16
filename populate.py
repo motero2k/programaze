@@ -109,7 +109,7 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session.commit()
 
     token_request1 = Token_request(num_token=1,user_id = user1.id,description="Quiero hacer algodon de azucar en el despacho de M.Toro", token_state=Token_state.PENDING_OF_ACEPTATION)
-    token_request2 = Token_request(num_token=1,user_id = user2.id, description="Torneo de ajedrez", token_state=Token_state.ACCEPTED)
+    token_request2 = Token_request(num_token=1,user_id = user2.id, description="Torneo de ajedrez", token_state=Token_state.PENDING_OF_ACEPTATION)
 
     session.add(token_request1)
     session.add(token_request2)

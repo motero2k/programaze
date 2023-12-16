@@ -84,7 +84,8 @@ class Test_selenium():
       self.test_login()
       URL="http://host.docker.internal/innosoft_days/1/proposals"
       self.driver.get(url=URL)
-      assert self.driver.current_url == URL 
+      assert self.driver.current_url == URL
+
     def test_view_proposal_detail(self):
       self.test_login()
       URL="http://host.docker.internal/proposal/view/1"
@@ -99,7 +100,25 @@ class Test_selenium():
       self.driver.find_element(By.LINK_TEXT, "ver").click()
       URL2 = "http://host.docker.internal/token_request/view/"
       assert URL2 in self.driver.current_url
-      
+
+    def test_view_votation(self):
+      self.test_login()
+      URL="http://host.docker.internal/innsoft_days"
+      self.driver.get(url=URL)
+      self.driver.find_element(By.LINK_TEXT, "Acciones").click()
+      self.driver.find_element(By.LINK_TEXT, "Listar votaciones").click()
+      assert "votations" in self.driver.current_url
+    
+    def test_view_votation_detail(self):
+      self.test_login()
+      URL="http://host.docker.internal/innsoft_days"
+      self.driver.get(url=URL)
+      self.driver.find_elements(By.LINK_TEXT, "Acciones")[1].click()
+      self.driver.find_element(By.LINK_TEXT, "Listar votaciones").click()
+      self.driver.find_element(By.LINK_TEXT, "Acciones").click()
+      self.driver.find_element(By.LINK_TEXT, "ver").click()
+      assert "votation/view" in self.driver.current_url
+
     def test_accept_token_request(self):
       self.test_login()
       URL="http://host.docker.internal/token_request/all"
@@ -107,6 +126,15 @@ class Test_selenium():
       self.driver.find_element(By.LINK_TEXT, "Acciones").click()
       self.driver.find_element(By.LINK_TEXT, "ver").click()
       self.driver.find_element(By.LINK_TEXT, "ACEPTAR").click()
+      assert self.driver.current_url == "http://host.docker.internal/token_request/all"
+    
+    def test_reject_token_request(self):
+      self.test_login()
+      URL="http://host.docker.internal/token_request/all"
+      self.driver.get(url=URL)
+      self.driver.find_elements(By.LINK_TEXT, "Acciones")[1].click()
+      self.driver.find_element(By.LINK_TEXT, "ver").click()
+      self.driver.find_element(By.LINK_TEXT, "RECHAZAR").click()
       assert self.driver.current_url == "http://host.docker.internal/token_request/all"
       
 
