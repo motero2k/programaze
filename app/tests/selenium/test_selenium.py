@@ -73,6 +73,34 @@ class Test_selenium():
       tokens_count2 = int(tokens_web_element2.text)
       print("\nTokens before: " + str(tokens_count) + ". Tokens after proposal: " + str(tokens_count2))
       assert tokens_count2 == tokens_count - 1
+    
+    def test_view_votations_details(self):
+      self.test_login()
+      URL="http://host.docker.internal/votation/view/1"
+      self.driver.get(url=URL)
+      assert self.driver.current_url == URL 
+    
+    def test_view_proposals_by_state(self):
+      self.test_login()
+      URL="http://host.docker.internal/innosoft_days/1/proposals"
+      self.driver.get(url=URL)
+      assert self.driver.current_url == URL 
+      dropdown = self.driver.find_element(By.NAME, "filter")
+      dropdown.find_element(By.XPATH, "//option[. = 'Pendiente de admisión']").click()
+      assert self.driver.current_url == URL +"?state=PENDING_OF_ADMISION"
+      dropdown = self.driver.find_element(By.NAME, "filter")
+      dropdown.find_element(By.XPATH, "//option[. = 'Confirmada']").click()
+      assert self.driver.current_url == URL +"?state=CONFIRMATED"
+      dropdown = self.driver.find_element(By.NAME, "filter")
+      dropdown.find_element(By.XPATH, "//option[. = 'En preparación']").click()
+      assert self.driver.current_url == URL +"?state=ON_PREPARATION"
+      dropdown = self.driver.find_element(By.NAME, "filter")
+      dropdown.find_element(By.XPATH, "//option[. = 'Pendiente de aceptación']").click()
+      assert self.driver.current_url == URL +"?state=PENDING_OF_ACEPTATION"
+      dropdown = self.driver.find_element(By.NAME, "filter")
+      dropdown.find_element(By.XPATH, "//option[. = 'Rechazada']").click()
+      assert self.driver.current_url == URL +"?state=REJECTED"
+    
   
     def test_view_tokens(self):
       self.test_login()

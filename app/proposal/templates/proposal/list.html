@@ -18,7 +18,7 @@
 <div class="row">
 
     <b>Filtrado: </b>
-    <select class="form-select" style="width: 30%;" onchange="window.location.href=this.value" >
+    <select name="filter" class="form-select" style="width: 30%;" onchange="window.location.href=this.value" >
         
         <option value="{{ url_for('proposal.all', id=innosoft_day_id) }}" {% if state == None %}selected{% endif %}>Todas</option>
         <option value="{{ url_for('proposal.all', id=innosoft_day_id, state='PENDING_OF_ADMISION') }}" {% if state == 'PENDING_OF_ADMISION' %}selected{% endif %}>Pendiente de admisión</option>
