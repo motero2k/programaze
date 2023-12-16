@@ -125,3 +125,24 @@ class VotationClass(HttpUser):
     @task
     def view_REJECTED_votations(self):
          self.client.get("/innosoft_days/2/votations/?state=REJECTED")
+
+class InnosoftDayClass(HttpUser):
+    wait_time = between(1, 5)
+
+    def on_start(self):
+        self.client.post("/login",data={
+            "username":"profesor1",
+            "password":"profesor1"
+        })
+        
+    @task
+    def view_all_innosoft_days(self):
+         self.client.get("/innosoft_days")
+         
+    @task
+    def view_all_proposals_of_an_innosoft_day(self):
+         self.client.get("/innosoft_days/2/proposals")
+         
+    @task
+    def view_all_votations_of_an_innosoft_day(self):
+         self.client.get("/innosoft_days/2/votations/")
