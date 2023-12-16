@@ -49,48 +49,33 @@ class ProposalTestCase(unittest.TestCase):
     def setUp(self):
         app.config['TESTING']=True
         self.client=app.test_client()
+        
         with self.client.application.app_context():
             global innosoft_day_test_id
             innosoft_day_test=Innosoft_day(description="Jornada 2199/2200"
                                        , subject="Inteligencia Artificial", year=2200)
-            db.session.add(innosoft_day_test)
-            db.session.commit()
+            innosoft_day_test.save()
             innosoft_day_test_id=innosoft_day_test.id
+            user=User.query.first()
             
             #Con esto creas variables globales de los id, NO HAGAS VARIABLES GLOBALES
             #DE LOS PROPIOS SUIT TEST
             global proposal_test1_id
-            global proposal_test2_id
             global proposal_test3_id
-            global proposal_test4_id
-            global proposal_test5_id
-            proposal_test1 = Proposal(description="TEST 1", subject="TEST 1", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test.id, user_id=ALUMNO_1_ID)
-            proposal_test2 = Proposal(description="TEST 2", subject="TEST 2", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day_test.id, user_id=ALUMNO_1_ID)
-            proposal_test3 = Proposal(description="TEST 3", subject="TEST 3", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.ON_PREPARATION, innosoft_day_id=innosoft_day_test.id, user_id=ALUMNO_1_ID)
-            proposal_test4 = Proposal(description="TEST 4", subject="TEST 4", proposal_type=ProposalType.STAND, state=Proposal_State.CONFIRMATED, innosoft_day_id=innosoft_day_test.id, user_id=ALUMNO_1_ID)
-            proposal_test5 = Proposal(description="TEST 5", subject="TEST 5", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day_test.id, user_id=ALUMNO_1_ID)
+            proposal_test1 = Proposal(description="TEST 1", subject="TEST 1", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
+            proposal_test3 = Proposal(description="TEST 3", subject="TEST 3", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.ON_PREPARATION, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
         
-            db.session.add(proposal_test1)
-            db.session.add(proposal_test2)
-            db.session.add(proposal_test3)
-            db.session.add(proposal_test4)
-            db.session.add(proposal_test5)
-            db.session.commit()
+            proposal_test1.save()
+            proposal_test3.save()
             proposal_test1_id=proposal_test1.id
-            proposal_test2_id=proposal_test2.id
             proposal_test3_id=proposal_test3.id
-            proposal_test4_id=proposal_test4.id
-            proposal_test5_id=proposal_test5.id
         
 
     
     def tearDown(self):
         with self.client.application.app_context():
             db.session.delete(db.session.get(Proposal,proposal_test1_id))
-            db.session.delete(db.session.get(Proposal,proposal_test2_id))
             db.session.delete(db.session.get(Proposal,proposal_test3_id))
-            db.session.delete(db.session.get(Proposal,proposal_test4_id))
-            db.session.delete(db.session.get(Proposal,proposal_test5_id))
             db.session.commit()
             self.assertTrue(db.session.get(Proposal,proposal_test1_id)==None)
         
@@ -120,7 +105,8 @@ class ProposalTestCase(unittest.TestCase):
     
     def test_create_proposal(self):
         with self.client.application.app_context():
-            proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test_id, user_id=1)
+            user=User.query.first()
+            proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test_id, user_id=user.id)
             self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
             proposal1.save()
             self.assertNotEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)

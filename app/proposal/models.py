@@ -29,6 +29,15 @@ class Proposal(db.Model):
         if not self.id:
             db.session.add(self)
         db.session.commit()
+    
+    def __init__(self, description, subject, proposal_type,state,innosoft_day_id,user_id):
+        
+        self.description = description
+        self.subject = subject
+        self.proposal_type=proposal_type
+        self.state=state
+        self.innosoft_day_id=innosoft_day_id
+        self.user_id=user_id
 
     
 
