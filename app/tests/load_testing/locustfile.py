@@ -79,9 +79,6 @@ class ProposalClass(HttpUser):
         self.client.post("/innosoft_days/1/proposal/create/", json=fake_proposal)
     
     @task
-    def view_proposals_details(self):
-        self.client.get("/proposal/view/1")
-    @task
     def view_PENDING_OF_ADMISION_proposals(self):
         self.client.get("/innosoft_days/2/proposals?state=PENDING_OF_ADMISION")
     

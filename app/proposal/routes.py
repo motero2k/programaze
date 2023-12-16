@@ -67,13 +67,7 @@ def create(id):
             flash('No se puede crear una solicitud de propuesta sin tokens', 'danger')
             return render_template("proposal/create.html",form=form,innosoft_day_id=id)
         
-        proposal = Proposal()
-        proposal.subject = subject
-        proposal.description = description
-        proposal.proposal_type = proposal_type
-        proposal.innosoft_day_id = id
-        proposal.state = Proposal_State.PENDING_OF_ADMISION
-        proposal.user_id = user_id
+        proposal = Proposal(subject = subject, description = description, proposal_type = proposal_type, innosoft_day_id = id, state = Proposal_State.PENDING_OF_ADMISION, user_id = user_id)
 
         user.token -= 1
         proposal.save()
