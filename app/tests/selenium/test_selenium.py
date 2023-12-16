@@ -79,6 +79,17 @@ class Test_selenium():
       URL="http://host.docker.internal/token_request/all"
       self.driver.get(url=URL)
       assert self.driver.current_url == URL
+
+    def test_view_proposal(self):
+      self.test_login()
+      URL="http://host.docker.internal/innosoft_days/1/proposals"
+      self.driver.get(url=URL)
+      assert self.driver.current_url == URL 
+    def test_view_proposal_detail(self):
+      self.test_login()
+      URL="http://host.docker.internal/proposal/view/1"
+      self.driver.get(url=URL)
+      assert self.driver.current_url == URL 
     
     def test_view_token_request(self):
       self.test_login()
