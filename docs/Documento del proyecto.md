@@ -271,11 +271,68 @@ Los mensajes de commit deben ser claros y descriptivos para que cualquier miembr
 - Si la integración continua se pasa, esperaremos a que un compañero que no ha participado en la issue apruebe los cambios. Si la integración continua no se pasa o el compañero revisor no aprueba la pull request, tendremos que realizar los cambios pertinentes para solucionar los problemas.
 - Una vez la pull request cumpla los requisitos de aceptación, se merge la rama y tendremos todos los cambios en develop.
 
-
-  
-
 ---
 ## Entorno de desarrollo
+
+Hemos utilizado Visual Studio Code como entorno de desarrollo integrado (IDE), ya que tenemos experiencia en proyectos anteriores con este IDE y nos resulta muy cómodo trabajar con él. Para configurar VS Code, seguimos estos pasos:
+
+Descargamos e instalamos Visual Studio Code desde el sitio web oficial (https://code.visualstudio.com/), siguiendo las instrucciones proporcionadas para nuestro sistema operativo específico. Es importante mencionar que la mayoría de los miembros del equipo utilizan Windows, aunque uno de los integrantes ha optado por trabajar en Linux.
+
+Instalamos las extensiones pertinentes. Este paso es opcional y cada miembro ha instalado las que ha creído convenientes para sentirse cómodo en el desarrollo. Entre las extensiones más relevantes que se han utilizado, se destaca "Docker", la cual ha sido de gran utilidad para gestionar contenedores directamente desde el propio IDE. Esta extensión simplifica la administración de contenedores Docker, lo que es particularmente importante en un entorno de desarrollo basado en contenedores como el nuestro.
+
+Configuramos Git en VS Code proporcionando nuestros nombres de usuario y direcciones de correo electrónico asociadas a nuestras cuentas de Git y lo asociamos al repositorio remoto que utilizamos en el proyecto, ya que VS Code ofrece una integración nativa con Git, lo que facilita la gestión del control de versiones de nuestro proyecto, al poder utilizar la interfaz gráfica para realizar las acciones típicas de Git.
+
+Además de Visual Studio, hemos utilizado Docker Desktop para desplegar la aplicación. Al heredar el proyecto, notamos que los contenedores necesarios para nuestra aplicación ya estaban creados. Estos contenedores estaban configurados y listos para ser utilizados, lo que agilizó significativamente el proceso de despliegue. Tan solo tuvimos que seguir las instrucciones del archivo README:
+
+Creamos un archivo .env en la raíz del proyecto y agregamos la siguiente información:
+```
+FLASK_APP_NAME=flask_base
+MYSQL_HOSTNAME=db
+MYSQL_DATABASE=flask_base_db
+MYSQL_USER=flask_base_user
+MYSQL_PASSWORD=flask_base_pass
+MYSQL_ROOT_PASSWORD=flask_base_root_pass
+```
+
+Desplegamos la aplicación en el entorno de desarrollo, ejecutando el siguiente comando:
+```
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+Una vez que los contenedores están en funcionamiento, ingresamos al contenedor "web_container". Dentro de este contenedor, ejecutamos comandos específicos para aplicar migraciones y actualizar la base de datos. Esto garantiza que la estructura de la base de datos esté alineada con la última versión de nuestra aplicación:
+```
+flask db migrate
+flask db upgrade
+python populate.py
+```
+
+Iniciamos un contenedor que aloja el servicio Selenium, con el objetivo de poder realizar las pruebas de interfaz, ejecutando el siguiente comando:
+```
+docker run -d -p 4444:4444 --name selenium-container selenium/standalone-chrome
+```
+
+En caso de que deseemos implementar nuestra aplicación en un entorno de producción, utilizamos un archivo de configuración separado llamado "docker-compose.prod.yml". Ejecutamos el siguiente comando para iniciar los contenedores en un entorno de producción:
+```
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+Siguiendo estos pasos, nuestra aplicación Flask se despliega en el puerto predeterminado y se pone en funcionamiento en el entorno deseado, ya sea en desarrollo o producción.
+
+Como hemos comentado, se han utilizado varios contenedores de Docker. Cada uno de estos desempeña un papel específico en el entorno de nuestra aplicación. A continuación, describiremos cada uno de estos contenedores:
+
+- **web_container**: Es el núcleo de nuestra aplicación. Aquí reside la implementación de nuestra aplicación web principal, basada en el marco de desarrollo Flask. Este componente es responsable de servir las páginas web y gestionar las solicitudes de los usuarios que interactúan con nuestra aplicación. Se comunica con el contenedor de la base de datos (db_container) para realizar operaciones de lectura y escritura en la base de datos.
+
+- **db_container**: Desempeña un papel esencial como servidor de la base de datos. Dentro de este contenedor, se encuentra un sistema de gestión de bases de datos que se utiliza para almacenar y administrar los datos de nuestra aplicación.
+
+- **nginx_container**: Se desempeña como un servidor web y un equilibrador de carga inversa en nuestra arquitectura. Su función principal es dirigir y gestionar las solicitudes entrantes de los clientes hacia el contenedor de nuestra aplicación web. Nginx se encarga de gestionar el tráfico HTTP, proporcionando una capa adicional de rendimiento y seguridad para nuestra aplicación.
+
+- **selenium-container**: Aloja el servicio Selenium, que es esencial para realizar pruebas automatizadas de la interfaz de usuario de nuestra aplicación. Selenium se utiliza para automatizar la interacción con nuestra aplicación a través de un navegador web. Esto permite realizar pruebas simulando la interacción real de los usuarios con la aplicación.
+
+Estos contenedores trabajan en conjunto para proporcionar un entorno completo de desarrollo y despliegue de nuestra aplicación. El contenedor web (web_container) es la pieza central que ejecuta nuestra aplicación, mientras que el contenedor de la base de datos (db_container) almacena y gestiona los datos. El contenedor Nginx (nginx_container) actúa como un intermediario que maneja el tráfico web y el contenedor Selenium (selenium-container) se utiliza para pruebas automatizadas de la interfaz de usuario. Es importante destacar que los tres primeros contenedores (web_container, db_container y nginx_container) ya venían incluidos como parte de la aplicación que heredamos.
+
+En cuanto a las versiones, hemos utilizado Visual Studio Code 1.85 y Docker Desktop 4.24.2.
+
+
 ---
 ## Ejercicio de propuesta de cambio
 ---
