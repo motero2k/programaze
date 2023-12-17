@@ -88,6 +88,13 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     program_coordinator2.profile = profile_program_coordinator2
     program_coordinator2.roles.append(program_coordinator_role)
 
+    # Crear un usuario con todos los roles y muchos tokens
+    test_user = User(username="test", email="test@test.com", password="test", token=100)
+    profile_test = UserProfile(user_id=test_user.id, name="Test", surname="Test", dni="00000000T")
+    test_user.profile = profile_test
+    test_user.roles = [role for role in session.query(Role).all() ]
+    
+    
     # Agregar usuarios y perfiles a la sesión
     session.add(user1)
     session.add(user2)
@@ -96,11 +103,12 @@ def add_roles_and_lecturers_and_students_and_innosoft_days_and_proposals():
     session.add(alumno2)
     session.add(program_coordinator1)
     session.add(program_coordinator2)
+    session.add(test_user)
 
     # Commit para insertar los registros en la base de datos
     session.commit()
 
-    token_request1 = Token_request(num_token=1,user_id = user1.id,description="Quiero hacer algodon de azucar en el despacho de M.Toro", token_state=Token_state.ACCEPTED)
+    token_request1 = Token_request(num_token=1,user_id = user1.id,description="Quiero hacer algodon de azucar en el despacho de M.Toro", token_state=Token_state.PENDING_OF_ACEPTATION)
     token_request2 = Token_request(num_token=1,user_id = user2.id, description="Torneo de ajedrez", token_state=Token_state.PENDING_OF_ACEPTATION)
 
     session.add(token_request1)
