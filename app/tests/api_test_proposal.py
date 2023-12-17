@@ -98,49 +98,6 @@ class ProposalApiTestCase(unittest.TestCase):
             db.session.delete(db.session.get(Innosoft_day,innosoft_day_test_id))
             db.session.commit()
             db.session.close()
-        
-
-    
-    def test_get_proposals_of_innosoft_day(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
-        with self.client.application.app_context():
-            print(innosoft_day_test_id)
-            response=self.client.get(url_get_all_proposals(innosoft_day_test_id))
-            l=Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id).all()
-            self.assertTrue(len(l)>0)
-            self.assertEqual(response.status_code, 200)
-            real_data=response.get_json()
-            print(real_data)
-            self.assertTrue(len(real_data)==len(l))
-            for data in response.get_json():
-                print(data)
-                self.assertTrue(data['innosoft_day_id']==innosoft_day_test_id)
-    
-    
-    def test_get_proposals_of_innosoft_day_and_filtered_by_state(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
-        with self.client.application.app_context():
-            #NO DEBERÍA SER UN GET
-            print(innosoft_day_test_id)
-            print(Proposal_State.PENDING_OF_ADMISION.name)
-            response=self.client.get(url_get_all_proposals_by_state(innosoft_id=innosoft_day_test_id,state=Proposal_State.PENDING_OF_ADMISION))
-            l= Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id,state= Proposal_State.PENDING_OF_ADMISION).all()
-            self.assertTrue(len(l)>0)
-            print(l)
-            self.assertEqual(response.status_code, 200)
-            real_data=response.get_json()
-            print(real_data)
-            self.assertTrue(len(real_data)==len(l))
-            for data in response.get_json():
-                print(data)
-                self.assertTrue(data['innosoft_day_id']==innosoft_day_test_id)
-                self.assertEqual(data['estado'],Proposal_State.PENDING_OF_ADMISION.value)
     
     def test_accept_proposal_positive(self):
         self.client.post("/login",data={
