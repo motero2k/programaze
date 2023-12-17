@@ -112,6 +112,17 @@ class ProposalTestCase(unittest.TestCase):
             self.assertNotEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
             db.session.delete(proposal1)
             db.session.commit()
+    
+    def test_delete_proposal(self):
+        with self.client.application.app_context():
+            user=User.query.first()
+            proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test_id, user_id=user.id)
+            self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
+            proposal1.save()
+            self.assertNotEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
+            db.session.delete(proposal1)
+            db.session.commit()
+            self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
             
             
     
