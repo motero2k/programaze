@@ -58,9 +58,22 @@ pytest app/tests/units.py
 pytest -vs app/tests/selenium/test_selenium.py
 ```
 
+
+To run load test, please enter inside local terminal:
+
 ```
-pytest -vs app/tests/selenium/test_selenium.py
+cd .\app\tests\load_testing\
+locust UserClass
+locust ProposalClass
+locust TokenRequestClass
+locust VotationClass
+locust InnosoftDayClass
 ```
+Enter in  http://localhost:8089 or the url given by the terminal
+
+Enter in host: "http://localhost/"
+
+Click: "Start swarming"
 
 ## Deploy in production (Docker Compose)
 
