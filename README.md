@@ -6,7 +6,7 @@
 </div>
 
 # flask_boilerplate
-
+ 
 Base project to work with the Python Flask framework in an easy way.
 
 ## Set `.env` file in root with:
