@@ -29,6 +29,9 @@ To deploy the software under development environment, run:
 ```
 docker compose -f docker-compose.dev.yml up -d 
 ```
+```
+docker run -d -p 4444:4444 --name selenium-container selenium/standalone-chrome
+```
 
 This will apply the migrations to the database and run the Flask application. Open `http://localhost` to play with your fantastic app!
 
@@ -39,6 +42,7 @@ However, if during development there are new changes in the model, run inside th
 ```
 flask db migrate
 flask db upgrade
+python populate.py
 ```
 
 ### Tests
@@ -48,6 +52,28 @@ To run unit test, please enter inside `web` container:
 ```
 pytest app/tests/units.py
 ```
+
+
+```
+pytest -vs app/tests/selenium/test_selenium.py
+```
+
+
+To run load test, please enter inside local terminal:
+
+```
+cd .\app\tests\load_testing\
+locust UserClass
+locust ProposalClass
+locust TokenRequestClass
+locust VotationClass
+locust InnosoftDayClass
+```
+Enter in  http://localhost:8089 or the url given by the terminal
+
+Enter in host: "http://localhost/"
+
+Click: "Start swarming"
 
 ## Deploy in production (Docker Compose)
 

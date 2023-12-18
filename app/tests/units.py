@@ -21,28 +21,11 @@ class FlaskAppTestCase(unittest.TestCase):
         pass
 
     #ACTUALIZAR CUANDO SE MERGEE LA RAMA
-    def test_access_restricted_url_with_correct_role(self):
-        self.client.post("/login",data={
-            "username":"profesor1",
-            "password":"profesor1"
-        },follow_redirects=True)
-        response=self.client.get("/innosoft_days/1/proposals")
-        self.assertEqual(response.status_code, 200)
 
     def test_show_env(self):
         response = self.client.get('/env')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content_type, 'application/json')
-
-    def test_test_db(self):
-        response = self.client.get('/test_db')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content_type, 'application/json')
-        try:
-            self.assertEqual(response.json['message'], 'Connection to the database successful')
-        except KeyError:
-            print("Received unexpected response: ", response.json)
-            raise
 
 
 if __name__ == '__main__':

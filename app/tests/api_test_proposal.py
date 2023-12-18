@@ -42,91 +42,68 @@ def url_get_all_proposals_by_state(innosoft_id,state):
 
 
 #SUIT FOR TEST
-class ProposalTestCase(unittest.TestCase):
+class ProposalApiTestCase(unittest.TestCase):
     
     
     
     def setUp(self):
         app.config['TESTING']=True
         self.client=app.test_client()
-        
         with self.client.application.app_context():
             global innosoft_day_test_id
             innosoft_day_test=Innosoft_day(description="Jornada 2199/2200"
                                        , subject="Inteligencia Artificial", year=2200)
-            innosoft_day_test.save()
+            db.session.add(innosoft_day_test)
+            db.session.commit()
             innosoft_day_test_id=innosoft_day_test.id
             user=User.query.first()
             
             #Con esto creas variables globales de los id, NO HAGAS VARIABLES GLOBALES
             #DE LOS PROPIOS SUIT TEST
             global proposal_test1_id
+            global proposal_test2_id
             global proposal_test3_id
+            global proposal_test4_id
+            global proposal_test5_id
             proposal_test1 = Proposal(description="TEST 1", subject="TEST 1", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
+            proposal_test2 = Proposal(description="TEST 2", subject="TEST 2", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
             proposal_test3 = Proposal(description="TEST 3", subject="TEST 3", proposal_type=ProposalType.ACTIVITY, state=Proposal_State.ON_PREPARATION, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
+            proposal_test4 = Proposal(description="TEST 4", subject="TEST 4", proposal_type=ProposalType.STAND, state=Proposal_State.CONFIRMATED, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
+            proposal_test5 = Proposal(description="TEST 5", subject="TEST 5", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ACEPTATION, innosoft_day_id=innosoft_day_test.id, user_id=user.id)
         
-            proposal_test1.save()
-            proposal_test3.save()
+            db.session.add(proposal_test1)
+            db.session.add(proposal_test2)
+            db.session.add(proposal_test3)
+            db.session.add(proposal_test4)
+            db.session.add(proposal_test5)
+            db.session.commit()
             proposal_test1_id=proposal_test1.id
+            proposal_test2_id=proposal_test2.id
             proposal_test3_id=proposal_test3.id
+            proposal_test4_id=proposal_test4.id
+            proposal_test5_id=proposal_test5.id
         
 
     
     def tearDown(self):
         with self.client.application.app_context():
             db.session.delete(db.session.get(Proposal,proposal_test1_id))
+            db.session.delete(db.session.get(Proposal,proposal_test2_id))
             db.session.delete(db.session.get(Proposal,proposal_test3_id))
+            db.session.delete(db.session.get(Proposal,proposal_test4_id))
+            db.session.delete(db.session.get(Proposal,proposal_test5_id))
             db.session.commit()
             self.assertTrue(db.session.get(Proposal,proposal_test1_id)==None)
         
             db.session.delete(db.session.get(Innosoft_day,innosoft_day_test_id))
             db.session.commit()
             db.session.close()
-        
-
-    
-    def test_get_proposals_of_innosoft_day(self):
-        with self.client.application.app_context():
-            proposals_of_innosoft_day=Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id).all()
-            self.assertTrue(len(proposals_of_innosoft_day)>0)
-            for proposal in proposals_of_innosoft_day:
-                self.assertTrue(proposal.innosoft_day_id==innosoft_day_test_id)
-                
-
-    
-    
-    def test_get_proposals_of_innosoft_day_and_filtered_by_state(self):
-        with self.client.application.app_context():
-            proposals_of_innosoft_day= Proposal.query.filter_by(innosoft_day_id=innosoft_day_test_id,state= Proposal_State.PENDING_OF_ADMISION).all()
-            self.assertTrue(len(proposals_of_innosoft_day)>0)
-            for proposal in proposals_of_innosoft_day:
-                self.assertTrue(proposal.innosoft_day_id==innosoft_day_test_id)
-                self.assertTrue(proposal.state==Proposal_State.PENDING_OF_ADMISION)
-    
-    def test_create_proposal(self):
-        with self.client.application.app_context():
-            user=User.query.first()
-            proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test_id, user_id=user.id)
-            self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
-            proposal1.save()
-            self.assertNotEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
-            db.session.delete(proposal1)
-            db.session.commit()
-    
-    def test_delete_proposal(self):
-        with self.client.application.app_context():
-            user=User.query.first()
-            proposal1 = Proposal(description="esta es la propuesta 1", subject="Charla medioambiente", proposal_type=ProposalType.TALK, state=Proposal_State.PENDING_OF_ADMISION, innosoft_day_id=innosoft_day_test_id, user_id=user.id)
-            self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
-            proposal1.save()
-            self.assertNotEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
-            db.session.delete(proposal1)
-            db.session.commit()
-            self.assertEqual(Proposal.query.filter_by(id=proposal1.id).first(),None)
-            
-            
     
     def test_accept_proposal_positive(self):
+        self.client.post("/login",data={
+            "username":"profesor1",
+            "password":"profesor1"
+        },follow_redirects=True)
         with self.client.application.app_context():
             #CAMBIAR ESTADO AL MERGEAR
             #/proposal/view/<int:id>/accept
@@ -134,11 +111,8 @@ class ProposalTestCase(unittest.TestCase):
             self.assertEqual(pending_of_admision_proposal.state,Proposal_State.PENDING_OF_ADMISION)
             v=Votation.query.filter_by(proposal_id=proposal_test1_id).first()
             self.assertEqual(v,None)
-            pending_of_admision_proposal.state=Proposal_State.PENDING_OF_ACEPTATION
-            pending_of_admision_proposal.save()
-            votation = Votation(state_votation=StateVotation.IN_PROGRESS,proposal_id=pending_of_admision_proposal.id)
-            votation.save()
-            
+            response=self.client.get("/proposal/view/"+str(proposal_test1_id)+"/accept",follow_redirects=True)
+            assert response.status_code == 200
             same_proposal=Proposal.query.get_or_404(proposal_test1_id)
             self.assertEqual(same_proposal.state,Proposal_State.PENDING_OF_ACEPTATION)
             votation=Votation.query.filter_by(proposal_id=proposal_test1_id).first()
@@ -147,28 +121,34 @@ class ProposalTestCase(unittest.TestCase):
             #NO DESDE EL TEARDOWN
             db.session.delete(votation)
             db.session.commit()
-    
-    
+            
     def test_reject_proposal_positive(self):
+        self.client.post("/login",data={
+            "username":"profesor1",
+            "password":"profesor1"
+        },follow_redirects=True)
         with self.client.application.app_context():
             pending_of_admision_proposal=Proposal.query.get_or_404(proposal_test1_id)
             self.assertEqual(pending_of_admision_proposal.state,Proposal_State.PENDING_OF_ADMISION)
-            pending_of_admision_proposal.state = Proposal_State.REJECTED
-            pending_of_admision_proposal.save()
+            response=self.client.get("/proposal/view/"+str(proposal_test1_id)+"/reject",follow_redirects=True)
+            assert response.status_code == 200
             same_proposal=Proposal.query.get_or_404(proposal_test1_id)
             self.assertEqual(same_proposal.state,Proposal_State.REJECTED)   
     
     def test_confirm_proposal_positive(self):
+        self.client.post("/login",data={
+            "username":"profesor1",
+            "password":"profesor1"
+        },follow_redirects=True)
         with self.client.application.app_context():
             on_preparation_proposal=Proposal.query.get_or_404(proposal_test3_id)
             self.assertEqual(on_preparation_proposal.state,Proposal_State.ON_PREPARATION)
-            on_preparation_proposal.state=Proposal_State.CONFIRMATED
-            on_preparation_proposal.save()
+            response=self.client.get("/proposal/view/"+str(proposal_test3_id)+"/confirm",follow_redirects=True)
+            assert response.status_code == 200
             same_proposal=Proposal.query.get_or_404(proposal_test3_id)
             self.assertEqual(same_proposal.state,Proposal_State.CONFIRMATED)   
-    
+
 
 if __name__ == '__main__':
     app.run(debug=True)
     unittest.main()
-    

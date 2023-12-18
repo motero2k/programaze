@@ -5,7 +5,7 @@ from flask import render_template, request, jsonify
 from flask_login import login_required
 from . import votation_bp
 from .models import Votation
-from ..proposal.models import Proposal,State
+from ..proposal.models import Proposal,Proposal_State
 from ..auth.models import User
 from ..services import delete_entity, delete_entity_bulk
 logger = logging.getLogger(__name__)
@@ -49,7 +49,8 @@ def view(id):
     votes = [
         {'id': vote.id,
         'username': User.query.get_or_404(vote.user_id).username,
-        'description':vote.description
+        'description':vote.description,
+        'decision':vote.decision
        
     } for vote in votes_list]  
 
