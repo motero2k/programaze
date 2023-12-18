@@ -335,5 +335,80 @@ En cuanto a las versiones, hemos utilizado Visual Studio Code 1.85 y Docker Desk
 
 ---
 ## Ejercicio de propuesta de cambio
+
+Propuesta: añadir un nuevo test unitario que compruebe el borrado de una propuesta.
+
+1º La persona que solicita ese cambio primero deberá añadir esta nueva tarea al proyecto del repositorio, siguiendo la plantilla establecida para la documentación de issues.
+
+<img width="417" alt="foto1" src="https://github.com/motero2k/programaze/assets/100673872/cc237945-06d0-44cd-989c-14257b43a4a9">
+
+Una vez creado la issue, el responsable deberá actualizar su estado a In Progress.
+
+<img width="422" alt="foto-1000000" src="https://github.com/motero2k/programaze/assets/100673872/43969290-c8a2-4fad-b358-2a9b66c030ee">
+
+2º Tras crear esta issue, el responsable se encargará de realizar dicha tarea en una nueva rama. Si fuese una propuesta para arreglar algo, hay que utilizar una rama de fix, pero como estamos añadiendo algo nuevo es necesario crear una nueva rama.
+
+<img width="300" alt="foto-2" src="https://github.com/motero2k/programaze/assets/100673872/34070d69-a80a-4636-a307-bd132f5a5b49">
+
+3ºTras haber creado la nueva rama, el responsable utilizará un IDE cualquiera y clonará el repositorio para empezar a trabajar. 
+
+En caso de que el responsable no tuviese clonado el repositorio con anterioridad , debe realizar git clone url del repo. En caso de no haber actualizado las claves SSH, será necesario actualizarlas
+
+4º En caso de que el responsable ya tuviese clonado el repositorio, será necesario que realice el comando git fetch.
+
+5ºUna vez abierto el repositorio local, cambia a la nueva rama haciendo git checkout “nueva rama”. También se podría haber creado la rama en local aplicando el comando git branch “nombre de la rama”
+
+6º Ahora, el responsable diseñará el caso de prueba solicitado.
+
+<img width="298" alt="foto-3" src="https://github.com/motero2k/programaze/assets/100673872/fbfc1001-1e95-4625-aa69-3757ac0b459b">
+
+7º Para validar el correcto funcionamiento, el responsable debe hacer 3 cosas:
+
+- Desplegar el contenedor de la aplicación aplicando: docker compose -f docker-compose.dev.yml up -d
+- Desde Docker o desde una extensión de Docker sobre el IDE que esté utilizando el responsable, haremos Attach Shell sobre “programaze-web”.
+
+<img width="107" alt="foto-4" src="https://github.com/motero2k/programaze/assets/100673872/1a7dfdd0-02ba-41d1-93dc-e7a5f58f9e32">
+
+- Ahora, el responsable deberá hacer: flask db migrate,flask db upgrade y python populate.py (en ese mismo orden). Si todo ha salido bien, no debería haber salido ningún error durante el migrate y el update, y el mensaje final del populate deberá ser WELL DONE.
+- Después, el responsable deberá ejecutar :pytest app/tests/nombre del archivo.py en donde se encuentre el test.
+- Una vez ejecutado el comando, si todo ha salido bien, los tests deberán haber funcionado.
+
+<img width="413" alt="foto-5" src="https://github.com/motero2k/programaze/assets/100673872/34b118a0-0eb1-4441-8241-a70f59d6a725">
+
+8º Una vez verificado el funcionamiento del test implementado, el responsable deberá commitear los cambios a la rama remota. Para eso, deberá ejecutar:
+- git add . (para añadir los cambios al commit)
+- git commit -m “título” -m “descripción”. El formato de los commits deberán seguir las políticas establecidas por el equipo.
+
+<img width="362" alt="foto-6" src="https://github.com/motero2k/programaze/assets/100673872/c5ab805c-6b87-488d-96ce-d6330904d36b">
+
+- git push origin. para enviar los cambios a la rama remota.
+
+9º Una vez finalizado la tarea, el responsable deberá actualizar el estado de la issue a Done, pero no debe cerrar la issue.
+
+<img width="410" alt="foto-7" src="https://github.com/motero2k/programaze/assets/100673872/5a5acfbf-fb8b-4977-ac37-c093e6dfbcfd">
+
+10º El responsable deberá crear una pull request desde la rama creada hasta develop, y en la descripción deberá enlazar la issue a la que hace referencia.
+
+<img width="348" alt="foto-8" src="https://github.com/motero2k/programaze/assets/100673872/1e1f5734-bacf-4f5e-81ce-20be1bc59aa9">
+
+11º Después de crear la pull request, una persona que NO ha participado en el desarrollo de esa issue deberá validar la pull request.
+
+<img width="242" alt="foto-9" src="https://github.com/motero2k/programaze/assets/100673872/7f2ec342-99f2-4fdb-9b87-1d2eda10459f">
+
+12º Una vez validado el pull request, el responsable realizará el merge de la rama, y al hacerlo, la issue se cerrará automáticamente.
+
+<img width="469" alt="Captura de pantalla 2023-12-18 200946" src="https://github.com/motero2k/programaze/assets/100673872/07f2faa3-7de0-48bc-9762-9cdf03bd8c40">
+
+Este será el proceso que todo responsable deberá hacer para proponer un cambio.
+
 ---
 ## Conclusiones y trabajo futuro
+
+En general, estamos muy contentos con el trabajo realizado. Nos hemos entendido bien como equipo y hemos cumplido con creces con los mínimos del proyecto. Ha sido, para varios de los integrantes, el contacto más serio con conceptos tan importantes como la integración continua o el despliegue a través de contenedores. Creemos que el código es fácilmente escalable y puede ser una interesante adición a las jornadas de los próximos años, ya que la gestión de propuestas se hace actualmente de forma manual, lo que es bastante incómodo para la gente de Programa y las personas interesadas en lanzar propuestas.
+
+Planteamos varias mejoras al desarrollo, que no han sido posibles por falta de tiempo:
+
+- Pasar Evidentia a Django, ya que es un framework más fácil de utilizar y que agilizaría mucho el desarrollo de elementos comunes dentro del desarrollo web, pudiendo dedicar más tiempo a cuestiones específicas de la aplicación y posibilitando, desde nuestro punto de vista, un mejor resultado final. Aún no hay un gran desarrollo detrás, por lo que el coste de cambiar de tecnología en este punto aún no sería muy grande, más aún teniendo en cuenta que varias de las cosas implementadas vienen por defecto con Django.
+- Añadir una entidad que represente los sucesos de una propuesta y programar la lógica necesaria para que las propuestas estén compuestas por sucesos. Generalmente, en las jornadas, las propuestas no son únicamente una charla, si no que pueden venir acompañadas de sorteos, torneos y diferentes actividades. Por lo tanto, sería conveniente que a una propuesta se le pudieran añadir sucesos.
+- Mostrar un calendario con todos los eventos de las jornadas. Actualmente las propuestas se pueden aceptar pero no se genera un calendario con todas las propuestas aceptadas, por lo que construirlo continuaría siendo una tarea manual que deberían realizar desde Programa.
+
